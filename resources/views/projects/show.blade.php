@@ -4,11 +4,12 @@
 <div class="page-header">
     <h1>{{ $project->name }}</h1>   
 	<p class="lead">{{ $project->description }}</p>
-    <ul class="list-unstyled">
-        <li class="list-unstyled-item font-weight-bold">Responsável principal: {{ $project->owner->name }}</li>
-        <li class="list-unstyled-item">Criado em: {{ $project->created_at }}</li>
-        <li class="list-unstyled-item">Última atualização: {{ $project->updated_at }}</li>
-    </ul>
+
+    <div class="d-flex flex-column flex-sm-row justify-content-between small">
+        <span>Responsável principal: {{ $project->owner->name }}</span>
+        <span>Criado em: {{ $project->created_at }}</span>
+        <span>Última atualização: {{ $project->updated_at }}</span>
+    </div>
 </div>
 
 <ul class="nav nav-tabs nav-fill">
@@ -25,7 +26,7 @@
         <a class="nav-link" href="{{-- route('projects.tasks', $project->code) --}}">Editar</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{-- route('projects.tasks', $project->code) --}}">Excluir</a>
+        <a class="nav-link" href="{{-- {{ route('projects.activities') }} --}}" role="tab" aria-controls="activity" aria-selected="false">Excluir</a>
     </li>
 </ul>
 @endsection

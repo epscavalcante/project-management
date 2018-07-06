@@ -12,12 +12,6 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('projects.activities', $project->code) }}" >Atualizações</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('projects.edit', $project->code) }}">Editar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Excluir</a>
-        </li>
     </ul>
 
     <div class="tab-content">

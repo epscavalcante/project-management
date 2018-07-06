@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Project;
 use App\Task;
+use App\User;
 
 class TaskController extends Controller
 {
-    public function __construct(Project $project, Task $task)
+    public function __construct(Project $project, Task $task, User $user)
     {
     	$this->project = $project;
-    	$this->task = $task;
+        $this->task = $task;
+    	$this->user = $user;
     }
 
     public function index($code)
@@ -21,8 +23,11 @@ class TaskController extends Controller
         ]);
     }
 
-    public function create()
+    public function create($code)
     {
-    	return view('projects.tasks.create');
+    	return view('projects.tasks.create')->with([
+            'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail(),
+            'users' => $this->user->all()
+        ]);
     }
 }

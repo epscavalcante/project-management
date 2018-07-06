@@ -12,250 +12,71 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('projects.activities', $project->code) }}" >Atualizações</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('projects.edit', $project->code) }}">Editar</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Excluir</a>
-        </li>
     </ul>
 
     <div class="tab-content">
         <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="card-list-body">
-            <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>Tarefas</h3>
-                    <a class="btn btn-round" href="{{ route('projects.tasks.create', $project->code) }}">
-                        <i class="material-icons">add</i>
-                    </a>
+            <div class="content-list-head">
+                <h3>Nova tarefa</h3>
+            </div>
+            <!--end of content list head-->
+            <div class="content-list-body">
+                <div class="card-list">
+                    <div class="card-list-body pr-2">
+                        <h6>Detalhes</h6>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Nome</label>
+                            <input class="form-control col" type="text" placeholder="Task name" name="task-name">
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3">Descrição</label>
+                            <textarea class="form-control col" rows="3" placeholder="Task description" name="task-description"></textarea>
+                        </div>
+                        <hr>
+                    </div>
                 </div>
-                <form class="col-md-auto">
+                <div class="card-list">
+                    <div class="card-list-body pr-2">
+                        <h6>Período</h6>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Início</label>
+                            <input class="form-control col" type="date" placeholder="Task start" name="task-start">
+                        </div>
+                        <div class="form-group row align-items-center">
+                            <label class="col-3">Término</label>
+                            <input class="form-control col" type="date" placeholder="Task due" name="task-due">
+                        </div>
+                        <div class="alert alert-warning text-small" role="alert">
+                            <span>Poderá ser alterado posteriormente</span>
+                        </div>
+                    </div>
+                </div>
+                    
+                <h6>Membros para essa tarefa</h6>
+                <div class="users-manage" data-filter-list="form-group-users">
                     <div class="input-group input-group-round">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
                                 <i class="material-icons">filter_list</i>
                             </span>
                         </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Procurar tarefa" aria-label="Procurar tarefa" aria-describedby="procurar-tarefa">
+                        <input type="search" class="form-control filter-list-input" placeholder="Buscar usuário" aria-label="Buscar usuário" aria-describedby="buscar-usuario">
                     </div>
-                </form>
-            </div>
-            <!--end of content list head-->
-            <div class="content-list-body">
-                <div class="card-list">
-                    <div class="card-list-body filter-list-1530819204215">
-                        @forelse($project->tasks as $task)
-                        <div class="card card-task">
-                            <div class="progress">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-title">
-                                    <a href="#">
-                                        <h6 data-filter-by="text" class="H6-filter-by-text">Client objective meeting</h6>
-                                    </a>
-                                    <span class="text-small">Today</span>
+                    <div class="form-group-users ">
+                        @foreach($users as $user)
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="user{{ $user->id }}">
+                            <label class="custom-control-label" for="user{{ $user->id }}">
+                                <div class="d-flex align-items-center">
+                                    <img alt="{{ $user->name }}" src="{{ asset($user->image) }}" class="avatar mr-2">
+                                    <span class="h6 mb-0" data-filter-by="text">{{ $user->name }}</span>
                                 </div>
-                                <div class="card-meta">
-                                    <ul class="avatars">
-                                        
-                                        @foreach($project->tasks as $task)
-                                        <li>
-                                            <a href="#" data-toggle="tooltip" title="Kenny">
-                                                <img alt="Kenny Tran" class="avatar" src="assets/img/avatar-male-6.jpg">
-                                            </a>
-                                        </li>
-                                        @endforeach
-
-                                    </ul>
-                                    <div class="d-flex align-items-center">
-                                        <i class="material-icons">playlist_add_check</i>
-                                        <span>3/4</span>
-                                    </div>
-                                    <div class="dropdown card-options">
-                                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="material-icons">more_vert</i>
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#">Mark as done</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item text-danger" href="#">Archive</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </label>
                         </div>
-                        @empty
-                        Não há tarefas
-                        @endforelse
+                        @endforeach
                     </div>
                 </div>
             </div>
-        </div>
-                                    
-        <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab" data-filter-list="list-group-activity">
-            <div class="content-list">
-                <div class="row content-list-head">
-                    <div class="col-auto">
-                        <h3>Activity</h3>
-                    </div>
-                    <form class="col-md-auto">
-                        <div class="input-group input-group-round">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">filter_list</i>
-                                </span>
-                            </div>
-                            <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity" aria-describedby="filter-tasks">
-                        </div>
-                    </form>
-                </div>
-                <!--end of content list head-->
-                <div class="content-list-body">
-                    <ol class="list-group list-group-activity filter-list-1530819204204"><li class="list-group-item">
-                            <div class="media align-items-center">
-                                <ul class="avatars">
-                                    <li>
-                                        <div class="avatar bg-primary">
-                                            <i class="material-icons">playlist_add_check</i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar filter-by-alt" data-filter-by="alt">
-                                    </li>
-                                </ul>
-                                <div class="media-body">
-                                    <div>
-                                        <span class="h6 SPAN-filter-by-text" data-filter-by="text">Claire</span>
-                                        <span data-filter-by="text" class="SPAN-filter-by-text">completed the task</span><a href="#" data-filter-by="text" class="A-filter-by-text">Set up client chat channel</a>
-                                    </div>
-                                    <span class="text-small SPAN-filter-by-text" data-filter-by="text">Just now</span>
-                                </div>
-                            </div>
-                        </li><li class="list-group-item">
-                            <div class="media align-items-center">
-                                <ul class="avatars">
-                                    <li>
-                                        <div class="avatar bg-primary">
-                                            <i class="material-icons">person_add</i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img alt="Ravi" src="assets/img/avatar-male-3.jpg" class="avatar filter-by-alt" data-filter-by="alt">
-                                    </li>
-                                </ul>
-                                <div class="media-body">
-                                    <div>
-                                        <span class="h6 SPAN-filter-by-text" data-filter-by="text">Ravi</span>
-                                        <span data-filter-by="text" class="SPAN-filter-by-text">joined the project</span>
-                                    </div>
-                                    <span class="text-small SPAN-filter-by-text" data-filter-by="text">5 hours ago</span>
-                                </div>
-                            </div>
-                        </li><li class="list-group-item">
-                            <div class="media align-items-center">
-                                <ul class="avatars">
-                                    <li>
-                                        <div class="avatar bg-primary">
-                                            <i class="material-icons">playlist_add</i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img alt="Kristina" src="assets/img/avatar-female-4.jpg" class="avatar filter-by-alt" data-filter-by="alt">
-                                    </li>
-                                </ul>
-                                <div class="media-body">
-                                    <div>
-                                        <span class="h6 SPAN-filter-by-text" data-filter-by="text">Kristina</span>
-                                        <span data-filter-by="text" class="SPAN-filter-by-text">added the task</span><a href="#" data-filter-by="text" class="A-filter-by-text">Produce broad concept directions</a>
-                                    </div>
-                                    <span class="text-small SPAN-filter-by-text" data-filter-by="text">Yesterday</span>
-                                </div>
-                            </div>
-                        </li><li class="list-group-item">
-                            <div class="media align-items-center">
-                                <ul class="avatars">
-                                    <li>
-                                        <div class="avatar bg-primary">
-                                            <i class="material-icons">playlist_add</i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img alt="Marcus" src="assets/img/avatar-male-1.jpg" class="avatar filter-by-alt" data-filter-by="alt">
-                                    </li>
-                                </ul>
-                                <div class="media-body">
-                                    <div>
-                                        <span class="h6 SPAN-filter-by-text" data-filter-by="text">Marcus</span>
-                                        <span data-filter-by="text" class="SPAN-filter-by-text">added the task</span><a href="#" data-filter-by="text" class="A-filter-by-text">Present concepts and establish direction</a>
-                                    </div>
-                                    <span class="text-small SPAN-filter-by-text" data-filter-by="text">Yesterday</span>
-                                </div>
-                            </div>
-                        </li><li class="list-group-item">
-                            <div class="media align-items-center">
-                                <ul class="avatars">
-                                    <li>
-                                        <div class="avatar bg-primary">
-                                            <i class="material-icons">person_add</i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img alt="Sally" src="assets/img/avatar-female-3.jpg" class="avatar filter-by-alt" data-filter-by="alt">
-                                    </li>
-                                </ul>
-                                <div class="media-body">
-                                    <div>
-                                        <span class="h6 SPAN-filter-by-text" data-filter-by="text">Sally</span>
-                                        <span data-filter-by="text" class="SPAN-filter-by-text">joined the project</span>
-                                    </div>
-                                    <span class="text-small SPAN-filter-by-text" data-filter-by="text">2 days ago</span>
-                                </div>
-                            </div>
-                        </li><li class="list-group-item">
-                            <div class="media align-items-center">
-                                <ul class="avatars">
-                                    <li>
-                                        <div class="avatar bg-primary">
-                                            <i class="material-icons">date_range</i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar filter-by-alt" data-filter-by="alt">
-                                    </li>
-                                </ul>
-                                <div class="media-body">
-                                    <div>
-                                        <span class="h6 SPAN-filter-by-text" data-filter-by="text">Claire</span>
-                                        <span data-filter-by="text" class="SPAN-filter-by-text">rescheduled the task</span><a href="#" data-filter-by="text" class="A-filter-by-text">Target market trend analysis</a>
-                                    </div>
-                                    <span class="text-small SPAN-filter-by-text" data-filter-by="text">2 days ago</span>
-                                </div>
-                            </div>
-                        </li><li class="list-group-item">
-                            <div class="media align-items-center">
-                                <ul class="avatars">
-                                    <li>
-                                        <div class="avatar bg-primary">
-                                            <i class="material-icons">add</i>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <img alt="David" src="assets/img/avatar-male-4.jpg" class="avatar filter-by-alt" data-filter-by="alt">
-                                    </li>
-                                </ul>
-                                <div class="media-body">
-                                    <div>
-                                        <span class="h6 SPAN-filter-by-text" data-filter-by="text">David</span>
-                                        <span data-filter-by="text" class="SPAN-filter-by-text">started the project</span>
-                                    </div>
-                                    <span class="text-small SPAN-filter-by-text" data-filter-by="text">12 days ago</span>
-                                </div>
-                            </div>
-                        </li></ol>
-                </div>
-            </div>
-            <!--end of content list-->
         </div>
     </div>
 </div>
@@ -273,8 +94,7 @@
     
             <h3>
                 {{ $project->name }}
-                <button type="button" class="btn btn-sm btn-primary">Editar</button>
-                <button type="button" class="btn btn-sm btn-danger">Excluir</button>
+                
             </h3>   
             <p class="">{{ $project->description }}</p>
             <ul class="list-unstyled small">
@@ -297,7 +117,7 @@
                     <i class="material-icons">add</i>
                 </button>
             </div>
-            <div>
+            <div class="mb-4">
                 <div class="progress">
                     <div class="progress-bar bg-success" style="width:25%;"></div>
                 </div>
@@ -308,6 +128,11 @@
                     </div>
                     <span>Due 9 days</span>
                 </div>
+            </div>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-sm btn-primary">Editar</button>
+                <button type="button" class="btn btn-sm btn-danger">Excluir</button>
             </div>
         </div>
     </div>
