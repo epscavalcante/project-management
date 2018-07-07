@@ -1,26 +1,32 @@
+<div class="page-header pt-2">
+        <h2>{{ $project->name }}</h2>   
+    </div>
+</div>
 <div class="tab-content">
     <div class="tab-pane active show fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="list-group-tasks">
-        <div class="row content-list-head">
-            <div class="col-auto">
-                <h3>Tarefas</h3>
-                <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
-                    <i class="material-icons">add</i>
-                </button>
-            </div>
-            <form class="col-md-auto">
-                <div class="input-group input-group-round">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
-                        </span>
-                    </div>
-                    <input type="search" class="form-control filter-list-input" placeholder="Procurar tarefa" aria-label="Procurar tarefa" aria-describedby="procurar-tarefa">
-                </div>
-            </form>
-        </div>
+        
         <!--end of content list head-->
         <div class="content-list-body">
+
             <div class="card-list">
+                <div class="row content-list-head">
+                    <div class="col-auto">
+                        <h3>Tarefas</h3>
+                        <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
+                            <i class="material-icons">add</i> nova
+                        </button>
+                    </div>
+                    <form class="col-md-auto">
+                        <div class="input-group input-group-round">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="material-icons">filter_list</i>
+                                </span>
+                            </div>
+                            <input type="search" class="form-control filter-list-input" placeholder="Procurar tarefa" aria-label="Procurar tarefa" aria-describedby="procurar-tarefa">
+                        </div>
+                    </form>
+                </div>
                 <div class="card-list-body filter-list-1530819204215">
                     @forelse($project->tasks as $task)
                     <div class="card card-task">

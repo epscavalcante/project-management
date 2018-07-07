@@ -27,10 +27,10 @@ class TaskController extends Controller
 
     public function show($project, $task)
     {
+        #dd($this->task->whereCode($task)->with(['members','project','project.members'])->firstOrFail());
+
         return view('projects.tasks.show')->with([
-            'task' => $this->task->whereCode($task)->with(['members'])->firstOrFail(),
-            'project' => $this->project->whereCode($project)->with(['members'])->firstOrFail(),
-            'users' => $this->user->all(),
+            'task' => $this->task->whereCode($task)->with(['members','project','project.members'])->firstOrFail(),
         ]);
     }
 

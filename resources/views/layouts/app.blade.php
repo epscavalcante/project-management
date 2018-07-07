@@ -22,7 +22,7 @@
 
        <div class="layout layout-nav-top layout-sidebar">
             <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     <img alt="Pipeline" src="{{ asset('images/logo.svg') }}" />
                 </a>
                 <div class="d-flex align-items-center">
@@ -58,7 +58,7 @@
                         </li>
                     </ul>
                     <div class="d-lg-flex align-items-center">
-                        <form class="form-inline my-lg-0 my-2">
+                        <form class="form-inline my-lg-0 my-2 mr-2">
                             <div class="input-group input-group-dark input-group-round">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
@@ -68,7 +68,7 @@
                                 <input type="search" class="form-control form-control-dark" placeholder="Fazer uma busca" aria-label="Search app" aria-describedby="search-app">
                             </div>
                         </form>
-                        <div class="dropdown mx-lg-2">
+                        {{-- <div class="dropdown mx-lg-2">
                             <button class="btn btn-success btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Novo
                             </button>
@@ -77,7 +77,7 @@
                                 <a class="dropdown-item" href="#">Project</a>
                                 <a class="dropdown-item" href="#">Task</a>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="d-none d-lg-block">
                             <div class="dropdown">
                                 <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

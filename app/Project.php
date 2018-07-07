@@ -47,15 +47,15 @@ class Project extends Model
     |
     */
 
-    public function getCreatedatAttribute($value)
-    {
-        return date('d/m/Y H:i', strtotime($value));
-    }
+    // public function getCreatedatAttribute($value)
+    // {
+    //     return date('d/m/Y H:i', strtotime($value));
+    // }
 
-    public function getUpdatedatAttribute($value)
-    {
-        return date('d/m/Y H:i', strtotime($value));
-    }
+    // public function getUpdatedatAttribute($value)
+    // {
+    //     return date('d/m/Y H:i', strtotime($value));
+    // }
 
     public function getStartAttribute($value)
     {

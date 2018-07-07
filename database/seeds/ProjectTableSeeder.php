@@ -19,6 +19,6 @@ class ProjectTableSeeder extends Seeder
         	'visibility' => 'public'
         ]);
 
-        $project->members()->attach(1);
+        $project->members()->attach([2,3]);
     }
 }

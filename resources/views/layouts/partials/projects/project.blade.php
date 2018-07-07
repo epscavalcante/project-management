@@ -1,51 +1,61 @@
 <div class="page-header">
-    <div class="d-flex justify-content-between flex-column flex-sm-row">
-        <h2>{{ $project->name }}</h2>   
-        <div class="d-flex align-items-center">
-            <a href="{{ route('projects.edit', $project->code) }}" class="btn btn-round btn-primary">
-                <i class="material-icons">edit</i>
-            </a>
+    <div class="d-flex justify-content-between flex-sm-row flex-column align-items-center">
+        <h2> {{ $project->name }}</h2>   
+
+        <span class="text-muted">
+            Projeto #{{ $project->code }}
+        </span>
+    </div>
+    
+
+    <p class="lead">{{ $project->description }}</p>
+    
+    <div class="d-flex align-items-center justify-content-between">
+        <ul class="avatars">
+            <li>
+                <a href="#" data-toggle="tooltip" title="{{ $project->owner->name }}">
+                    <img alt="{{ $project->owner->name }}" class="avatar" src="{{ asset($project->owner->image) }}">
+                </a>
+            </li>                      
+            @foreach($project->members as $member)
+            <li>
+                <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
+                    <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
+                </a>
+            </li>
+            @endforeach
+            
+        </ul>
+
+        <div class="btn-group" role="group" aria-label="Editar ou Excluir projeto">
+            <a href="{{ route('projects.edit', $project->code) }}" class="btn btn-sm btn-secondary">Editar</a>
             <form action="{{ route('projects.destroy', $project->code) }}" method="POST" class="d-inline">
                 @csrf
                 @method("DELETE")
-                <button class="btn btn-danger btn-round  confirmation" type="submit">
-                    <i class="material-icons">delete</i>
-                </button>
+                <button class="btn btn-sm btn-danger confirmation" type="submit">Excluir</button>
             </form>
         </div>
     </div>
-
-    <p class="lead">{{ $project->description }}</p>
-
-    <div class="small">
-        Timeline: {{ $project->start }} - {{ $project->end }}
-        {{-- <br>
-        Criado em: {{ $project->created_at }}
-        <br>
-        Última atualização: {{ $project->updated_at }} --}}
-    </div>
     
-    <ul class="avatars my-2">
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Gerente - {{ $project->owner->name }}">
-                <img alt="{{ $project->owner->name }}" class="avatar" src="{{ asset($project->owner->image) }}">
-            </a>
-        </li>
-        @foreach($project->members as $member)
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="{{ $member->name }} - membro">
-                <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
-            </a>
-        </li>
-        @endforeach
-    </ul>
-
-    <button class="btn btn-round d-inline-block" data-toggle="modal" data-target="#user-manage-modal">
-        <i class="material-icons">add</i>
-    </button>
-
+    
+    <div>
+        <div class="progress">
+            <div class="progress-bar bg-success" style="width:25%;"></div>
+        </div>
+        <div class="d-flex justify-content-between small">
+            <span>{{ $project->start }}</span>
+            <div class="d-flex align-items-center">
+                <i class="material-icons">playlist_add_check</i>
+                <span>3/{{ count($project->tasks) }}</span>
+            </div>
+            <span>{{ $project->end }}</span>
+        </div>
+    </div>
 </div>
-<form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="{{ route('projects.members', $project->code) }}" method="POST">
+
+@include('layouts.partials.projects.menu')
+
+{{-- <form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="{{ route('projects.members', $project->code) }}" method="POST">
 @csrf
 @method("PUT")
 <div class="modal-dialog" role="document">
@@ -103,4 +113,4 @@
         </div>
     </div>
 </div>
-</form>
+</form> --}}

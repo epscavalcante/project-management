@@ -1,41 +1,8 @@
 @extends("layouts.app")
 
 @section('content')
-<div class="mt-3">
-	@include('layouts.partials.menu')
-
-	<div class="page-header pt-3">
-	    <div class="d-flex justify-content-between flex-column flex-sm-row">
-	        <h1>{{ $task->name }}</h1>   
-	        <div class="">
-	            <a href="#task-edit-modal" data-toggle="modal" class="btn btn-sm btn-primary">editar</a>
-	            <form action="{{ route('projects.tasks.destroy', [$project->code, $task->code]) }}" method="POST" class="d-inline">
-	                @csrf
-	                @method("DELETE")
-	                <button class="btn btn-sm btn-danger confirmation" type="submit">excluir</button>
-	            </form>
-	        </div>
-	    </div>
-
-	    <p class="lead">{{ $task->description }}</p>
-	    
-	    <ul class="avatars my-2">
-	        @foreach($task->members as $member)
-	        <li>
-	            <a href="#" data-toggle="tooltip" data-placement="top" title="{{ $member->name }} - membro">
-	                <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
-	            </a>
-	        </li>
-	        @endforeach
-	    </ul>
-
-	    <button class="btn btn-round d-inline-block" data-toggle="modal" data-target="#task-user-manage-modal">
-	        <i class="material-icons">add</i>
-	    </button>
-
-	</div>	
-</div>
-<form class="modal fade" id="task-user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="#" method="POST">
+@include('layouts.partials.tasks.task')
+{{-- <form class="modal fade" id="task-user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="#" method="POST">
 @csrf
 @method("PUT")
 <div class="modal-dialog" role="document">
@@ -93,17 +60,5 @@
         </div>
     </div>
 </div>
-</form>
-@endsection
-
-@section('sidebar')
-<button class="btn btn-primary btn-round btn-floating btn-lg d-lg-none" type="button" data-toggle="collapse" data-target="#sidebar-collapse" aria-expanded="false" aria-controls="sidebar-floating-chat">
-    <i class="material-icons">more_horiz</i>
-    <i class="material-icons">close</i>
-</button>
-<div class="sidebar collapse p-3" id="sidebar-collapse">
-    <div class="sidebar-content">
-        @include('layouts.partials.project')
-    </div>
-</div>
+</form> --}}
 @endsection

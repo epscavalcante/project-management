@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-header pt-3">
+<div class="page-header">
     <h2>Editar projeto ☕</h2>
 </div>
 <hr>
