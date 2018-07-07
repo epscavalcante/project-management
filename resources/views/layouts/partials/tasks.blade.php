@@ -1,39 +1,5 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="page-header">
-    <div class="d-flex justify-content-between flex-column flex-sm-row">
-        <h1>{{ $project->name }}</h1>   
-        <div class="">
-            <a href="{{ route('projects.edit', $project->code) }}" class="btn btn-sm btn-primary">editar</a>
-            <form action="{{ route('projects.destroy', $project->code) }}" method="POST" class="d-inline">
-                @csrf
-                @method("DELETE")
-                <button class="btn btn-sm btn-danger confirmation" type="submit">excluir</button>
-            </form>
-        </div>
-    </div>
-
-    <p class="lead">{{ $project->description }}</p>
-    
-    <ul class="avatars">
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Gerente - {{ $project->owner->name }}">
-                <img alt="{{ $project->owner->name }}" class="avatar" src="{{ asset($project->owner->image) }}">
-            </a>
-        </li>
-        @foreach($project->members as $member)
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="{{ $member->name }} - membro">
-                <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
-            </a>
-        </li>
-        @endforeach
-    </ul>
-</div>
-
 <div class="tab-content">
-    <div class="tab-pane show active fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="list-group-tasks">
+    <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="list-group-tasks">
         <div class="row content-list-head">
             <div class="col-auto">
                 <h3>Tarefas</h3>
@@ -101,6 +67,51 @@
                     Não há tarefas
                     @endforelse
                 </div>
+            </div>
+        </div>
+    </div>
+                                
+    <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab" data-filter-list="list-group-activity">
+        <div class="content-list">
+            <div class="row content-list-head">
+                <div class="col-auto">
+                    <h3>Activity</h3>
+                </div>
+                <form class="col-md-auto">
+                    <div class="input-group input-group-round">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="material-icons">filter_list</i>
+                            </span>
+                        </div>
+                        <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity" aria-describedby="filter-tasks">
+                    </div>
+                </form>
+            </div>
+            <div class="content-list-body">
+                <ol class="list-group list-group-activity filter-list-1530819204204">
+                    <li class="list-group-item">
+                        <div class="media align-items-center">
+                            <ul class="avatars">
+                                <li>
+                                    <div class="avatar bg-primary">
+                                        <i class="material-icons">playlist_add_check</i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar filter-by-alt" data-filter-by="alt">
+                                </li>
+                            </ul>
+                            <div class="media-body">
+                                <div>
+                                    <span class="h6 SPAN-filter-by-text" data-filter-by="text">Claire</span>
+                                    <span data-filter-by="text" class="SPAN-filter-by-text">completed the task</span><a href="#" data-filter-by="text" class="A-filter-by-text">Set up client chat channel</a>
+                                </div>
+                                <span class="text-small SPAN-filter-by-text" data-filter-by="text">Just now</span>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
             </div>
         </div>
     </div>
@@ -219,4 +230,3 @@
         </div>
     </div>
 </form>
-@endsection
