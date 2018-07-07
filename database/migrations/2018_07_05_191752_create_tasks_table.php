@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
             $table->unsignedInteger('project_id');
             $table->string('code', 15);
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('start')->nullable();
             $table->date('end')->nullable();
             $table->timestamps();

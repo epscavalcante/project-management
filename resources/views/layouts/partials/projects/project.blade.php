@@ -40,14 +40,16 @@
     
     <div>
         <div class="progress">
-            <div class="progress-bar bg-success" style="width:25%;"></div>
+            <div class="progress-bar bg-success" style="width:{{ $project->progress($project->tasks_trashed_count, $project->tasks_count) }}%;"></div>
         </div>
         <div class="d-flex justify-content-between small">
             <span>{{ $project->start }}</span>
-            <div class="d-flex align-items-center">
-                <i class="material-icons">playlist_add_check</i>
-                <span>3/{{ count($project->tasks) }}</span>
+
+            <div>
+                <i class="fas fa-tasks"></i> 
+                {{ $project->tasks_trashed_count }} / {{ $project->tasks_count }}</span>
             </div>
+                
             <span>{{ $project->end }}</span>
         </div>
     </div>

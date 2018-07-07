@@ -3262,7 +3262,7 @@ input[type="button"].btn-block {
     display: inline-block;
     padding-right: 0.25rem;
     color: #adb5bd;
-    content: ""; }
+    content: '/'; }
 
 .breadcrumb-item + .breadcrumb-item:hover::before {
   text-decoration: underline; }
@@ -6412,7 +6412,7 @@ article pre + p {
   .breadcrumb-item a {
     font-weight: 500; }
   .breadcrumb-item + .breadcrumb-item:before {
-    font-family: 'Material Icons';
+    font-family: 'Font Awesome\ 5 Free';
     height: 1rem;
     position: relative;
     bottom: 2px; }

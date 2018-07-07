@@ -11,11 +11,11 @@
         <title>Projetos - {{ config('app.name') }}</title>
 
         <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Gothic+A1" rel="stylesheet">
         {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all" /> --}}
         <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" media="all" />
-        {{-- <link href="{{ asset('css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" media="all" /> --}}
+        <link href="{{ asset('css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
     </head>
 
     <body>
@@ -32,7 +32,7 @@
                     <div class="d-block d-lg-none ml-2">
                         <div class="dropdown">
                             <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img alt="Image" src="{{ asset(auth()->user()->image) }}" class="avatar" />
+                                <img alt="Imagem de perfil" src="{{ asset(auth()->user()->image) }}" class="avatar" />
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a href="#" class="dropdown-item">Profile</a>
@@ -62,7 +62,7 @@
                             <div class="input-group input-group-dark input-group-round">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                        <i class="material-icons">search</i>
+                                        <i class="fas fa-search"></i>
                                     </span>
                                 </div>
                                 <input type="search" class="form-control form-control-dark" placeholder="Fazer uma busca" aria-label="Search app" aria-describedby="search-app">

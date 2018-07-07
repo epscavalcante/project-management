@@ -5,13 +5,13 @@
     <div class="row content-list-head">
         <div class="col-auto">
             <h3>Seus Projetos</h3>
-            <a href="{{ route('projects.create') }}" class="btn btn-round"><i class="material-icons">add</i></a>
+            <a href="{{ route('projects.create') }}" class="btn btn-round"><i class="fas fa-plus"></i></a>
         </div>
         <form class="col-md-auto">
             <div class="input-group input-group-round">
                 <div class="input-group-prepend">
                     <span class="input-group-text">
-                        <i class="material-icons">filter_list</i>
+                        <i class="fas fa-filter"></i>
                     </span>
                 </div>
                 <input type="search" class="form-control filter-list-input" placeholder="Buscar projeto" aria-label="Buscar projeto" aria-describedby="buscar-projeto">

@@ -32,18 +32,11 @@ class ProjectController extends Controller
 
     public function show($code)
     {
-        $data = $this->project->whereCode($code)->with([
-            'owner', 
-            'members',
-            'tasks',
-        ])->firstOrFail());
-        
-        
-
-
-
     	return view('projects.show')->with([
-    		'project' => $this->project->whereCode($code)->with(['owner', 'members'])->firstOrFail(),
+    		'project' => $this->project->whereCode($code)
+                                ->with(['owner', 'members',])
+                                ->withCount(['tasks','tasksTrashed'])
+                                ->firstOrFail(),
     	]);
     }
 

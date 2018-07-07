@@ -20,8 +20,10 @@ class TaskController extends Controller
     public function index($code)
     {
         return view('projects.tasks.index')->with([
-            'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail(),
-            'users' => $this->user->all(),
+            'project' => $this->project->whereCode($code)
+                                ->with(['owner', 'members',])
+                                ->withCount(['tasks','tasksTrashed'])
+                                ->firstOrFail(),
         ]);
     }
 

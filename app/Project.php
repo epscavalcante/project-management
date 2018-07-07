@@ -15,6 +15,12 @@ class Project extends Model
         'created_at', 'updated_at', 'start', 'end'
     ];
 
+    // const CREATED_AT = 'date_insert';
+    // const UPDATED_AT = 'date_updated';
+    // const DELETED_AT = 'finished_at';
+
+
+
     /*
     |--------------------------------------------------------------------------
     | Relacionamentos
@@ -33,14 +39,21 @@ class Project extends Model
     	return $this->belongsToMany(User::class);
     }
 
+    #Retorna todas as tarefas
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class)->withTrashed();
+    }
+
+    #mapeia somente as tarefas excluidas
+    public function tasksTrashed()
+    {
+        return $this->hasMany(Task::class)->onlyTrashed();
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Getters e Setters
+    | Getters, Mutatores e Accessors
     |--------------------------------------------------------------------------
     |
     | Seção para definir os mutators e accessors do laral
@@ -73,5 +86,11 @@ class Project extends Model
         }
 
         return date('d/m/Y', strtotime($value));
+    }
+
+    public function progress($completed, $total)
+    {
+        #Converte um possivel valor decimal para inteiro (arredonda para cima)
+        return ceil(($completed / $total) * 100);
     }
 }
