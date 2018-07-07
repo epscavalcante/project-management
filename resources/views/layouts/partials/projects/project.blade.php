@@ -43,14 +43,18 @@
             <div class="progress-bar bg-success" style="width:{{ $project->progress($project->tasks_trashed_count, $project->tasks_count) }}%;"></div>
         </div>
         <div class="d-flex justify-content-between small">
-            <span>{{ $project->start }}</span>
+            <span data-toggle="tooltip" title="Início em {{ $project->start }}">
+                <i class="fas fa-flag"></i>
+            </span>
 
             <div>
                 <i class="fas fa-tasks"></i> 
                 {{ $project->tasks_trashed_count }} / {{ $project->tasks_count }}</span>
             </div>
                 
-            <span>{{ $project->end }}</span>
+            <span data-toggle="tooltip" title="Término em {{ $project->start }}">
+                <i class="fas fa-trophy"></i>
+            </span>
         </div>
     </div>
 </div>

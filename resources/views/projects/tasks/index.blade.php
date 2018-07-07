@@ -10,14 +10,14 @@
             <div class="col-auto">
                 <h3>Tarefas</h3>
                 <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
-                    <i class="material-icons">add</i>
+                    <i class="fas fa-plus"></i>
                 </button>
             </div>
             <form class="col-md-auto">
                 <div class="input-group input-group-round">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
-                            <i class="material-icons">filter_list</i>
+                            <i class="fas fa-filter"></i>
                         </span>
                     </div>
                     <input type="search" class="form-control filter-list-input" placeholder="Procurar tarefa" aria-label="Procurar tarefa" aria-describedby="procurar-tarefa">
@@ -90,7 +90,7 @@
             <div class="modal-header">
                 <h5 class="modal-title">Nova tarefa</h5>
                 <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-                    <i class="material-icons">close</i>
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
             <!--end of modal head-->
