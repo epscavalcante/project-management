@@ -35,8 +35,8 @@
                                 <img alt="Image" src="{{ asset(auth()->user()->image) }}" class="avatar" />
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a href="nav-side-user.html" class="dropdown-item">Profile</a>
-                                <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
+                                <a href="#" class="dropdown-item">Profile</a>
+                                <a href="#" class="dropdown-item">Account Settings</a>
                                 <a href="#" class="dropdown-item">Log Out</a>
                             </div>
                         </div>

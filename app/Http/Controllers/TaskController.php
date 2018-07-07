@@ -28,7 +28,9 @@ class TaskController extends Controller
     public function show($project, $task)
     {
         return view('projects.tasks.show')->with([
-            'task' => $this->task->whereCode($task)->with(['members','project'])->firstOrFail()
+            'task' => $this->task->whereCode($task)->with(['members'])->firstOrFail(),
+            'project' => $this->project->whereCode($project)->with(['members'])->firstOrFail(),
+            'users' => $this->user->all(),
         ]);
     }
 
@@ -70,8 +72,18 @@ class TaskController extends Controller
         }
     }
 
-    public function destroy($task)
+    public function destroy($project, $task)
     {
-        dd($task);
+        try {
+            
+            $this->task->whereCode($task)->firstOrFail()->delete();
+
+            toast('Tarefa excluída com sucesso!', 'success', 'top-right');
+            
+            return redirect()->route('projects.tasks', $project);
+
+        } catch (Exception $e) {
+            
+        }
     }
 }

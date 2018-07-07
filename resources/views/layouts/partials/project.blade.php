@@ -1,12 +1,16 @@
 <div class="page-header">
     <div class="d-flex justify-content-between flex-column flex-sm-row">
-        <h1>{{ $project->name }}</h1>   
-        <div class="">
-            <a href="{{ route('projects.edit', $project->code) }}" class="btn btn-sm btn-primary">editar</a>
+        <h2>{{ $project->name }}</h2>   
+        <div class="d-flex align-items-center">
+            <a href="{{ route('projects.edit', $project->code) }}" class="btn btn-round btn-primary">
+                <i class="material-icons">edit</i>
+            </a>
             <form action="{{ route('projects.destroy', $project->code) }}" method="POST" class="d-inline">
                 @csrf
                 @method("DELETE")
-                <button class="btn btn-sm btn-danger confirmation" type="submit">excluir</button>
+                <button class="btn btn-danger btn-round  confirmation" type="submit">
+                    <i class="material-icons">delete</i>
+                </button>
             </form>
         </div>
     </div>

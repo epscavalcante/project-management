@@ -57,7 +57,7 @@
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" href="#">Finalizar</a>
                                         <div class="dropdown-divider"></div>
-                                        <form action="{{ route('projects.tasks.destroy', $task->code) }}" method="POST">
+                                        <form action="{{ route('projects.tasks.destroy', [$project->code, $task->code]) }}" method="POST">
                                             @csrf
                                             @method("DELETE")
                                             <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>    

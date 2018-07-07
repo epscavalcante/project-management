@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="mt-3">
-    
-
 @include('layouts.partials.menu')
 @include('layouts.partials.tasks')
 </div>
