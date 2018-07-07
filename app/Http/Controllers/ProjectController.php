@@ -34,7 +34,8 @@ class ProjectController extends Controller
     {
 
     	return view('projects.show')->with([
-    		'project' => $this->project->whereCode($code)->firstOrFail()
+    		'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail(),
+            'users' => $this->user->all()
     	]);
     }
 
@@ -42,13 +43,6 @@ class ProjectController extends Controller
     {
         return view('projects.edit')->with([
             'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail()
-        ]);
-    }
-
-    public function activities($code)
-    {
-        return view('projects.tasks')->with([
-            'project' => $this->project->whereCode($code)->with(['members'])->firstOrFail()
         ]);
     }
 
@@ -72,7 +66,7 @@ class ProjectController extends Controller
     		]);
 
     		#Se houverem membros
-    		$project->users()->sync($request->members);
+    		$project->members()->sync($request->members);
 
     		return redirect()->route('projects.show', $project->code);
 
@@ -105,5 +99,29 @@ class ProjectController extends Controller
 
         }
 
+    }
+
+    public function syncMembers(Request $request, $project)
+    {
+        // dd($request->all(), $project);
+
+        try {
+            
+            $project = $this->project->whereCode($project)->firstOrFail();
+
+            $project->members()->sync($request->members);
+
+            toast('Alterações feitas', 'success', 'top-right');
+
+            return back();
+
+
+        } catch (Exception $e) {
+            
+            toast($e->getMessage(), 'error', 'top-right');
+
+            return back();
+            
+        }
     }
 }

@@ -23,7 +23,14 @@ Route::group(['prefix'=>'projetos'], function(){
 	Route::group(['prefix' => '{project}'], function(){
 		Route::get('/', 'ProjectController@show')->name('projects.show');
 		
+		Route::group(['prefix' => 'membros'], function(){
+
+			Route::post('gerenciar', 'ProjectController@syncMembers')->name('projects.members.sync');
+
+		});
+
 		Route::group(['prefix' => 'tarefas'], function(){
+			
 			Route::get('/', 'TaskController@index')->name('projects.tasks');
 			Route::get('nova', 'TaskController@create')->name('projects.tasks.create');
 			Route::post('/', 'TaskController@store')->name('projects.tasks.store');

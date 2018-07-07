@@ -14,71 +14,96 @@
         </li>
     </ul>
 
-    <div class="tab-content">
-        <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="card-list-body">
-            <div class="content-list-head">
-                <h3>Nova tarefa</h3>
-            </div>
-            <!--end of content list head-->
-            <div class="content-list-body">
-                <div class="card-list">
-                    <div class="card-list-body pr-2">
-                        <h6>Detalhes</h6>
-                        <div class="form-group row align-items-center">
-                            <label class="col-3">Nome</label>
-                            <input class="form-control col" type="text" placeholder="Task name" name="task-name">
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-3">Descrição</label>
-                            <textarea class="form-control col" rows="3" placeholder="Task description" name="task-description"></textarea>
-                        </div>
-                        <hr>
-                    </div>
-                </div>
-                <div class="card-list">
-                    <div class="card-list-body pr-2">
-                        <h6>Período</h6>
-                        <div class="form-group row align-items-center">
-                            <label class="col-3">Início</label>
-                            <input class="form-control col" type="date" placeholder="Task start" name="task-start">
-                        </div>
-                        <div class="form-group row align-items-center">
-                            <label class="col-3">Término</label>
-                            <input class="form-control col" type="date" placeholder="Task due" name="task-due">
-                        </div>
-                        <div class="alert alert-warning text-small" role="alert">
-                            <span>Poderá ser alterado posteriormente</span>
-                        </div>
-                    </div>
-                </div>
-                    
-                <h6>Membros para essa tarefa</h6>
-                <div class="users-manage" data-filter-list="form-group-users">
-                    <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="material-icons">filter_list</i>
+    <form action="{{ route('projects.tasks.store', $project->code) }}" method="POST">
+        @csrf
+        <div class="content-list-head">
+            <h3>Nova tarefa</h3>
+        </div>
+        <!--end of content list head-->
+        <div class="content-list-body">
+            <div class="card-list">
+                <div class="card-list-body pr-2">
+                    <h6>Detalhes</h6>
+                    <div class="form-group row align-items-center">
+                        <label class="col-3">Nome</label>
+                        <input class="form-control col" type="text" placeholder="Task name" name="name">
+                        @if ($errors->has('name'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('name') }}</strong>
                             </span>
-                        </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Buscar usuário" aria-label="Buscar usuário" aria-describedby="buscar-usuario">
+                        @endif
                     </div>
-                    <div class="form-group-users ">
-                        @foreach($users as $user)
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="user{{ $user->id }}">
-                            <label class="custom-control-label" for="user{{ $user->id }}">
-                                <div class="d-flex align-items-center">
-                                    <img alt="{{ $user->name }}" src="{{ asset($user->image) }}" class="avatar mr-2">
-                                    <span class="h6 mb-0" data-filter-by="text">{{ $user->name }}</span>
-                                </div>
-                            </label>
-                        </div>
-                        @endforeach
+                    <div class="form-group row">
+                        <label class="col-3">Descrição</label>
+                        <textarea class="form-control col" rows="3" placeholder="Task description" name="description"></textarea>
+                        @if ($errors->has('description'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('description') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="card-list">
+                <div class="card-list-body pr-2">
+                    <h6>Período</h6>
+                    <div class="form-group row align-items-center">
+                        <label class="col-3">Início</label>
+                        <input class="form-control col" type="date" placeholder="Task start" name="start">
+                        @if ($errors->has('start'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('start') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="form-group row align-items-center">
+                        <label class="col-3">Término</label>
+                        <input class="form-control col" type="date" placeholder="Task due" name="end">
+                        @if ($errors->has('end'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('end') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="alert alert-warning text-small" role="alert">
+                        <span>Poderá ser alterado posteriormente</span>
                     </div>
                 </div>
+            </div>
+                
+            <h6>Membros para essa tarefa</h6>
+            <div class="users-manage" data-filter-list="form-group-users">
+                <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="material-icons">filter_list</i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="Buscar usuário" aria-label="Buscar usuário" aria-describedby="buscar-usuario">
+                </div>
+                <div class="form-group-users ">
+                    @foreach($users as $user)
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="user{{ $user->id }}">
+                        <label class="custom-control-label" for="user{{ $user->id }}">
+                            <div class="d-flex align-items-center">
+                                <img alt="{{ $user->name }}" src="{{ asset($user->image) }}" class="avatar mr-2">
+                                <span class="h6 mb-0" data-filter-by="text">{{ $user->name }}</span>
+                            </div>
+                        </label>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Criar tarefa</button>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 @endsection
 

@@ -1,6 +1,10 @@
-@extends('layouts.app')
+@extends('projects.show')
 
-@section('content')
+@section('main')
+fdçskjflasjf
+@endsection
+
+{{-- @section('content')
 <div class="mt-3">
     <ul class="nav nav-tabs nav-fill">
         <li class="nav-item">
@@ -15,7 +19,7 @@
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane fade show active" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="card-list-body">
+        <div class="tab-pane fade show active">
             <div class="row content-list-head">
                 <div class="col-auto">
                     <h3>Tarefas</h3>
@@ -133,9 +137,9 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection --}}
 
-@section('sidebar')
+{{-- @section('sidebar')
 <button class="btn btn-primary btn-round btn-floating btn-lg d-lg-none" type="button" data-toggle="collapse" data-target="#sidebar-collapse" aria-expanded="false" aria-controls="sidebar-floating-chat">
     <i class="material-icons">more_horiz</i>
     <i class="material-icons">close</i>
@@ -218,4 +222,4 @@
         </div>
     </div>
 </form>
-@endsection
+@endsection --}}

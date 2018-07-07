@@ -26,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        #dd(auth()->user()->myProjects);
         return view('home');
     }
 }
