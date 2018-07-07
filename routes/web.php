@@ -20,7 +20,7 @@ Route::group(['prefix'=>'projetos'], function(){
 	Route::get('novo', 'ProjectController@create')->name('projects.create');
 	Route::post('novo', 'ProjectController@store')->name('projects.store');
 	
-	Route::group(['prefix' => '{project}'], function(){
+	Route::group(['prefix' => '{project}', 'middleware' => 'checkAccessUserForProject'], function(){
 		Route::get('/', 'ProjectController@show')->name('projects.show');
 		
 		Route::group(['prefix' => 'membros'], function(){
