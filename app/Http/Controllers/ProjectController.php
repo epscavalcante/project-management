@@ -34,15 +34,15 @@ class ProjectController extends Controller
     {
 
     	return view('projects.show')->with([
-    		'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail(),
-            'users' => $this->user->all()
+    		'project' => $this->project->whereCode($code)->with(['owner', 'members', 'tasks'])->firstOrFail(),
+            'users' => $this->user->all(),
     	]);
     }
 
     public function edit($code)
     {
         return view('projects.edit')->with([
-            'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail()
+            'project' => $this->project->whereCode($code)->firstOrFail()
         ]);
     }
 
@@ -60,7 +60,7 @@ class ProjectController extends Controller
     			'code' => \Carbon\Carbon::now()->timestamp,
 				'name' => $request->name,
 				'description' => $request->description,
-				'start' => $request->start,
+				'start' => $request->start ?? \Carbon\Carbon::now(),
 				'end' => $request->end,
 				#'visibility' => $request->visibility
     		]);
@@ -101,7 +101,28 @@ class ProjectController extends Controller
 
     }
 
-    public function syncMembers(Request $request, $project)
+    public function destroy($project)
+    {
+
+        try {
+            
+            $this->project->whereCode($project)->firstOrFail()->delete();
+
+            toast('Projeto excluído', 'success', 'top-right');
+
+            return redirect()->route('projects');
+
+
+        } catch (Exception $e) {
+            
+            toast($e->getMessage(), 'error', 'top-right');
+
+            return back();
+        }
+
+    }
+
+    public function members(Request $request, $project)
     {
         // dd($request->all(), $project);
 

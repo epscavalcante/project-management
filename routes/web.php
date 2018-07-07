@@ -22,12 +22,10 @@ Route::group(['prefix'=>'projetos'], function(){
 	
 	Route::group(['prefix' => '{project}', 'middleware' => 'checkAccessUserForProject'], function(){
 		Route::get('/', 'ProjectController@show')->name('projects.show');
-		
-		Route::group(['prefix' => 'membros'], function(){
-
-			Route::post('gerenciar', 'ProjectController@syncMembers')->name('projects.members.sync');
-
-		});
+		Route::get('editar', 'ProjectController@edit')->name('projects.edit');
+		Route::put('editar', 'ProjectController@update')->name('projects.update');
+		Route::post('membros', 'ProjectController@members')->name('projects.members');
+		Route::delete('/', 'ProjectController@destroy')->name('projects.destroy');
 
 		Route::group(['prefix' => 'tarefas'], function(){
 			
@@ -37,10 +35,6 @@ Route::group(['prefix'=>'projetos'], function(){
 
 		});
 		
-		Route::get('membros', 'ProjectController@members')->name('projects.members');
-		Route::get('atividades', 'ProjectController@activities')->name('projects.activities');
-		Route::get('editar', 'ProjectController@edit')->name('projects.edit');
-		Route::put('editar', 'ProjectController@update')->name('projects.update');
 	});
 
 });

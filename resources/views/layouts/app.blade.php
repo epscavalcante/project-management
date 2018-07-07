@@ -13,8 +13,9 @@
         <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Gothic+A1" rel="stylesheet">
-        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all" />
-        <link href="{{ asset('css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" media="all" />
+        {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all" /> --}}
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" media="all" />
+        {{-- <link href="{{ asset('css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" media="all" /> --}}
     </head>
 
     <body>

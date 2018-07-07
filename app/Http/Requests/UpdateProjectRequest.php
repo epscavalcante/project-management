@@ -24,14 +24,10 @@ class UpdateProjectRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255|unique:projects,name,'.$this->get('name'),
+            'name' => 'required|string|max:255',
             'description' => 'present|nullable',
             'start' => 'nullable|date',
             'end' => 'nullable|date',
-            // 'visibility' => [
-            //     'required',
-            //     Rule::in(['private', 'public']),
-            // ]
         ];
     }
 }

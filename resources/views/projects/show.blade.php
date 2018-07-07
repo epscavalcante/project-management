@@ -3,27 +3,50 @@
 @section('content')
 <div class="page-header">
     <h1>{{ $project->name }}</h1>   
-	<p class="lead">{{ $project->description }}</p>
-    
-    <div class="d-flex align-items-center">
-        <ul class="avatars">
-            @foreach($project->members as $member)
-            <li>
-                <a href="#" data-toggle="tooltip" data-placement="top" title="{{ $member->name }}">
-                    <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
-                </a>
-            </li>
-            @endforeach
-        </ul>
-        <button class="btn btn-round" data-toggle="modal" data-target="#user-manage-modal">
-            <i class="material-icons">add</i>
-        </button>
-    </div>
+	
+    <p class="lead">{{ $project->description }}</p>
 
-    <div class="d-flex flex-column flex-sm-row justify-content-between small">
-        <span>Responsável principal: {{ $project->owner->name }}</span>
-        <span>Criado em: {{ $project->created_at }}</span>
-        <span>Última atualização: {{ $project->updated_at }}</span>
+    <div class="small">
+        Prazo: {{ $project->start }} - {{ $project->end }}
+        <br>
+        Criado em: {{ $project->created_at }}
+        <br>
+        Última atualização: {{ $project->updated_at }}
+    </div>
+    
+    
+
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center my-3">
+        
+        <div class="d-block mb-sm-3">
+            <ul class="avatars">
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="Gerente - {{ $project->owner->name }}">
+                        <img alt="{{ $project->owner->name }}" class="avatar" src="{{ asset($project->owner->image) }}">
+                    </a>
+                </li>
+                @foreach($project->members as $member)
+                <li>
+                    <a href="#" data-toggle="tooltip" data-placement="top" title="{{ $member->name }} - membro">
+                        <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+            <button class="btn btn-round d-inline-block" data-toggle="modal" data-target="#user-manage-modal">
+                <i class="material-icons">add</i>
+            </button>
+        </div>
+
+        <div class="pt-2 pt-sm-0">
+            <a href="{{ route('projects.edit', $project->code) }}" class="btn btn-sm btn-primary">editar</a>
+            <form action="{{ route('projects.destroy', $project->code) }}" method="POST" class="d-inline">
+                @csrf
+                @method("DELETE")
+                <button class="btn btn-sm btn-danger confirmation" type="submit">excluir</button>
+            </form>
+        </div>
+        
     </div>
 </div>
 
@@ -158,7 +181,7 @@
     </div>
 </div>
 
-<form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="{{ route('projects.members.sync', $project->code) }}" method="POST">
+<form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="{{ route('projects.members', $project->code) }}" method="POST">
     @csrf
     <div class="modal-dialog" role="document">
         <div class="modal-content">
