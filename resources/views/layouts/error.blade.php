@@ -11,7 +11,7 @@
         <title>Projetos - {{ config('app.name') }}</title>
 
         <link href="{{ asset('favicon.ico') }}" rel="icon" type="image/x-icon">
-        <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all" />
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" media="all" />
     </head>
 
     <body>

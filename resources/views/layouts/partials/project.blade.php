@@ -14,11 +14,11 @@
     <p class="lead">{{ $project->description }}</p>
 
     <div class="small">
-        Prazo: {{ $project->start }} - {{ $project->end }}
-        <br>
+        Timeline: {{ $project->start }} - {{ $project->end }}
+        {{-- <br>
         Criado em: {{ $project->created_at }}
         <br>
-        Última atualização: {{ $project->updated_at }}
+        Última atualização: {{ $project->updated_at }} --}}
     </div>
     
     <ul class="avatars my-2">

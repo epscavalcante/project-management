@@ -1,5 +1,5 @@
 <div class="tab-content">
-    <div class="tab-pane fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="list-group-tasks">
+    <div class="tab-pane active show fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="list-group-tasks">
         <div class="row content-list-head">
             <div class="col-auto">
                 <h3>Tarefas</h3>
@@ -29,18 +29,18 @@
                         </div>
                         <div class="card-body">
                             <div class="card-title">
-                                <a href="#">
-                                    <h6 data-filter-by="text" class="H6-filter-by-text">Client objective meeting</h6>
+                                <a href="{{ route('projects.tasks.show', [$project->code, $task->code]) }}">
+                                    <h6 data-filter-by="text" class="H6-filter-by-text">{{ $task->name }}</h6>
                                 </a>
-                                <span class="text-small">Today</span>
+                                <span class="text-small">{{ $task->description }}</span>
                             </div>
                             <div class="card-meta">
                                 <ul class="avatars">
                                     
-                                    @foreach($project->tasks as $task)
+                                    @foreach($task->members as $member)
                                     <li>
-                                        <a href="#" data-toggle="tooltip" title="Kenny">
-                                            <img alt="Kenny Tran" class="avatar" src="assets/img/avatar-male-6.jpg">
+                                        <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
+                                            <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
                                         </a>
                                     </li>
                                     @endforeach
@@ -55,9 +55,13 @@
                                         <i class="material-icons">more_vert</i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Mark as done</a>
+                                        <a class="dropdown-item" href="#">Finalizar</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-danger" href="#">Archive</a>
+                                        <form action="{{ route('projects.tasks.destroy', $task->code) }}" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>    
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -67,51 +71,6 @@
                     Não há tarefas
                     @endforelse
                 </div>
-            </div>
-        </div>
-    </div>
-                                
-    <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab" data-filter-list="list-group-activity">
-        <div class="content-list">
-            <div class="row content-list-head">
-                <div class="col-auto">
-                    <h3>Activity</h3>
-                </div>
-                <form class="col-md-auto">
-                    <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="material-icons">filter_list</i>
-                            </span>
-                        </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Filter activity" aria-label="Filter activity" aria-describedby="filter-tasks">
-                    </div>
-                </form>
-            </div>
-            <div class="content-list-body">
-                <ol class="list-group list-group-activity filter-list-1530819204204">
-                    <li class="list-group-item">
-                        <div class="media align-items-center">
-                            <ul class="avatars">
-                                <li>
-                                    <div class="avatar bg-primary">
-                                        <i class="material-icons">playlist_add_check</i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <img alt="Claire" src="assets/img/avatar-female-1.jpg" class="avatar filter-by-alt" data-filter-by="alt">
-                                </li>
-                            </ul>
-                            <div class="media-body">
-                                <div>
-                                    <span class="h6 SPAN-filter-by-text" data-filter-by="text">Claire</span>
-                                    <span data-filter-by="text" class="SPAN-filter-by-text">completed the task</span><a href="#" data-filter-by="text" class="A-filter-by-text">Set up client chat channel</a>
-                                </div>
-                                <span class="text-small SPAN-filter-by-text" data-filter-by="text">Just now</span>
-                            </div>
-                        </div>
-                    </li>
-                </ol>
             </div>
         </div>
     </div>

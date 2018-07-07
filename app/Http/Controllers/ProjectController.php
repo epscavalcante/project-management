@@ -34,7 +34,7 @@ class ProjectController extends Controller
     {
 
     	return view('projects.show')->with([
-    		'project' => $this->project->whereCode($code)->with(['owner', 'members', 'tasks'])->firstOrFail(),
+    		'project' => $this->project->whereCode($code)->with(['owner', 'members'])->firstOrFail(),
             'users' => $this->user->all(),
     	]);
     }

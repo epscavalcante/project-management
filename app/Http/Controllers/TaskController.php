@@ -20,13 +20,14 @@ class TaskController extends Controller
     public function index($code)
     {
         return view('projects.tasks.index')->with([
-            'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail()
+            'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail(),
+            'users' => $this->user->all(),
         ]);
     }
 
     public function show($project, $task)
     {
-        return view('projects.task')->with([
+        return view('projects.tasks.show')->with([
             'task' => $this->task->whereCode($task)->with(['members','project'])->firstOrFail()
         ]);
     }
@@ -67,5 +68,10 @@ class TaskController extends Controller
         } catch (Exception $e) {
             
         }
+    }
+
+    public function destroy($task)
+    {
+        dd($task);
     }
 }

@@ -25,11 +25,12 @@ Route::group(['prefix'=>'projetos'], function(){
 		Route::get('editar', 'ProjectController@edit')->name('projects.edit');
 		Route::put('editar', 'ProjectController@update')->name('projects.update');
 		Route::put('membros', 'ProjectController@members')->name('projects.members');
-		Route::delete('/', 'ProjectController@destroy')->name('projects.destroy');
+		Route::delete('excluir', 'ProjectController@destroy')->name('projects.destroy');
 
 		Route::group(['prefix' => 'tarefas'], function(){
 			Route::get('/', 'TaskController@index')->name('projects.tasks');
-			Route::post('/', 'TaskController@store')->name('projects.tasks.store');
+			Route::post('criar', 'TaskController@store')->name('projects.tasks.store');
+			Route::delete('excluir', 'TaskController@destroy')->name('projects.tasks.destroy');
 			Route::get('{task}', 'TaskController@show')->name('projects.tasks.show');
 		});
 		
