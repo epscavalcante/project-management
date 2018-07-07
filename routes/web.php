@@ -18,13 +18,13 @@ Route::group(['prefix'=>'projetos'], function(){
 
 	Route::get('/', 'ProjectController@index')->name('projects');
 	Route::get('novo', 'ProjectController@create')->name('projects.create');
-	Route::post('novo', 'ProjectController@store')->name('projects.store');
+	Route::post('/', 'ProjectController@store')->name('projects.store');
 	
 	Route::group(['prefix' => '{project}', 'middleware' => 'checkAccessUserForProject'], function(){
 		Route::get('/', 'ProjectController@show')->name('projects.show');
 		Route::get('editar', 'ProjectController@edit')->name('projects.edit');
 		Route::put('editar', 'ProjectController@update')->name('projects.update');
-		Route::post('membros', 'ProjectController@members')->name('projects.members');
+		Route::put('membros', 'ProjectController@members')->name('projects.members');
 		Route::delete('/', 'ProjectController@destroy')->name('projects.destroy');
 
 		Route::group(['prefix' => 'tarefas'], function(){
