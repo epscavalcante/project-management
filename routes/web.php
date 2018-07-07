@@ -29,10 +29,8 @@ Route::group(['prefix'=>'projetos'], function(){
 
 		Route::group(['prefix' => 'tarefas'], function(){
 			
-			Route::get('/', 'TaskController@index')->name('projects.tasks');
-			Route::get('nova', 'TaskController@create')->name('projects.tasks.create');
 			Route::post('/', 'TaskController@store')->name('projects.tasks.store');
-
+			Route::get('{task}', 'TaskController@show')->name('projects.tasks.show');
 		});
 		
 	});

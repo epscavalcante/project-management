@@ -13,8 +13,21 @@ class Task extends Model
         'code', 'name', 'description', 'start', 'end', 'project_id',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relacionamentos
+    |--------------------------------------------------------------------------
+    |
+    | Aqui está mapeado os relacionamentos com outros models
+    |
+    */
     public function project()
     {
     	return $this->belongsTo(Project::class);
+    }
+
+    public function members()
+    {
+    	return $this->belongsToMany(User::class);
     }
 }

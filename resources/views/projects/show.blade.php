@@ -235,11 +235,13 @@
         </div>
     </div>
 </form>
-<form class="modal fade" id="task-add-modal" tabindex="-1" role="dialog" aria-labelledby="task-add-modal" aria-hidden="true">
+<form class="modal fade" id="task-add-modal" tabindex="-1" role="dialog" aria-labelledby="task-add-modal" aria-hidden="true" action="{{ route('projects.tasks.store', $project->code) }}" method="POST">
+    @csrf
+    @method("POST")
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">New Task</h5>
+                <h5 class="modal-title">Nova tarefa</h5>
                 <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">close</i>
                 </button>
@@ -322,7 +324,7 @@
                             <div class="form-group-users ">
                                 @foreach($project->members as $user)
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="user{{ $user->id }}">
+                                    <input type="checkbox" class="custom-control-input" id="user{{ $user->id }}" name="members[]" value="{{ $user->id }}">
                                     <label class="custom-control-label" for="user{{ $user->id }}">
                                         <div class="d-flex align-items-center">
                                             <img alt="{{ $user->name }}" src="{{ asset($user->image) }}" class="avatar mr-2">

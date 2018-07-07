@@ -60,7 +60,7 @@ class Project extends Model
     public function getStartAttribute($value)
     {
         if(empty($value)){
-            return "#";
+            return "não definido";
         }
 
         return date('d/m/Y', strtotime($value));

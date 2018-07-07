@@ -27,6 +27,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class);
     }
 
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class);
+    }
+
     public function getImageAttribute($value)
     {
         return 'images/'.$value;

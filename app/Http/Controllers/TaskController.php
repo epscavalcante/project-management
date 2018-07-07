@@ -24,6 +24,13 @@ class TaskController extends Controller
         ]);
     }
 
+    public function show($project, $task)
+    {
+        return view('projects.task')->with([
+            'task' => $this->task->whereCode($task)->with(['members','project'])->firstOrFail()
+        ]);
+    }
+
     public function create($code)
     {
     	return view('projects.tasks.create')->with([
@@ -34,6 +41,31 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request, $project)
     {
-        dd($request->all());
+        
+        try {
+
+            $project = $this->project->whereCode($project)->firstOrFail();
+
+            $task = $this->task->create([
+                'code' => \Carbon\Carbon::now()->timestamp,
+                'name' => $request->name,
+                'description' => $request->description,
+                'start' => $request->start,
+                'end' => $request->end,
+                'project_id' => $project->id
+            ]);
+
+            if($request->has('members')){
+                
+                $task->members()->sync($request->members);
+            }
+
+            toast('Gerencia esta nova tarefa', 'info', 'top-right');
+            
+            return redirect()->route('projects.tasks.show', [$project->code, $task->code]);
+
+        } catch (Exception $e) {
+            
+        }
     }
 }
