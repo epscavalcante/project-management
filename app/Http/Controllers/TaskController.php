@@ -72,6 +72,7 @@ class TaskController extends Controller
         }
     }
 
+
     public function destroy($project, $task)
     {
         try {

@@ -8,7 +8,7 @@
 	    <div class="d-flex justify-content-between flex-column flex-sm-row">
 	        <h1>{{ $task->name }}</h1>   
 	        <div class="">
-	            <a href="{{ route('projects.edit', $task->code) }}" class="btn btn-sm btn-primary">editar</a>
+	            <a href="#task-edit-modal" data-toggle="modal" class="btn btn-sm btn-primary">editar</a>
 	            <form action="{{ route('projects.tasks.destroy', [$project->code, $task->code]) }}" method="POST" class="d-inline">
 	                @csrf
 	                @method("DELETE")
