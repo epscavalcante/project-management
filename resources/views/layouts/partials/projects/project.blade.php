@@ -10,7 +10,7 @@
 
     <p class="lead">{{ $project->description }}</p>
     
-    <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center justify-content-between flex-column flex-sm-row">
         <ul class="avatars">
             <li>
                 <a href="#" data-toggle="tooltip" title="{{ $project->owner->name }}">

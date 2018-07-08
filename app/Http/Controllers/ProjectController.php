@@ -123,27 +123,4 @@ class ProjectController extends Controller
 
     }
 
-    public function members(Request $request, $project)
-    {
-        // dd($request->all(), $project);
-
-        try {
-            
-            $project = $this->project->whereCode($project)->firstOrFail();
-
-            $project->members()->sync($request->members);
-
-            toast('Alterações feitas', 'success', 'top-right');
-
-            return back();
-
-
-        } catch (Exception $e) {
-            
-            toast($e->getMessage(), 'error', 'top-right');
-
-            return back();
-            
-        }
-    }
 }
