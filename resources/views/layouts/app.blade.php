@@ -56,7 +56,7 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">LIXEIRA</a>
+                            <a class="nav-link" href="{{ route('trash') }}">LIXEIRA</a>
                         </li>
                     </ul>
                     <div class="d-lg-flex align-items-center">
@@ -121,6 +121,7 @@
                                     @endfor
                                 </ol>
                             </nav>
+                            @yield('config')
                         </div>
                         @endif
                     <div class="container">

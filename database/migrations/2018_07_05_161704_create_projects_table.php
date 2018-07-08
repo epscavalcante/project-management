@@ -23,6 +23,7 @@ class CreateProjectsTable extends Migration
             $table->date('end')->nullable();
             $table->enum('visibility', ['public', 'private'])->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('owner_id')->on('users')->references("id")->onDelete('cascade')->onUpdate('cascade');
         });

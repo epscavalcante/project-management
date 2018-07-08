@@ -123,4 +123,42 @@ class ProjectController extends Controller
 
     }
 
+    public function forceDestroy($project)
+    {
+
+        try {
+            
+            $this->project->whereCode($task)->withTrashed()->firstOrFail()->forceDelete();
+
+            toast('Projeto excluído com sucesso!', 'success', 'top-right');
+            
+            return redirect()->route('home');
+
+        } catch (Exception $e) {
+
+            toast($e->getMessage(), 'error', 'top-right');
+
+            return back();
+        }
+    }
+
+    public function restore($project, $task)
+    {
+
+        try {
+            
+            $this->project->whereCode($task)->onlyTrashed()->firstOrFail()->restore();
+
+            toast('Projeto restaurado com sucesso!', 'success', 'top-right');
+            
+            return redirect()->route('home');
+
+        } catch (Exception $e) {
+            
+            toast($e->getMessage(), 'error', 'top-right');
+
+            return back();
+        }
+    }
+
 }

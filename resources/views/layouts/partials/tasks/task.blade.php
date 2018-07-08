@@ -1,3 +1,29 @@
+@section('config')
+<div class="dropdown">
+    <button class="btn btn-round" role="button" data-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-cogs"></i>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+
+        <a href="{{ route('projects.edit', $task->project->code) }}" class="dropdown-item">Editar</a>
+        <form action="{{ route('projects.tasks.destroy', [$task->project->code, $task->code]) }}" method="POST" class="">
+            @csrf
+            @method("DELETE")
+            <button class="dropdown-item confirmation" type="submit">Arquivar</button>
+        </form>
+
+        <div class="dropdown-divider"></div>
+
+        {{-- <a class=" text-danger" href="#">Archive</a> --}}
+        <form action="{{ route('projects.tasks.destroy.force', [$task->project->code, $task->code]) }}" method="POST">
+            @csrf
+            @method("DELETE")
+            <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>
+        </form> 
+    </div>
+</div>
+@endsection
+
 <div class="page-header">
     <div class="d-flex justify-content-between flex-sm-row flex-column align-items-center">
         <h2> {{ $task->name }}</h2>   
@@ -26,17 +52,7 @@
         </div>
 
         <div class="btn-group" role="group" aria-label="Editar ou Excluir projeto">
-            <a href="{{ route('projects.edit', $task->project->code) }}" class="btn btn-sm btn-info">Editar</a>
-            <form action="{{ route('projects.tasks.destroy', [$task->project->code, $task->code]) }}" method="POST" class="d-inline">
-                @csrf
-                @method("DELETE")
-                <button class="btn btn-sm btn-secondary confirmation" type="submit">Arquivar</button>
-            </form>
-            <form action="{{ route('projects.tasks.destroy.force', [$task->project->code, $task->code]) }}" method="POST" class="d-inline">
-                @csrf
-                @method("DELETE")
-                <button class="btn btn-sm btn-danger confirmation" type="submit">Excluir</button>
-            </form> 
+            
         </div>
        
     </div>

@@ -21,10 +21,12 @@ Route::group(['prefix'=>'projetos'], function(){
 	Route::post('novo', 'ProjectController@store')->name('projects.store');
 	
 	Route::group(['prefix' => '{project}', 'middleware' => 'checkAccessUserForProject'], function(){
+		
 		Route::get('/', 'ProjectController@show')->name('projects.show');
 		Route::get('editar', 'ProjectController@edit')->name('projects.edit');
 		Route::put('editar', 'ProjectController@update')->name('projects.update');
-		Route::delete('excluir', 'ProjectController@destroy')->name('projects.destroy');
+		Route::delete('arquivar', 'ProjectController@destroy')->name('projects.destroy');
+		Route::delete('excluir', 'ProjectController@forceDestroy')->name('projects.destroy.force');
 
 		Route::group(['prefix' => 'tarefas'], function(){
 			Route::get('/', 'TaskController@index')->name('projects.tasks');
@@ -55,4 +57,11 @@ Route::group(['prefix'=>'projetos'], function(){
 Route::group(['prefix'=>'usuarios'], function(){
 
 	Route::get('convidar','UserController@invatationForm')->name('users.invite');
+
+});
+
+Route::group(['prefix'=>'lixeira'], function(){
+
+	Route::get('/','TrashController@index')->name('trash');
+	
 });
