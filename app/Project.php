@@ -42,13 +42,13 @@ class Project extends Model
     #Retorna todas as tarefas
     public function tasks()
     {
-        return $this->hasMany(Task::class)->withTrashed();
+        return $this->hasMany(Task::class)->withTrashed()->orderBy('created_at', 'desc')->orderBy('deleted_at', 'asc');
     }
 
     #mapeia somente as tarefas excluidas
     public function tasksTrashed()
     {
-        return $this->hasMany(Task::class)->onlyTrashed();
+        return $this->hasMany(Task::class)->onlyTrashed()->orderBy('created_at', 'desc')->orderBy('deleted_at', 'asc');
     }
 
     /*

@@ -6623,8 +6623,8 @@ h3 + .btn-round, h5 + .btn-round {
   border-radius: 0.5rem;
   padding: 1rem;
   background: #E9EEF2; }
-  .card-list .card {
-    border: none; }
+  /*.card-list .card {
+    border: none; }*/
   .card-list .card-list-head {
     display: flex;
     justify-content: space-between; }

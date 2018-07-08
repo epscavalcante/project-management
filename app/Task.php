@@ -13,6 +13,8 @@ class Task extends Model
         'code', 'name', 'description', 'start', 'end', 'project_id',
     ];
 
+    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'start', 'end'];
+
     /*
     |--------------------------------------------------------------------------
     | Relacionamentos

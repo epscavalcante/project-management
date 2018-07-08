@@ -2,6 +2,8 @@
 
 @section('content')
 
+
+
 @include('layouts.partials.projects.project')
 
 <div class="tab-content">
@@ -29,6 +31,39 @@
             <div class="card-list">
                 <div class="card-list-body filter-list-1530819204215">
                     @forelse($project->tasks as $task)
+                    @if($task->trashed())
+                    <div class="card card-task">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <a href="{{ route('projects.tasks.show', [$project->code, $task->code]) }}">
+                                    <h4 class="text-danger">### {{ $task->name }} arquivada {{ $task->deleted_at->format('d/m/Y H:i') }}</h4>
+                                </a>
+                            </div>
+                            <div class="card-meta">
+                                <div class="dropdown card-options">
+                                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <form action="{{ route('projects.tasks.restore', [$project->code, $task->code]) }}" method="POST">
+                                            @csrf
+                                            @method("PUT")
+                                            <button class="dropdown-item" type="submit">Restaurar</button>    
+                                        </form>
+
+                                        <div class="dropdown-divider"></div>
+                                        
+                                        <form action="{{ route('projects.tasks.destroy.force', [$project->code, $task->code]) }}" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>    
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @else
                     <div class="card card-task">
                         <div class="progress">
                             <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -53,17 +88,23 @@
 
                                 </ul>
                                 <div class="d-flex align-items-center">
-                                    <i class="material-icons">playlist_add_check</i>
+                                    <i class="fas fa-tasks"></i>
                                     <span>3/4</span>
                                 </div>
                                 <div class="dropdown card-options">
                                     <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
+                                        <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Finalizar</a>
-                                        <div class="dropdown-divider"></div>
                                         <form action="{{ route('projects.tasks.destroy', [$project->code, $task->code]) }}" method="POST">
+                                            @csrf
+                                            @method("DELETE")
+                                            <button class="dropdown-item" type="submit">Arquivar</button>    
+                                        </form>
+
+                                        <div class="dropdown-divider"></div>
+                                        
+                                        <form action="{{ route('projects.tasks.destroy.force', [$project->code, $task->code]) }}" method="POST">
                                             @csrf
                                             @method("DELETE")
                                             <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>    
@@ -73,6 +114,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     @empty
                     Não há tarefas
                     @endforelse

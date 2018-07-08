@@ -89,4 +89,36 @@ class TaskController extends Controller
             
         }
     }
+
+    public function forceDestroy($project, $task)
+    {
+
+        try {
+            
+            $this->task->whereCode($task)->withTrashed()->firstOrFail()->forceDelete();
+
+            toast('Tarefa excluída com sucesso!', 'success', 'top-right');
+            
+            return redirect()->route('projects.tasks', $project);
+
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    public function restore($project, $task)
+    {
+
+        try {
+            
+            $this->task->whereCode($task)->onlyTrashed()->firstOrFail()->restore();
+
+            toast('Tarefa restaurada com sucesso!', 'success', 'top-right');
+            
+            return redirect()->route('projects.tasks', $project);
+
+        } catch (Exception $e) {
+            
+        }
+    }
 }

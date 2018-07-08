@@ -33,7 +33,9 @@ Route::group(['prefix'=>'projetos'], function(){
 
 			Route::group(['prefix' => '{task}'], function(){
 				Route::get('/', 'TaskController@show')->name('projects.tasks.show');
-				Route::delete('excluir', 'TaskController@destroy')->name('projects.tasks.destroy');
+				Route::put('restaurar', 'TaskController@restore')->name('projects.tasks.restore');
+				Route::delete('arquivar', 'TaskController@destroy')->name('projects.tasks.destroy');
+				Route::delete('excluir', 'TaskController@forceDestroy')->name('projects.tasks.destroy.force');
 			});
 			
 		});

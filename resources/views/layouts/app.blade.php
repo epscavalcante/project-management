@@ -15,7 +15,6 @@
         {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="all" /> --}}
         <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" media="all" />
         <link href="{{ asset('css/fontawesome.min.css') }}" rel="stylesheet" type="text/css" media="all" />
-        <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
     </head>
 
     <body>

@@ -13,14 +13,14 @@
                     <div class="col-auto">
                         <h3>Tarefas</h3>
                         <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
-                            <i class="material-icons">add</i> nova
+                            <i class="fas fa-plus"></i> nova
                         </button>
                     </div>
                     <form class="col-md-auto">
                         <div class="input-group input-group-round">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">
-                                    <i class="material-icons">filter_list</i>
+                                    <i class="fas fa-filter"></i>
                                 </span>
                             </div>
                             <input type="search" class="form-control filter-list-input" placeholder="Procurar tarefa" aria-label="Procurar tarefa" aria-describedby="procurar-tarefa">
@@ -29,6 +29,9 @@
                 </div>
                 <div class="card-list-body filter-list-1530819204215">
                     @forelse($project->tasks as $task)
+                    @if($task->trashed())
+                    fasfdsf
+                    @else
                     <div class="card card-task">
                         <div class="progress">
                             <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -73,6 +76,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     @empty
                     Não há tarefas
                     @endforelse
