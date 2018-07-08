@@ -76,23 +76,23 @@ class Project extends Model
     //     return date('d/m/Y H:i', strtotime($value));
     // }
 
-    public function getStartAttribute($value)
-    {
-        if(empty($value)){
-            return "não definido";
-        }
+    // public function getStartAttribute($value)
+    // {
+    //     if(empty($value)){
+    //         return "não definido";
+    //     }
 
-        return date('d/m/Y', strtotime($value));
-    }
+    //     return date('d/m/Y', strtotime($value));
+    // }
 
-    public function getEndAttribute($value)
-    {
-        if(empty($value)){
-            return "não definido";
-        }
+    // public function getEndAttribute($value)
+    // {
+    //     if(empty($value)){
+    //         return "não definido";
+    //     }
 
-        return date('d/m/Y', strtotime($value));
-    }
+    //     return date('d/m/Y', strtotime($value));
+    // }
 
     public function progress($completed, $total)
     {

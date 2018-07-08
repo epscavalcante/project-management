@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 @include('layouts.partials.projects.project')
 
 <div class="tab-content">
@@ -207,7 +205,7 @@
                             <div class="input-group input-group-round">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">
-                                        <i class="material-icons">filter_list</i>
+                                        <i class="fas fa-filter"></i>
                                     </span>
                                 </div>
                                 <input type="search" class="form-control filter-list-input" placeholder="Buscar usuário" aria-label="Buscar usuário" aria-describedby="buscar-usuario">

@@ -79,14 +79,14 @@ class TaskController extends Controller
         }
     }
 
-
+    #Método para arquivar objeto
     public function destroy($project, $task)
     {
         try {
             
             $this->task->whereCode($task)->firstOrFail()->delete();
 
-            toast('Tarefa excluída com sucesso!', 'success', 'top-right');
+            toast('Tarefa arquivada com sucesso!', 'success', 'top-right');
             
             return redirect()->route('projects.tasks', $project);
 

@@ -52,7 +52,7 @@
                 {{ $project->tasks_finished_count }} / {{ $project->tasks_count }}</span>
             </div>
                 
-            <span data-toggle="tooltip" title="Término em {{ $project->start }}">
+            <span data-toggle="tooltip" title="Término em {{ $project->end }}">
                 <i class="fas fa-trophy"></i>
             </span>
         </div>

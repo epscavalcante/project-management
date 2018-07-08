@@ -19,8 +19,8 @@ $(document).ready(function(){
     $('button.confirmation').on('click', function(e){
         e.preventDefault();
         Swal({
-            title: 'Você tem certeza?',
-            text: 'Você irá remover este item.',
+            title: 'Atenção!!!',
+            text: 'Você tem certeza disso?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Sim, tenho!',
