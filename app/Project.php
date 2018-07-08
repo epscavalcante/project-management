@@ -42,13 +42,19 @@ class Project extends Model
     #Retorna todas as tarefas
     public function tasks()
     {
-        return $this->hasMany(Task::class)->withTrashed()->orderBy('created_at', 'desc')->orderBy('deleted_at', 'asc');
+        return $this->hasMany(Task::class)->orderBy('created_at', 'desc');
     }
 
-    #mapeia somente as tarefas excluidas
+    #mapeia somente as tarefas arquivadas
     public function tasksTrashed()
     {
         return $this->hasMany(Task::class)->onlyTrashed()->orderBy('created_at', 'desc')->orderBy('deleted_at', 'asc');
+    }
+
+    #mapeia somente as tarefas finalizadas
+    public function tasksFinished()
+    {
+        return $this->hasMany(Task::class)->whereFinished(1)->orderBy('created_at', 'desc');
     }
 
     /*
@@ -90,6 +96,12 @@ class Project extends Model
 
     public function progress($completed, $total)
     {
+
+        if($total == 0)
+        {
+            return 0;
+        }
+
         #Converte um possivel valor decimal para inteiro (arredonda para cima)
         return ceil(($completed / $total) * 100);
     }
