@@ -35,7 +35,7 @@ class ProjectController extends Controller
     	return view('projects.show')->with([
     		'project' => $this->project->whereCode($code)
                                 ->with(['owner', 'members',])
-                                ->withCount(['tasks','tasksTrashed'])
+                                ->withCount(['tasks','tasksFinished'])
                                 ->firstOrFail(),
     	]);
     }
