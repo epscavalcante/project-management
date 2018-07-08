@@ -5,9 +5,9 @@
     </button>
     <div class="dropdown-menu dropdown-menu-right">
         <a href="{{ route('projects.edit', $project->code) }}" class="dropdown-item">Editar</a>
-        <form action="{{ route('projects.destroy', $project->code) }}" method="POST">
+        <form action="{{ route('projects.delete', $project->code) }}" method="POST">
             @csrf
-            @method("DELETE")
+            @method("PATCH")
             <button class="dropdown-item confirmation" type="submit">Arquivar</button>
         </form>
         <div class="dropdown-divider"></div>
@@ -23,17 +23,11 @@
 
 <div class="page-header">
     <div class="d-flex justify-content-between flex-sm-row flex-column align-items-center">
-        <h2> {{ $project->name }}</h2>   
-
-        <span class="text-muted">
-            Projeto #{{ $project->code }}
-        </span>
-    </div>
-    
-
-    <p class="lead">{{ $project->description }}</p>
-    
-    <div class="d-flex align-items-center justify-content-between flex-column flex-sm-row">
+        <div class="mb-2">
+            <span class="text-muted">Projeto #{{ $project->code }}</span>
+            <h2 class="mb-0"> {{ $project->name }}</h2>
+        </div>
+        
         <ul class="avatars">
             <li>
                 <a href="#" data-toggle="tooltip" title="{{ $project->owner->name }}">
@@ -49,12 +43,9 @@
             @endforeach
             
         </ul>
-
-        <div class="btn-group" role="group" aria-label="Editar ou Excluir projeto">
-            
-        </div>
     </div>
-    
+
+    <p class="lead">{{ $project->description }}</p>
     
     <div>
         <div class="progress">

@@ -15,7 +15,10 @@ class TrashController extends Controller
 
     public function index()
     {
-    	dd($this->project->onlyTrashed()->get());
-    	return view('trash.index')->with(['projects' => $this->project->onlyTrashed()->get() ]);
+    	#dd($this->project->onlyTrashed()->get());
+    	return view('trash.index')->with([
+    		'projects' => $this->project->onlyTrashed()->get(),
+    		'tasks' => $this->task->with(['project'])->onlyTrashed()->get()
+    	]);
     }
 }

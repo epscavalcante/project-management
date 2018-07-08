@@ -104,7 +104,7 @@ class TaskController extends Controller
 
             toast('Tarefa excluída com sucesso!', 'success', 'top-right');
             
-            return redirect()->route('projects.tasks', $project);
+            return back();
 
         } catch (Exception $e) {
             

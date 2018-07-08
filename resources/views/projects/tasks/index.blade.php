@@ -6,14 +6,14 @@
 
 <div class="tab-content">
     <div class="tab-pane active show fade" id="tasks" role="tabpanel" aria-labelledby="tasks-tab" data-filter-list="list-group-tasks">
-        <div class="row content-list-head">
-            <div class="col-auto">
-                <h3>Tarefas</h3>
+        <div class="d-flex justify-content-between align-items-center content-list-head">
+            <div class="col">
+                <h3 class="d-inline">Tarefas</h3>
                 <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
-            <form class="col-md-auto">
+            <form class="">
                 <div class="input-group input-group-round">
                     <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -29,39 +29,6 @@
             <div class="card-list">
                 <div class="card-list-body filter-list-1530819204215">
                     @forelse($project->tasks as $task)
-                    @if($task->trashed())
-                    <div class="card card-task">
-                        <div class="card-body">
-                            <div class="card-title">
-                                <a href="{{ route('projects.tasks.show', [$project->code, $task->code]) }}">
-                                    <h4 class="text-danger">### {{ $task->name }} arquivada {{ $task->deleted_at->format('d/m/Y H:i') }}</h4>
-                                </a>
-                            </div>
-                            <div class="card-meta">
-                                <div class="dropdown card-options">
-                                    <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <form action="{{ route('projects.tasks.restore', [$project->code, $task->code]) }}" method="POST">
-                                            @csrf
-                                            @method("PUT")
-                                            <button class="dropdown-item" type="submit">Restaurar</button>    
-                                        </form>
-
-                                        <div class="dropdown-divider"></div>
-                                        
-                                        <form action="{{ route('projects.tasks.destroy.force', [$project->code, $task->code]) }}" method="POST">
-                                            @csrf
-                                            @method("DELETE")
-                                            <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>    
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @else
                     <div class="card card-task">
                         <div class="progress">
                             <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -112,7 +79,6 @@
                             </div>
                         </div>
                     </div>
-                    @endif
                     @empty
                     Não há tarefas
                     @endforelse

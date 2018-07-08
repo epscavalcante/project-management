@@ -15,7 +15,7 @@ class Project extends Model
     ];
 
     protected $dates = [
-        'created_at', 'updated_at', 'start', 'end'
+        'created_at', 'updated_at', 'deleted_at', 'start', 'end'
     ];
 
     // const CREATED_AT = 'date_insert';

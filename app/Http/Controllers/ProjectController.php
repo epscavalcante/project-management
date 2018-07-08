@@ -81,6 +81,7 @@ class ProjectController extends Controller
 
     public function update(UpdateProjectRequest $request, $code)
     {   
+
         try {
 
             $project = $this->project->whereCode($code)->firstOrFail();
@@ -102,14 +103,13 @@ class ProjectController extends Controller
 
     }
 
-    public function destroy($project)
+    public function delete($project)
     {
-
         try {
             
             $this->project->whereCode($project)->firstOrFail()->delete();
 
-            toast('Projeto excluído', 'success', 'top-right');
+            toast('Projeto arquivado', 'success', 'top-right');
 
             return redirect()->route('projects');
 
@@ -123,12 +123,12 @@ class ProjectController extends Controller
 
     }
 
-    public function forceDestroy($project)
+    public function destroy($project)
     {
 
         try {
             
-            $this->project->whereCode($task)->withTrashed()->firstOrFail()->forceDelete();
+            $this->project->whereCode($project)->withTrashed()->firstOrFail()->forceDelete();
 
             toast('Projeto excluído com sucesso!', 'success', 'top-right');
             
@@ -142,23 +142,24 @@ class ProjectController extends Controller
         }
     }
 
-    public function restore($project, $task)
+    public function restore(Request $request, $project)
     {
+        dd($request->all());
 
-        try {
+        // try {
             
-            $this->project->whereCode($task)->onlyTrashed()->firstOrFail()->restore();
+        //     $this->project->whereCode($project)->onlyTrashed()->firstOrFail()->restore();
 
-            toast('Projeto restaurado com sucesso!', 'success', 'top-right');
+        //     toast('Projeto restaurado com sucesso!', 'success', 'top-right');
             
-            return redirect()->route('home');
+        //     return redirect()->route('home');
 
-        } catch (Exception $e) {
+        // } catch (Exception $e) {
             
-            toast($e->getMessage(), 'error', 'top-right');
+        //     toast($e->getMessage(), 'error', 'top-right');
 
-            return back();
-        }
+        //     return back();
+        // }
     }
 
 }
