@@ -34,9 +34,10 @@ class ProjectController extends Controller
     {
     	return view('projects.show')->with([
     		'project' => $this->project->whereCode($code)
-                                ->with(['owner', 'members',])
+                                ->with(['owner', 'members','tasks',])
                                 ->withCount(['tasks','tasksFinished'])
                                 ->firstOrFail(),
+            'users' => $this->user->all()
     	]);
     }
 
@@ -160,6 +161,28 @@ class ProjectController extends Controller
 
         //     return back();
         // }
+    }
+
+    public function members(Request $request, $project)
+    {
+        try {
+            
+            $project = $this->project->whereCode($project)->firstOrFail();
+
+            $project->members()->sync($request->members);
+
+            toast('Alterações nos membros realizadas com sucesso', 'success', 'top-right');
+
+            return back();
+
+
+        } catch (Exception $e) {
+            
+            toast($e->getMessage(), 'error', 'top-right');
+
+            return back();
+            
+        }
     }
 
 }

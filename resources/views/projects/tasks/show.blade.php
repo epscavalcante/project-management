@@ -8,16 +8,16 @@
     <div class="dropdown-menu dropdown-menu-right">
 
         <a href="{{ route('projects.edit', $task->project->code) }}" class="dropdown-item">Editar</a>
-        <form action="{{ route('projects.tasks.destroy', [$task->project->code, $task->code]) }}" method="POST" class="">
+        
+        <form action="{{ route('projects.tasks.delete', [$task->project->code, $task->code]) }}" method="POST" class="">
             @csrf
-            @method("DELETE")
+            @method("PATCH")
             <button class="dropdown-item confirmation" type="submit">Arquivar</button>
         </form>
 
         <div class="dropdown-divider"></div>
 
-        {{-- <a class=" text-danger" href="#">Archive</a> --}}
-        <form action="{{ route('projects.tasks.destroy.force', [$task->project->code, $task->code]) }}" method="POST">
+        <form action="{{ route('projects.tasks.destroy', [$task->project->code, $task->code]) }}" method="POST">
             @csrf
             @method("DELETE")
             <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>
@@ -73,17 +73,6 @@
     </div>
 </div>
 
-{{-- <ul class="nav nav-tabs nav-fill">
-    <li class="nav-item">
-        <a class="nav-link {{ Nav::isRoute('projects.tasks.show') }}" href="{{ route('projects.tasks.show', [$task->project->code, $task->code]) }}">Detalhes</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {{ Nav::hasSegment('membros', 3) }}" href="{{ route('projects.members', $task->code) }}">Membros</a>
-    </li>
-</ul> --}}
-
-
-
 <button class="btn btn-primary btn-round btn-floating btn-lg collapsed" type="button" data-toggle="collapse" data-target="#floating-project-details" aria-expanded="false" aria-controls="sidebar-project-detail">
     <i class="fas fa-star"></i>
     <i class="fas fa-times"></i>
@@ -108,7 +97,9 @@
     </div>
 </div>
 
-<form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true">
+<form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="{{ route('projects.tasks.members', [$task->project->code, $task->code]) }}" method="POST">
+    @csrf
+    @method('PUT')
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

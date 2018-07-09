@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-7">
                 <div class="text-center">
-                    <h1 class="display-1 text-primary">4&#x1f635;3</h1>
+                    <h1 class="display-1 text-primary">4&#x1f635;4</h1>
                     <p>
                         The page you were looking for was not found. <a href="index.html">Click here to go home</a> or <a href="#">Contact Us</a> if you think this might be an error.
                     </p>

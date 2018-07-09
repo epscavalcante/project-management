@@ -19,16 +19,13 @@ class TaskController extends Controller
 
     public function index($code)
     {
-        // dd($this->project->whereCode($code)
-        //                         ->with(['owner', 'members',])
-        //                         ->withCount(['tasks','tasksFinished'])
-        //                         ->firstOrFail());
         
-        return view('projects.tasks.index')->with([
+        return view('projects.show')->with([
             'project' => $this->project->whereCode($code)
-                                ->with(['owner', 'members',])
+                                ->with(['owner', 'members','tasks',])
                                 ->withCount(['tasks','tasksFinished'])
                                 ->firstOrFail(),
+            'users' => $this->user->all()
         ]);
     }
 
@@ -80,7 +77,7 @@ class TaskController extends Controller
     }
 
     #Método para arquivar objeto
-    public function destroy($project, $task)
+    public function delete($project, $task)
     {
         try {
             
@@ -95,7 +92,7 @@ class TaskController extends Controller
         }
     }
 
-    public function forceDestroy($project, $task)
+    public function destroy($project, $task)
     {
 
         try {
@@ -123,6 +120,29 @@ class TaskController extends Controller
             return redirect()->route('projects.tasks', $project);
 
         } catch (Exception $e) {
+            
+        }
+    }
+
+    public function members(Request $request, $project, $task)
+    {   
+
+        try {
+            
+            $task = $this->task->whereCode($task)->firstOrFail();
+
+            $task->members()->sync($request->members);
+
+            toast('Alterações nos membros realizadas com sucesso', 'success', 'top-right');
+
+            return back();
+
+
+        } catch (Exception $e) {
+            
+            toast($e->getMessage(), 'error', 'top-right');
+
+            return back();
             
         }
     }
