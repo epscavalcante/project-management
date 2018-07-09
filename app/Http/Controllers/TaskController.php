@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
+
 use App\Project;
 use App\Task;
 use App\User;
@@ -31,18 +33,13 @@ class TaskController extends Controller
 
     public function show($project, $task)
     {
-        #dd($this->task->whereCode($task)->with(['members','project','project.members'])->firstOrFail());
+        // dd($this->task->whereCode($task)->with(['members','todos', 'todos.author', 'project','project.members'])->firstOrFail());
 
         return view('projects.task')->with([
-            'task' => $this->task->whereCode($task)->with(['members','project','project.members'])->firstOrFail(),
-        ]);
-    }
-
-    public function create($code)
-    {
-    	return view('projects.tasks.create')->with([
-            'project' => $this->project->whereCode($code)->with(['members', 'tasks'])->firstOrFail(),
-            'users' => $this->user->all()
+            'task' => $this->task->whereCode($task)
+                        ->with(['members','todos', 'todos.author', 'project','project.members'])
+                        // ->orderBy('todos', 'desc')
+                        ->firstOrFail(),
         ]);
     }
 
@@ -76,7 +73,25 @@ class TaskController extends Controller
         }
     }
 
-    #Método para arquivar objeto
+    public function update(UpdateTaskRequest $request, $project, $task)
+    {
+        try {
+
+            $this->task->whereCode($task)->firstOrFail()->update($request->all());
+
+            toast('Alteração realizada com sucesso', 'success', 'top-right');
+
+            return back();       
+
+        } catch (Exception $e) {
+            
+            toast($e->getMessage(), 'error', 'top-right');
+
+            return back();
+
+        }
+    }
+    
     public function delete($project, $task)
     {
         try {

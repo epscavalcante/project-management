@@ -32,4 +32,9 @@ class Task extends Model
     {
     	return $this->belongsToMany(User::class);
     }
+
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
 }

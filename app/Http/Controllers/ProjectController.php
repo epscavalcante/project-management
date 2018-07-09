@@ -41,13 +41,6 @@ class ProjectController extends Controller
     	]);
     }
 
-    public function edit($code)
-    {
-        return view('projects.edit')->with([
-            'project' => $this->project->whereCode($code)->firstOrFail()
-        ]);
-    }
-
     public function create()
     {
     	return view('projects.create')->with(['users' => $this->user->where('id', '<>', auth()->user()->id)->get()]);

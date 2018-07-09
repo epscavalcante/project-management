@@ -81,20 +81,16 @@ class Project extends Model
 
     // public function getStartAttribute($value)
     // {
-    //     if(empty($value)){
-    //         return "não definido";
+    //     if(!empty($value)){
+    //         return $value->format('Y-m-d');
     //     }
-
-    //     return date('d/m/Y', strtotime($value));
     // }
 
     // public function getEndAttribute($value)
     // {
-    //     if(empty($value)){
-    //         return "não definido";
+    //     if(!empty($value)){
+    //          return $value->format('Y-m-d');
     //     }
-
-    //     return date('d/m/Y', strtotime($value));
     // }
 
     public function progress($completed, $total)

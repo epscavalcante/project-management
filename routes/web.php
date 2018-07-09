@@ -23,9 +23,8 @@ Route::group(['prefix'=>'projetos'], function(){
 	Route::group(['prefix' => '{project}', 'middleware' => 'checkAccessUserForProject'], function(){
 		
 		Route::get('/', 'ProjectController@show')->name('projects.show');
-		Route::get('editar', 'ProjectController@edit')->name('projects.edit');
 		Route::put('editar', 'ProjectController@update')->name('projects.update');
-		Route::put('membros', 'ProjectController@sync')->name('projects.members');
+		Route::put('membros', 'ProjectController@members')->name('projects.members');
 		Route::patch('arquivar', 'ProjectController@delete')->name('projects.delete');
 		Route::patch('restaurar', 'ProjectController@restore')->name('projects.restore');
 		Route::delete('excluir', 'ProjectController@destroy')->name('projects.destroy');
@@ -40,10 +39,21 @@ Route::group(['prefix'=>'projetos'], function(){
 				
 				Route::get('/', 'TaskController@show')->name('projects.tasks.show');
 				Route::put('membros', 'TaskController@members')->name('projects.tasks.members');
+				Route::put('editar', 'TaskController@update')->name('projects.tasks.update');
 				Route::patch('arquivar', 'TaskController@delete')->name('projects.tasks.delete');
 				Route::put('restaurar', 'TaskController@restore')->name('projects.tasks.restore');
 				Route::delete('excluir', 'TaskController@destroy')->name('projects.tasks.destroy');
-			
+				
+
+				Route::group(['prefix' => 'todos'], function(){
+					Route::post('store', 'TodoController@store')->name('projects.tasks.todos.store');
+					Route::group(['prefix' => '{todo}'], function(){
+
+						Route::put('update', 'TodoController@update')->name('projects.tasks.todos.update');
+
+					});
+
+				});
 			});
 			
 		});

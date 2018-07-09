@@ -32,6 +32,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Task::class);
     }
 
+    public function todos()
+    {
+        return $this->hasMny(Todo::class);
+    }
+
     public function getImageAttribute($value)
     {
         return 'images/'.$value;
