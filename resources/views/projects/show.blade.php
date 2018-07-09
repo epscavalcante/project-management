@@ -107,11 +107,11 @@
                 <div class="card-body">
                     <div class="card-title">
                         <a href="{{ route('projects.tasks.show', [$project->code, $task->code]) }}">
-                            <h6 data-filter-by="text" class="H6-filter-by-text">{{ $task->name }}</h6>
-                        </a>
-                        <span class="text-small">{{ $task->description }}</span>
+                            <h5 data-filter-by="text" class="mb-0">{{ $task->name }}</h5>
+                        	<p class="small text-muted">{{ $task->description }}</p>
+                       	</a>
                     </div>
-                    <div class="card-meta">
+                    <div class="card-meta ">
                         <ul class="avatars">
                             
                             @foreach($task->members as $member)
@@ -123,10 +123,9 @@
                             @endforeach
 
                         </ul>
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-tasks"></i>
-                            <span>3/4</span>
-                        </div>
+                        
+                        <span><i class="fas fa-tasks"></i> 3/4</span>
+                            
                         <div class="dropdown card-options">
                             <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
@@ -135,7 +134,7 @@
                                 <form action="{{ route('projects.tasks.delete', [$project->code, $task->code]) }}" method="POST">
                                     @csrf
                                     @method("PATCH")
-                                    <button class="dropdown-item" type="submit">Arquivar</button>    
+                                    <button class="dropdown-item confirmation" type="submit">Arquivar</button>    
                                 </form>
 
                                 <div class="dropdown-divider"></div>

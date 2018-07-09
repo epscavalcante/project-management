@@ -33,7 +33,7 @@ class TaskController extends Controller
     {
         #dd($this->task->whereCode($task)->with(['members','project','project.members'])->firstOrFail());
 
-        return view('projects.tasks.show')->with([
+        return view('projects.task')->with([
             'task' => $this->task->whereCode($task)->with(['members','project','project.members'])->firstOrFail(),
         ]);
     }
@@ -117,7 +117,7 @@ class TaskController extends Controller
 
             toast('Tarefa restaurada com sucesso!', 'success', 'top-right');
             
-            return redirect()->route('projects.tasks', $project);
+            return redirect()->route('projects.show', $project);
 
         } catch (Exception $e) {
             
