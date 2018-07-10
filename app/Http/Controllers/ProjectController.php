@@ -15,9 +15,8 @@ class ProjectController extends Controller
      *
      * @return void
      */
-    public function __construct(User $user, ProjectService $projectService)
+    public function __construct( ProjectService $projectService)
     {
-        $this->user = $user;
         $this->projectService = $projectService;
     }
 
@@ -153,7 +152,23 @@ class ProjectController extends Controller
 
     public function tasks($project)
     {
-        $response = $this->projectService->getWith('slug', $project, ['tasks', 'tasks.members']);
+
+        /**
+        *
+        *   Retorna um objeto do model Project com os relacionamentos:
+            Tasks => [
+                        Membros
+                        Itens
+                        ItensFinalizados
+                    ];
+            Membros;
+            Owner
+            Melhora: Retornar para cada task trazer a quantidade todal e quantidade de itens finalizados.
+            Hoje esta trazendo objetos ao inves da quantidade. Esta é obtida com o count na view.
+        *
+        */
+
+        $response = $this->projectService->getWith('slug', $project, ['tasks','tasks.members', 'tasks.todos', 'tasks.todosFinished']);
 
         if($response['status']){
             return view('projects.tasks.index')->with([
