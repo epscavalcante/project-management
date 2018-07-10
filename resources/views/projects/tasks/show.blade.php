@@ -238,7 +238,7 @@
                 <h6>Prazo</h6>
                 <div class="form-group row align-items-center">
                     <label class="col-3">Início</label>
-                    <input class="form-control col" type="date" placeholder="Início da tarefa" name="start" value="{{ $task->start->format('Y-m-d') }}" />
+                    <input class="form-control col" type="date" placeholder="Início da tarefa" name="start" value="{{ (empty($task->start)) ? '' : $task->start->format('Y-m-d') }}" />
                     @if ($errors->has('start'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('start') }}</strong>
@@ -247,7 +247,7 @@
                 </div>
                 <div class="form-group row align-items-center">
                     <label class="col-3">Término</label>
-                    <input class="form-control col" type="date" placeholder="Término da tarefa" name="end" value="{{ $task->end->format('Y-m-d') }}" />
+                    <input class="form-control col" type="date" placeholder="Término da tarefa" name="end" value="{{ (empty($task->end)) ? '' : $task->end->format('Y-m-d') }}" />
                     @if ($errors->has('end'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('end') }}</strong>

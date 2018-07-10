@@ -24,7 +24,7 @@
             <div class="col-lg-6">
                 <div class="card card-project">
                     <div class="progress">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $project->progress(count($project->tasksFinished), count($project->tasks)) }}%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
 
                     <div class="card-body">
