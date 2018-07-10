@@ -29,11 +29,19 @@ class ProjectController extends Controller
 
     public function show($project)
     {
-        $project = $this->projectService->getWithAndWithCount('slug', $project, ['owner', 'members'], ['tasks','tasksFinished']);
+        $response = $this->projectService->getWithAndWithCount('slug', $project, ['owner', 'members'], ['tasks','tasksFinished']);
 
-    	return view('projects.show')->with([
-    		'project' => $project
-    	]);
+        if($response['status']){
+            
+            return view('projects.show')->with([
+                'project' => $response['project']
+            ]);
+
+        }else{
+            toast($response['message'], 'error', 'top-right');
+            return back();
+        }
+    	
     }
 
     public function create()

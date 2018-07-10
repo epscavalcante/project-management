@@ -6,28 +6,30 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 
+use App\Http\Services\ProjectService;
+
 use App\Project;
 use App\Task;
 use App\User;
 
 class TaskController extends Controller
 {
-    public function __construct(Project $project, Task $task, User $user)
+    public function __construct(Project $project, Task $task, User $user, ProjectService $projectService)
     {
     	$this->project = $project;
         $this->task = $task;
     	$this->user = $user;
+
+        $this->projectService = $projectService;
     }
 
-    public function index($code)
+    public function index($project)
     {
         
-        return view('projects.show')->with([
-            'project' => $this->project->whereCode($code)
-                                ->with(['owner', 'members','tasks',])
-                                ->withCount(['tasks','tasksFinished'])
-                                ->firstOrFail(),
-            'users' => $this->user->all()
+        $response = $this->projectService->getWithAndWithCount('slug', $project, ['owner', 'members', 'tasks'], ['tasks','tasksFinished']);
+
+        return view('projects.tasks.index')->with([
+            'project' => $response['project']
         ]);
     }
 

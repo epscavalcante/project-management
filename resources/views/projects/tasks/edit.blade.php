@@ -1,1 +1,1 @@
-edit.blade.php
+@extends('layouts.app')

@@ -28,7 +28,18 @@ class ProjectService
 
 	public function getWithAndWithCount($colum, $value, $with = array(), $withCount = array())
 	{
-		return $this->project->where($colum, $value)->with($with)->withCount($withCount)->firstOrFail();
+
+		try {
+			
+			$project = $this->project->where($colum, $value)->with($with)->withCount($withCount)->firstOrFail();
+
+			return ['status' => true, 'message' => 'Projeto criado com sucesso', 'project' => $project];
+
+		} catch (Exception $e) {
+			
+			return ['status' => false, 'message' => $e->getMessage()];
+		}
+		
 	}
 
 	public function store($data = array())
