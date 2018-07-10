@@ -52,14 +52,8 @@
 
                         </ul>
                         
-                        <span class="mr-2"><i class="fas fa-tasks"></i> 3/4</span>
-                            
-                        
-                        <form action="{{ route('projects.tasks.destroy', [$project, $task]) }}" method="POST">
-                            @csrf
-                            @method("PATCH")
-                            <button class="btn btn-sm btn-danger confirmation" type="submit">Excluir</button>    
-                        </form>
+                        <div class="mr-2"><i class="fas fa-tasks"></i> 3/4</div>
+                         
 
                     </div>
                 </div>

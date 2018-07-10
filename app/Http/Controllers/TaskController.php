@@ -94,90 +94,29 @@ class TaskController extends Controller
 
     public function update(UpdateTaskRequest $request, $project, $task)
     {
-        try {
 
-            $this->task->whereCode($task)->firstOrFail()->update($request->all());
+        $response = $this->taskService->update($request->all(), $task);
 
-            toast('Alteração realizada com sucesso', 'success', 'top-right');
-
-            return back();       
-
-        } catch (Exception $e) {
-            
-            toast($e->getMessage(), 'error', 'top-right');
-
-            return back();
-
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
         }
+
+        return back();
     }
     
-    public function delete($project, $task)
-    {
-        try {
-            
-            $this->task->whereCode($task)->firstOrFail()->delete();
-
-            toast('Tarefa arquivada com sucesso!', 'success', 'top-right');
-            
-            return redirect()->route('projects.tasks', $project);
-
-        } catch (Exception $e) {
-            
-        }
-    }
-
     public function destroy($project, $task)
     {
 
-        try {
-            
-            $this->task->whereCode($task)->withTrashed()->firstOrFail()->forceDelete();
+        $response = $this->taskService->destroy($task);
 
-            toast('Tarefa excluída com sucesso!', 'success', 'top-right');
-            
-            return back();
-
-        } catch (Exception $e) {
-            
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
         }
+
+        return redirect()->route('projects.tasks', $project);
     }
-
-    public function restore($project, $task)
-    {
-
-        try {
-            
-            $this->task->whereCode($task)->onlyTrashed()->firstOrFail()->restore();
-
-            toast('Tarefa restaurada com sucesso!', 'success', 'top-right');
-            
-            return redirect()->route('projects.show', $project);
-
-        } catch (Exception $e) {
-            
-        }
-    }
-
-    // public function members(Request $request, $project, $task)
-    // {   
-
-    //     try {
-            
-    //         $task = $this->task->whereCode($task)->firstOrFail();
-
-    //         $task->members()->sync($request->members);
-
-    //         toast('Alterações nos membros realizadas com sucesso', 'success', 'top-right');
-
-    //         return back();
-
-
-    //     } catch (Exception $e) {
-            
-    //         toast($e->getMessage(), 'error', 'top-right');
-
-    //         return back();
-            
-    //     }
-    // }
 }

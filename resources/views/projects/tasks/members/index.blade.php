@@ -58,4 +58,51 @@
 		</div>
     </div>
 </div>
+
+<button class="btn btn-primary btn-round btn-floating btn-lg" type="button" data-toggle="collapse" data-target="#floating-chat" aria-expanded="false" aria-controls="sidebar-floating-chat">
+    <i class="fas fa-star"></i>
+    <i class="fas fa-times"></i>
+</button>
+<div class="collapse sidebar-floating" id="floating-chat">
+    <div class="sidebar-content p-2">
+        <div class="page-header">
+            <h2>{{ $task->project->name }}</h2>
+            <p class="lead">{{ $task->project->description }}</p>
+            <ul class="avatars">
+                <li>
+                    <a href="#" data-toggle="tooltip" title="{{ $task->project->owner->name }}">
+                        <img alt="{{ $task->project->owner->name }}" class="avatar" src="{{ asset($task->project->owner->image) }}">
+                    </a>
+                </li>                      
+                @foreach($task->project->members as $member)
+                <li>
+                    <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
+                        <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+                
+            <div>
+                <div class="progress">
+                    <div class="progress-bar bg-success" style="width:{{ $task->project->progress($task->project->tasksFinished->count(), $task->project->tasks->count()) }}%;"></div>
+                </div>
+                <div class="d-flex justify-content-between small">
+                    <span data-toggle="tooltip" title="Início em @unless(empty($task->project->start)){{ $task->project->start->format('d/m/Y') }} @endunless">
+                        <i class="fas fa-flag"></i>
+                    </span>
+
+                    <div>
+                        <i class="fas fa-tasks"></i> 
+                        {{ $task->project->tasksFinished->count() }} / {{ $task->project->tasks->count() }}</span>
+                    </div>
+                        
+                    <span data-toggle="tooltip" title="Término em @unless(empty($task->project->end)){{ $task->project->end->format('d/m/Y') }} @endunless">
+                        <i class="fas fa-trophy"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

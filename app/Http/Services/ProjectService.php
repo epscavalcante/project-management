@@ -47,6 +47,7 @@ class ProjectService
 
 	public function store($data = array())
 	{
+
 		try {
 
             $project = $this->project->create([

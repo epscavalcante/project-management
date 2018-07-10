@@ -7,7 +7,19 @@
     @include('projects.tasks.partials.menu')
 
     <div class="d-flex justify-content-between flex-sm-row flex-column align-items-center">
-    	<h2> {{ $task->name }}</h2>   
+    	<div class="mb-2">
+            
+            <h2> {{ $task->name }}</h2>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Controle do projeto">
+                <a class="btn btn-sm btn-outline-primary" href="#task-edit-modal" data-toggle="modal">Editar</a>
+                <form action="{{ route('projects.tasks.destroy', [$task->project, $task]) }}" method="POST">
+                    @csrf
+                    @method("DELETE")
+                    <button class="btn btn-sm btn-outline-danger confirmation" type="submit">Excluir</button>    
+                </form>
+            </div>
+               
+        </div>
 
         <ul class="avatars">
             @foreach($task->members as $member)
@@ -64,7 +76,8 @@
         <!--end of content list head-->
         <div class="content-list-body">
             
-            <form action="">
+            <form action="{{ route('projects.tasks.todos.store', [$task->project, $task]) }}" method="POST">
+                @csrf
                 <div class="form-group">
                     <input type="text" name="description" class="form-control form-control-lg" placeholder="O que você tem que fazer?">
                 </div>
@@ -207,56 +220,7 @@
     </div>
 </div>
 
-{{-- <form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="{{ route('projects.tasks.members', [$task->project->code, $task->code]) }}" method="POST">
-    @csrf
-    @method('PUT')
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Gerenciar usuários</h5>
-                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <!--end of modal head-->
-            <div class="modal-body">
-                <div class="users-manage" data-filter-list="form-group-users">
-                    <div class="input-group input-group-round">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fas fa-filter"></i>
-                            </span>
-                        </div>
-                        <input type="search" class="form-control filter-list-input" placeholder="Buscar membro" aria-label="Filter Members" aria-describedby="filter-members">
-                    </div>
-                    <div class="form-group-users filter-list-1530996857159">
-                        @foreach($task->project->members as $user)
-                        @if($user->id != auth()->user()->id)
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="user-{{ $user->id }}" {{ $task->members->contains($user->id) ? 'checked' : '' }} name="members[]" value="{{ $user->id }}">
-                            <label class="custom-control-label" for="user-{{ $user->id }}">
-                                <div class="d-flex align-items-center">
-                                    <img alt="{{ $user->name }}" src="{{ asset($user->image) }}" class="avatar mr-2">
-                                    <span class="h6 mb-0" data-filter-by="text">{{ $user->name }}</span>
-                                </div>
-                            </label>
-                        </div>
-                        @endif
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-            <!--end of modal body-->
-            <div class="modal-footer">
-                <button role="button" class="btn btn-primary" type="submit">
-                    Salvar
-                </button>
-            </div>
-        </div>
-    </div>
-</form> --}}
-
-<form class="modal fade" id="task-edit-modal" tabindex="-1" role="dialog" aria-labelledby="project-edit-modal" action="{{ route('projects.tasks.update', [$task->project->code, $task->code]) }}" method="POST">
+<form class="modal fade" id="task-edit-modal" tabindex="-1" role="dialog" aria-labelledby="project-edit-modal" action="{{ route('projects.tasks.update', [$task->project, $task]) }}" method="POST">
     @csrf
     @method('PUT')
     <div class="modal-dialog modal-lg" role="document">
@@ -291,7 +255,7 @@
                 <h6>Prazo</h6>
                 <div class="form-group row align-items-center">
                     <label class="col-3">Início</label>
-                    <input class="form-control col" type="date" placeholder="Início da tarefa" name="start" value="{{ $task->start }}" />
+                    <input class="form-control col" type="date" placeholder="Início da tarefa" name="start" value="{{ $task->start->format('Y-m-d') }}" />
                     @if ($errors->has('start'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('start') }}</strong>
@@ -300,7 +264,7 @@
                 </div>
                 <div class="form-group row align-items-center">
                     <label class="col-3">Término</label>
-                    <input class="form-control col" type="date" placeholder="Término da tarefa" name="end" value="{{ $task->end }}" />
+                    <input class="form-control col" type="date" placeholder="Término da tarefa" name="end" value="{{ $task->end->format('Y-m-d') }}" />
                     @if ($errors->has('end'))
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $errors->first('end') }}</strong>
@@ -312,35 +276,6 @@
             <div class="modal-footer">
                 <button role="button" class="btn btn-primary" type="submit">
                     Editar
-                </button>
-            </div>
-        </div>
-    </div>
-</form>
-
-<form class="modal fade" id="todo-add-modal" tabindex="-1" role="dialog" aria-labelledby="todo-add-modal" action="{{ route('projects.tasks.todos.store', [$task->project->code, $task->code]) }}" method="POST">
-    @csrf
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Novo item</h5>
-                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <textarea class="form-control" rows="6" placeholder="Digite aqui o quê írá fazer" name="description" autofocus="autofocus" required>{{ old('description') }}</textarea>
-                    @if($errors->has('description'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('end') }}</strong>
-                    </span>
-                    @endif
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button role="button" class="btn btn-primary" type="submit">
-                    Salvar
                 </button>
             </div>
         </div>

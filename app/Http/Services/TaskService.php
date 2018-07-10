@@ -48,7 +48,7 @@ class TaskService
 
             if(array_has($data, 'members')){
                 
-                $task->members->attach($data['members']);
+                $task->members()->attach($data['members']);
                 
             }
 
@@ -60,6 +60,23 @@ class TaskService
 
         }
 	}
+
+    public function update($data = array(), $task)
+    {
+        try {
+            
+            $task = $this->get('slug', $task)['task'];
+
+            $task->update($data);
+
+            return ['status' => true, 'message' => 'Tarefa encontrada'];
+
+        } catch (Exception $e) {
+            
+            return ['status' => false, 'message' => $e->getMessage()];
+            
+        }
+    }
 
     public function attach($task, $user)
     {
@@ -90,6 +107,21 @@ class TaskService
         } catch (Exception $e) {
             
             return ['status' => true, 'message' => $e->getMessage()];
+        }
+    }
+
+    public function destroy($task)
+    {
+        try {
+            
+            $task = $this->get('slug', $task)['task'];
+
+            $task->delete();
+
+            return ['status' => true, 'message' => 'Tarefa movida para a lixeira'];
+
+        } catch (Exception $e) {
+            
         }
     }
 }
