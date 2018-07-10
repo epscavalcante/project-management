@@ -18,7 +18,6 @@ class CreateNotesTable extends Migration
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('task_id');
             $table->unsignedInteger('user_id');
-            $table->string('title')->nullable();
             $table->longText('description');
             $table->timestamps();
 

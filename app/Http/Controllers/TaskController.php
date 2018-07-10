@@ -7,75 +7,89 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 
 use App\Http\Services\ProjectService;
-
-use App\Project;
-use App\Task;
-use App\User;
+use App\Http\Services\TaskService;
 
 class TaskController extends Controller
 {
-    public function __construct(Project $project, Task $task, User $user, ProjectService $projectService)
+    public function __construct(ProjectService $projectService, TaskService $taskService)
     {
-    	$this->project = $project;
-        $this->task = $task;
-    	$this->user = $user;
-
         $this->projectService = $projectService;
-    }
-
-    public function index($project)
-    {
-        
-        $response = $this->projectService->getWithAndWithCount('slug', $project, ['owner', 'members', 'tasks'], ['tasks','tasksFinished']);
-
-        return view('projects.tasks.index')->with([
-            'project' => $response['project']
-        ]);
+        $this->taskService = $taskService;
     }
 
     public function show($project, $task)
     {
-        // dd($this->task->whereCode($task)
-        //                 ->with(['members','todos', 'todos.author', 'project','project.members'])
-        //                 ->withCount(['todos'])
-        //                 ->firstOrFail());
 
-        return view('projects.task')->with([
-            'task' => $this->task->whereCode($task)
-                        ->with(['members','todos', 'todos.author', 'project','project.members'])
-                        // ->orderBy('todos', 'desc')
-                        ->firstOrFail(),
-        ]);
+        $response = $this->taskService->get('slug', $task, ['project.tasks','project.tasksFinished']);
+
+        if($response['status']){
+
+            return view('projects.tasks.show')->with([
+                'task' => $response['task']
+            ]);
+
+        }
+
+        toast($response['message'], 'error', 'top-right');
+        return back();
+        
+    }
+
+    public function members($project, $task)
+    {
+        $response = $this->taskService->get('slug', $task);
+
+        if($response['status']){
+
+            return view('projects.tasks.members.index')->with([
+                'task' => $response['task']
+            ]);
+
+        }
+
+        toast($response['message'], 'error', 'top-right');
+        return back();
+    }
+
+    public function attach($project, $task, $user)
+    {
+        $response = $this->taskService->attach($task, $user);
+
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
+        }
+
+        return back();
+    }
+
+    public function dettach($project, $task, $user)
+    {
+        $response = $this->taskService->dettach($task, $user);
+
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
+        }
+
+        return back();
     }
 
     public function store(StoreTaskRequest $request, $project)
     {
-        
-        try {
+        $project = $this->projectService->get('slug', $project);
 
-            $project = $this->project->whereCode($project)->firstOrFail();
+        $response = $this->taskService->store($request->all(), $project);
 
-            $task = $this->task->create([
-                'code' => \Carbon\Carbon::now()->timestamp,
-                'name' => $request->name,
-                'description' => $request->description,
-                'start' => $request->start,
-                'end' => $request->end,
-                'project_id' => $project->id
-            ]);
-
-            if($request->has('members')){
-                
-                $task->members()->sync($request->members);
-            }
-
-            toast('Gerencia esta nova tarefa', 'info', 'top-right');
-            
-            return redirect()->route('projects.tasks.show', [$project->code, $task->code]);
-
-        } catch (Exception $e) {
-            
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
         }
+
+        return back();
     }
 
     public function update(UpdateTaskRequest $request, $project, $task)
@@ -144,26 +158,26 @@ class TaskController extends Controller
         }
     }
 
-    public function members(Request $request, $project, $task)
-    {   
+    // public function members(Request $request, $project, $task)
+    // {   
 
-        try {
+    //     try {
             
-            $task = $this->task->whereCode($task)->firstOrFail();
+    //         $task = $this->task->whereCode($task)->firstOrFail();
 
-            $task->members()->sync($request->members);
+    //         $task->members()->sync($request->members);
 
-            toast('Alterações nos membros realizadas com sucesso', 'success', 'top-right');
+    //         toast('Alterações nos membros realizadas com sucesso', 'success', 'top-right');
 
-            return back();
+    //         return back();
 
 
-        } catch (Exception $e) {
+    //     } catch (Exception $e) {
             
-            toast($e->getMessage(), 'error', 'top-right');
+    //         toast($e->getMessage(), 'error', 'top-right');
 
-            return back();
+    //         return back();
             
-        }
-    }
+    //     }
+    // }
 }

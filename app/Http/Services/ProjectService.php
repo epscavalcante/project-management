@@ -16,30 +16,33 @@ class ProjectService
 		$this->project = $project;
 	}
 
+	#Retorna um objeto do model Project
 	public function get($colum, $value)
 	{
 		return $this->project->where($colum, $value)->firstOrFail();
 	}
 
+	#retorna um objeto do model Project com os relationamentos passados no controller
 	public function getWith($colum, $value, $with = array())
-	{
-		return $this->project->where($colum, $value)->with($with)->firstOrFail();
-	}
-
-	public function getWithAndWithCount($colum, $value, $with = array(), $withCount = array())
-	{
+	{	
+		#Array flaten coloca todos os argumentos em um mesmo nivel
+		$with = array_flatten(['owner','members', $with]);
 
 		try {
 			
-			$project = $this->project->where($colum, $value)->with($with)->withCount($withCount)->firstOrFail();
+			$project = $this->project->where($colum, $value)
+										->with($with)
+										->withCount(['tasks','tasksFinished'])
+										->firstOrFail();
 
-			return ['status' => true, 'message' => 'Projeto criado com sucesso', 'project' => $project];
+			return ['status' => true, 'message' => 'Projeto encontrado', 'project' => $project];
+
 
 		} catch (Exception $e) {
 			
 			return ['status' => false, 'message' => $e->getMessage()];
+
 		}
-		
 	}
 
 	public function store($data = array())
@@ -93,25 +96,7 @@ class ProjectService
 
             $project->delete();
 
-            return ['status' => true, 'message' => 'Projeto arquivado com sucesso'];        
-
-        } catch (Exception $e) {
-            
-            return ['status' => false, 'message' => $e->getMessage()];
-
-        }
-	}
-
-	public function destroy($project)
-	{
-
-		try {
-
-            $project = $this->get('slug', $project);
-
-            $project->forceDelete();
-
-            return ['status' => true, 'message' => 'Projeto removido com sucesso'];        
+            return ['status' => true, 'message' => 'Projeto movido para a lixeira'];        
 
         } catch (Exception $e) {
             

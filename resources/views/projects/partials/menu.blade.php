@@ -8,6 +8,6 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
+        <a class="nav-link {{ Nav::hasSegment('membros', 2) }}" href="{{ route('projects.members', $project) }}">Membros</a>
     </li>
 </ul>

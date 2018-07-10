@@ -29,7 +29,7 @@ class ProjectController extends Controller
 
     public function show($project)
     {
-        $response = $this->projectService->getWithAndWithCount('slug', $project, ['owner', 'members'], ['tasks','tasksFinished']);
+        $response = $this->projectService->getWith('slug', $project);
 
         if($response['status']){
             
@@ -38,10 +38,11 @@ class ProjectController extends Controller
             ]);
 
         }else{
+
             toast($response['message'], 'error', 'top-right');
             return back();
-        }
-    	
+
+        }  	
     }
 
     public function create()
@@ -60,12 +61,11 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('projects.show', $response['project']);
-
     }
 
     public function edit($project)
     {
-        $project = $this->projectService->getWithAndWithCount('slug', $project);
+        $project = $this->projectService->get('slug', $project);
 
         return view('projects.edit')->with(['project' => $project]);
     } 
@@ -82,28 +82,11 @@ class ProjectController extends Controller
         }
 
         return redirect()->route('projects.show', $response['project']);
-
-    }
-
-    public function delete($project)
-    {
-
-        $response = $this->projectService->delete($project);
-
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
-        }else{
-            toast($response['message'], 'error', 'top-right');
-        }
-
-        return redirect()->route('home');
-
     }
 
     public function destroy($project)
     {
-
-        $response = $this->projectService->destroy($project);
+        $response = $this->projectService->delete($project);
 
         if($response['status']){
             toast($response['message'], 'success', 'top-right');
@@ -134,8 +117,20 @@ class ProjectController extends Controller
         // }
     }
 
-    public function members(Request $request, $project)
+    public function members($project)
     {
+
+        $response = $this->projectService->getWith('slug', $project, ['members']);
+
+        if($response['status']){
+            return view('projects.members.index')->with([
+                'project' => $response['project']
+            ]);
+        }
+
+        toast($response['message'], 'error', 'top-right');
+        return back();
+
         try {
             
             $project = $this->project->whereCode($project)->firstOrFail();
@@ -154,6 +149,21 @@ class ProjectController extends Controller
             return back();
             
         }
+    }
+
+    public function tasks($project)
+    {
+        $response = $this->projectService->getWith('slug', $project, ['tasks', 'tasks.members']);
+
+        if($response['status']){
+            return view('projects.tasks.index')->with([
+                'project' => $response['project']
+            ]);
+        }
+
+        toast($response['message'], 'error', 'top-right');
+        return back();
+        
     }
 
 }

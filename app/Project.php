@@ -50,6 +50,11 @@ class Project extends Model
     	return $this->belongsToMany(User::class);
     }
 
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
     #Retorna todas as tarefas
     public function tasks()
     {
