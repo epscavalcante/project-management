@@ -39,27 +39,21 @@
     <div class="d-flex justify-content-between flex-sm-row flex-column align-items-center">
         <h2>{{ $project->name }}</h2>
         
-        <div class="d-flex align-items-center">
-            <ul class="avatars">
-                <li>
-                    <a href="#" data-toggle="tooltip" title="{{ $project->owner->name }}">
-                        <img alt="{{ $project->owner->name }}" class="avatar" src="{{ asset($project->owner->image) }}">
-                    </a>
-                </li>                      
-                @foreach($project->members as $member)
-                <li>
-                    <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
-                        <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
-                    </a>
-                </li>
-                @endforeach
-                
-            </ul>
-
-            <button class="btn btn-round" data-toggle="modal" data-target="#user-manage-modal">
-                <i class="fas fa-plus"></i>
-            </button>
-        </div>
+        <ul class="avatars">
+            <li>
+                <a href="#" data-toggle="tooltip" title="{{ $project->owner->name }}">
+                    <img alt="{{ $project->owner->name }}" class="avatar" src="{{ asset($project->owner->image) }}">
+                </a>
+            </li>                      
+            @foreach($project->members as $member)
+            <li>
+                <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
+                    <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
+                </a>
+            </li>
+            @endforeach
+            
+        </ul>
     </div>
 
     <p class="lead">{{ $project->description }}</p>
