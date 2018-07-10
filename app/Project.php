@@ -11,18 +11,26 @@ class Project extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'code', 'name', 'description', 'start', 'end', 'owner_id', 'visivility',
+        'slug', 'name', 'description', 'start', 'end', 'owner_id', 'visivility',
     ];
 
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at', 'start', 'end'
     ];
 
+    public $timestamp = true;
+
+    public function getRouteKey() {
+       
+       return $this->slug;
+    
+    }
+
     // const CREATED_AT = 'date_insert';
     // const UPDATED_AT = 'date_updated';
     // const DELETED_AT = 'finished_at';
 
-
+    
 
     /*
     |--------------------------------------------------------------------------

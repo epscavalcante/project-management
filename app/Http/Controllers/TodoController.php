@@ -50,4 +50,40 @@ class TodoController extends Controller
 			return back();
     	}
     }
+
+    public function destroy($project, $task, $todo)
+    {
+    	try {
+			$this->todo->destroy($todo);
+			toast('Item removido com sucesso', 'success', 'top-right');
+			return back();
+    	} catch (Exception $e) {
+    		toast($e->getMessage(), 'error', 'top-right');
+			return back();
+    	}
+    }
+
+    public function mark($project, $task, $todo)
+    {
+    	try {
+
+			$todo = $this->todo->find($todo);
+
+			if($todo->finished){
+				$todo->finished = 0;
+				toast('Item reaberto com sucesso', 'success', 'top-right');
+			}else{
+				$todo->finished = 1;
+				toast('Item finalizado com sucesso', 'success', 'top-right');
+			}
+
+			$todo->save();
+			return back();
+
+    	} catch (Exception $e) {
+    		toast($e->getMessage(), 'error', 'top-right');
+			return back();
+    	}
+    }
+
 }

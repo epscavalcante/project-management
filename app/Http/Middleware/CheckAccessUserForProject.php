@@ -3,10 +3,17 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Project;
+use App\Http\Services\ProjectService;
 
 class CheckAccessUserForProject
 {
+
+    function __construct(ProjectService $projectService)
+    {
+        $this->projectService = $projectService;
+    }
+
+
     /**
      * Handle an incoming request.
      *
@@ -16,12 +23,11 @@ class CheckAccessUserForProject
      */
     public function handle($request, Closure $next)
     {
-        #dd($request->project);
 
-        $project = Project::whereCode($request->project)->with('members')->firstOrFail();
+        $project = $this->projectService->get('slug', $request->project);
 
         #libera o acesso somente se for o dono do projeto ou se for membro
-        if($project->owner_id == auth()->user()->id || $project->members->contains(auth()->user()->id)){
+        if(auth()->user()->id == $project->owner_id || auth()->user()->projects->contains($project->id)){
 
             return $next($request);
 

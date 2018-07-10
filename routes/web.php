@@ -12,25 +12,26 @@
 */
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::group(['middleware' => 'auth'], function(){
 
-Route::group(['prefix'=>'projetos'], function(){
-
-	Route::get('/', 'ProjectController@index')->name('projects');
+	Route::get('/', 'HomeController@index')->name('home');
 	Route::get('novo', 'ProjectController@create')->name('projects.create');
-	Route::post('novo', 'ProjectController@store')->name('projects.store');
-	
+	Route::post('/', 'ProjectController@store')->name('projects.store');
+
 	Route::group(['prefix' => '{project}', 'middleware' => 'checkAccessUserForProject'], function(){
 		
 		Route::get('/', 'ProjectController@show')->name('projects.show');
-		Route::put('editar', 'ProjectController@update')->name('projects.update');
 		Route::put('membros', 'ProjectController@members')->name('projects.members');
 		Route::patch('arquivar', 'ProjectController@delete')->name('projects.delete');
 		Route::patch('restaurar', 'ProjectController@restore')->name('projects.restore');
 		Route::delete('excluir', 'ProjectController@destroy')->name('projects.destroy');
+		
+		Route::group(['prefix' => 'editar'], function(){
+			Route::get('/', 'ProjectController@edit')->name('projects.edit');
+			Route::put('/', 'ProjectController@update')->name('projects.update');
+		});
 
 		Route::group(['prefix' => 'tarefas'], function(){
-			
 			Route::get('/', 'TaskController@index')->name('projects.tasks');
 			
 			Route::post('criar', 'TaskController@store')->name('projects.tasks.store');
@@ -50,7 +51,8 @@ Route::group(['prefix'=>'projetos'], function(){
 					Route::group(['prefix' => '{todo}'], function(){
 
 						Route::put('update', 'TodoController@update')->name('projects.tasks.todos.update');
-
+						Route::patch('mark', 'TodoController@mark')->name('projects.tasks.todo.mark');
+						Route::delete('/', 'TodoController@destroy')->name('projects.tasks.todo.destroy');
 					});
 
 				});
@@ -60,16 +62,20 @@ Route::group(['prefix'=>'projetos'], function(){
 		
 	});
 
-});
 
-Route::group(['prefix'=>'usuarios'], function(){
+	Route::group(['prefix'=>'usuarios'], function(){
 
-	Route::get('convidar','UserController@invatationForm')->name('users.invite');
+		Route::get('convidar','UserController@invatationForm')->name('users.invite');
 
-});
+	});
 
-Route::group(['prefix'=>'lixeira'], function(){
+	Route::group(['prefix'=>'lixeira'], function(){
 
-	Route::get('/','TrashController@index')->name('trash');
+		Route::get('/','TrashController@index')->name('trash');
+		
+	});
+
+
+
 	
 });

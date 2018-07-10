@@ -120,22 +120,41 @@
                         @endif
                         
                         <div class="ml-3 dropdown card-options">
-                            <button class="btn-options" type="button" id="note-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
+                                @unless($todo->finished)
                                 <a class="dropdown-item" href="#todo-edit-modal-{{ $todo->id }}" data-toggle="modal">Editar</a>
-                                <a class="dropdown-item text-success" href="#">Finzalizar</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#">Delete</a>
+                                @endunless
+                                <form action="{{ route('projects.tasks.todo.mark',[$task->project->code, $task->code, $todo->id]) }}" method="POST">
+                                    @csrf
+                                    @method("PATCH")
+                                    <button class="dropdown-item confirmation" type="submit">
+                                        @if($todo->finished)
+                                        Reabrir
+                                        @else
+                                        Finalizar
+                                        @endif
+                                    </button>
+                                </form>
+
+                                <form action="{{ route('projects.tasks.todo.destroy',[$task->project->code, $task->code, $todo->id]) }}" method="POST">
+                                    @csrf
+                                    @method("DELETE")
+                                    <button class="dropdown-item text-danger confirmation" type="submit">
+                                        Excluir
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card-body DIV-filter-by-text" data-filter-by="text">
+                <div class="card-body">
                     {{ $todo->description }}
                 </div>
             </div>
+            @unless($todo->finished)
             <form class="modal fade" id="todo-edit-modal-{{ $todo->id }}" tabindex="-1" role="dialog" aria-labelledby="todo-add-modal" action="{{ route('projects.tasks.todos.update', [$task->project->code, $task->code, $todo->id]) }}" method="POST">
                 @csrf
                 @method("PUT")
@@ -165,6 +184,7 @@
                     </div>
                 </div>
             </form>
+            @endunless
             @endforeach
         </div>
     </div>

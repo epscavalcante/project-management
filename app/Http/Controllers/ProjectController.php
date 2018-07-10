@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\User;
-use App\Project;
+use App\Http\Services\ProjectService;
 
 class ProjectController extends Controller
 {
@@ -15,125 +15,95 @@ class ProjectController extends Controller
      *
      * @return void
      */
-    public function __construct(User $user, Project $project)
+    public function __construct(User $user, ProjectService $projectService)
     {
-        $this->middleware('auth');
         $this->user = $user;
-        $this->project = $project;
+        $this->projectService = $projectService;
     }
 
     
     public function index()
     {
-        $projects = auth()->user()->projects;
-        
-        return view('home', compact('projects'));
+        return view('home');
     }
 
-    public function show($code)
+    public function show($project)
     {
+        $project = $this->projectService->getWithAndWithCount('slug', $project, ['owner', 'members'], ['tasks','tasksFinished']);
+
     	return view('projects.show')->with([
-    		'project' => $this->project->whereCode($code)
-                                ->with(['owner', 'members','tasks',])
-                                ->withCount(['tasks','tasksFinished'])
-                                ->firstOrFail(),
-            'users' => $this->user->all()
+    		'project' => $project
     	]);
     }
 
     public function create()
     {
-    	return view('projects.create')->with(['users' => $this->user->where('id', '<>', auth()->user()->id)->get()]);
+    	return view('projects.create');
     }
 
     public function store(StoreProjectRequest $request)
     {
-    	try {
+        $response = $this->projectService->store($request->all());
 
-    		$project = $this->project->create([
-				'owner_id' => auth()->user()->id,
-    			'code' => \Carbon\Carbon::now()->timestamp,
-				'name' => $request->name,
-				'description' => $request->description,
-				'start' => $request->start ?? \Carbon\Carbon::now(),
-				'end' => $request->end,
-				#'visibility' => $request->visibility
-    		]);
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
+        }
 
-    		#Se houverem membros
-    		$project->members()->sync($request->members);
+        return redirect()->route('projects.show', $response['project']);
 
-    		return redirect()->route('projects.show', $project->code);
-
-
-    	} catch (Exception $e) {
-    		
-    		toast('error', $e->getMessage(), 'top-right');
-
-    	}
     }
 
-    public function update(UpdateProjectRequest $request, $code)
+    public function edit($project)
+    {
+        $project = $this->projectService->getWithAndWithCount('slug', $project);
+
+        return view('projects.edit')->with(['project' => $project]);
+    } 
+
+    public function update(UpdateProjectRequest $request, $project)
     {   
 
-        try {
+        $response = $this->projectService->update($request->all(), $project);
 
-            $project = $this->project->whereCode($code)->firstOrFail();
-
-            $project->update($request->all());
-
-            toast('Alteração realizada com sucesso', 'success', 'top-right');
-
-            return redirect()->route('projects.show', $project->code);        
-
-
-        } catch (Exception $e) {
-            
-            toast($e->getMessage(), 'error', 'top-right');
-
-            return back();
-
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
         }
+
+        return redirect()->route('projects.show', $response['project']);
 
     }
 
     public function delete($project)
     {
-        try {
-            
-            $this->project->whereCode($project)->firstOrFail()->delete();
 
-            toast('Projeto arquivado', 'success', 'top-right');
+        $response = $this->projectService->delete($project);
 
-            return redirect()->route('projects');
-
-
-        } catch (Exception $e) {
-            
-            toast($e->getMessage(), 'error', 'top-right');
-
-            return back();
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
         }
+
+        return redirect()->route('home');
 
     }
 
     public function destroy($project)
     {
 
-        try {
-            
-            $this->project->whereCode($project)->withTrashed()->firstOrFail()->forceDelete();
+        $response = $this->projectService->destroy($project);
 
-            toast('Projeto excluído com sucesso!', 'success', 'top-right');
-            
-            return redirect()->route('home');
-
-        } catch (Exception $e) {
-
-            toast($e->getMessage(), 'error', 'top-right');
-
-            return back();
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
         }
+
+        return redirect()->route('home');
     }
 
     public function restore(Request $request, $project)

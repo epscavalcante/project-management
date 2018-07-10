@@ -12,7 +12,7 @@ class ProjectTableSeeder extends Seeder
     public function run()
     {
         $project = App\Project::create([
-        	'code' => \Carbon\Carbon::now()->timestamp,
+        	'slug' => str_slug('App Gestão de projetos'),
         	'name' => 'App Gestão de projetos',
         	'description' => 'Sistema para gestão de projetos, criado para facilitar o compartilhamento de tarefas e acompanhamento do desenvolvmento dos projetos.',
         	'owner_id' => '1',

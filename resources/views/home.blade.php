@@ -18,8 +18,7 @@
             </div>
         </form>
     </div>
-    <!--end of content list head-->
-    <div class="content-list-body filter-list-1530567283425">
+    <div class="content-list-body">
         <div class="row">
             @foreach(auth()->user()->myProjects as $project)
             <div class="col-lg-6">
@@ -30,7 +29,7 @@
 
                     <div class="card-body">
                         <div class="card-title">
-                            <a href="{{ route('projects.show', $project->code) }}">
+                            <a href="{{ route('projects.show', $project) }}">
                                 <h5 data-filter-by="text" class="H5-filter-by-text">{{ $project->name }}</h5>
                                 <p>{{ $project->description }}</p>
                             </a>
@@ -48,7 +47,7 @@
 
                     <div class="card-body">
                         <div class="card-title">
-                            <a href="{{ route('projects.show', $project->code) }}">
+                            <a href="{{ route('projects.show', $project) }}">
                                 <h5 data-filter-by="text" class="H5-filter-by-text">{{ $project->name }}</h5>
                                 <p>{{ $project->description }}</p>
                             </a>
@@ -59,34 +58,5 @@
             @endforeach
         </div>
     </div>
-    <!--end of content list body-->
-
-     
-    {{-- @if(count(auth()->user()->projects))       
-    <div class="content-list-body filter-list-1530567283425">
-        <h3>Projetos em que participa</h3>
-        <div class="row">
-            @foreach(auth()->user()->projects as $project)
-            <div class="col-lg-6">
-                <div class="card card-project">
-                    <div class="progress">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="card-title">
-                            <a href="{{ route('projects.show', $project->code) }}">
-                                <h5 data-filter-by="text" class="H5-filter-by-text">{{ $project->name }}</h5>
-                                <p>{{ $project->description }}</p>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-    @endif --}}
-    <!--end of content list body-->
 </div>
 @endsection

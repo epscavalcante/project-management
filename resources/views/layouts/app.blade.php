@@ -22,7 +22,7 @@
        <div class="layout layout-nav-top layout-sidebar">
             <div class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
                 <a class="navbar-brand" href="{{ route('home') }}">
-                    <img alt="Pipeline" src="{{ asset('images/logo.svg') }}" />
+                    <img alt="WebDev Projetos" src="{{ asset('images/logo.svg') }}" />
                 </a>
                 <div class="d-flex align-items-center">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,15 +45,6 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true" id="nav-dropdown-2">Projetos</a>
-                                <div class="dropdown-menu" aria-labelledby="nav-dropdown-2">
-                                    <a class="dropdown-item" href="{{ route('projects') }}">Listar projetos</a>
-                                    <a class="dropdown-item" href="{{-- {{ route('user.projects') }} --}}">Meus projetos</a>
-                                </div>
-                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('trash') }}">LIXEIRA</a>
@@ -97,7 +88,6 @@
             </div>
             <div class="main-container">
                 <div class="sidebar-container">
-                    
                     @yield('sidebar')
                 </div>
                 <div class="content-container">
@@ -113,9 +103,9 @@
                                     <li  class="breadcrumb-item text-capitalize">
                                         @if($segment < count(Request::segments()) && $segment > 0)
                                         <?php $segments .= '/'.Request::segment($segment); ?>
-                                        <a href="{{ $segments }}">{{ Request::segment($segment) }}</a> 
+                                        <a href="{{ $segments }}">{{ str_replace('-', ' ', Request::segment($segment)) }}</a> 
                                         @else
-                                        {{ Request::segment($segment)}}
+                                        {{ str_replace('-', ' ', Request::segment($segment)) }}
                                         @endif
                                     </li>
                                     @endfor

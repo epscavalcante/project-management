@@ -9,15 +9,15 @@
     	<div class="dropdown-header">
     		Projeto
     	</div>
-        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#project-edit-modal">Editar</a>
-        <form action="{{ route('projects.delete', $project->code) }}" method="POST">
+        <a class="dropdown-item" href="{{ route('projects.edit', $project) }}">Editar</a>
+        <form action="{{ route('projects.delete', $project) }}" method="POST">
             @csrf
             @method("PATCH")
             <button class="dropdown-item confirmation" type="submit">Arquivar</button>
         </form>
         <div class="dropdown-divider"></div>
 
-        <form action="{{ route('projects.destroy', $project->code) }}" method="POST">
+        <form action="{{ route('projects.destroy', $project) }}" method="POST">
             @csrf
             @method("DELETE")
             <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>
@@ -26,13 +26,29 @@
 </div>
 @endsection
 
+
+
 @section('content')
+
+
+
 <div class="page-header">
+    <ul class="nav nav-tabs nav-fill mb-2">
+        <li class="nav-item">
+            <a class="nav-link {{ Nav::isRoute('projects.show') }}" href="{{ route('projects.show', $project) }}">Visão geral</a>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link {{ Nav::hasSegment('tarefas', 2) }}" href="{{ route('projects.tasks', $project) }}">Tarefas</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#members" role="tab" aria-controls="members" aria-selected="false">Members</a>
+        </li>
+    </ul>
+
     <div class="d-flex justify-content-between flex-sm-row flex-column align-items-center">
-        <div class="mb-2">
-            <span class="text-muted">Projeto #{{ $project->code }}</span>
-            <h2>{{ $project->name }}</h2>
-        </div>
+        <h2>{{ $project->name }}</h2>
         
         <div class="d-flex align-items-center">
             <ul class="avatars">
@@ -80,7 +96,7 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-between align-items-center content-list-head">
+{{-- <div class="d-flex justify-content-between align-items-center content-list-head">
     <div class="col">
         <h3 class="d-inline">Tarefas</h3>
         <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
@@ -111,8 +127,8 @@
                     <div class="card-title">
                         <a href="{{ route('projects.tasks.show', [$project->code, $task->code]) }}">
                             <h5 data-filter-by="text" class="mb-0">{{ $task->name }}</h5>
-                        	<p class="small text-muted">{{ $task->description }}</p>
-                       	</a>
+                            <p class="small text-muted">{{ $task->description }}</p>
+                        </a>
                     </div>
                     <div class="card-meta ">
                         <ul class="avatars">
@@ -157,9 +173,9 @@
             @endforelse
         </div>
     </div>
-</div>
+</div> --}}
 
-<form class="modal fade" id="task-add-modal" tabindex="-1" role="dialog" aria-labelledby="task-add-modal" aria-hidden="true" action="{{ route('projects.tasks.store', $project->code) }}" method="POST">
+<form class="modal fade" id="task-add-modal" tabindex="-1" role="dialog" aria-labelledby="task-add-modal" aria-hidden="true" action="{{ route('projects.tasks.store', $project) }}" method="POST">
     @csrf
     @method("POST")
     <div class="modal-dialog modal-lg" role="document">
@@ -273,7 +289,7 @@
     </div>
 </form>
 
-<form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="{{ route('projects.members', $project->code) }}" method="POST">
+{{-- <form class="modal fade" id="user-manage-modal" tabindex="-1" role="dialog" aria-labelledby="user-manage-modal" aria-hidden="true" action="{{ route('projects.members', $project->code) }}" method="POST">
 @csrf
 @method("PUT")
     <div class="modal-dialog" role="document">
@@ -319,9 +335,9 @@
             </div>
         </div>
     </div>
-</form>
+</form> --}}
 
-<form class="modal fade" id="project-edit-modal" tabindex="-1" role="dialog" aria-labelledby="project-edit-modal" action="{{ route('projects.update', $project->code) }}" method="POST">
+{{-- <form class="modal fade" id="project-edit-modal" tabindex="-1" role="dialog" aria-labelledby="project-edit-modal" action="{{ route('projects.update', $project) }}" method="POST">
     @csrf
     @method('PUT')
     <div class="modal-dialog modal-lg" role="document">
@@ -381,6 +397,103 @@
             </div>
         </div>
     </div>
-</form>
+</form> --}}
 @endsection
 
+
+{{-- @section('sidebar')
+    <button class="btn btn-primary btn-round btn-floating btn-lg d-lg-none" type="button" data-toggle="collapse" data-target="#sidebar-collapse" aria-expanded="false" aria-controls="sidebar-floating-chat">
+        <i class="material-icons">more_horiz</i>
+        <i class="material-icons">close</i>
+    </button>
+    <div class="sidebar collapse" id="sidebar-collapse">
+        <div class="sidebar-content">
+        
+        <div class="page-header px-2">
+            <div class="d-flex justify-content-between align-items-center content-list-head">
+                    <h3 class="d-inline">Tarefas</h3>
+                    <button class="btn btn-round" data-toggle="modal" data-target="#task-add-modal">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                
+            </div>
+
+            <form class="form-group">
+                <div class="input-group input-group-round">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="fas fa-filter"></i>
+                        </span>
+                    </div>
+                    <input type="search" class="form-control filter-list-input" placeholder="Procurar tarefa" aria-label="Procurar tarefa" aria-describedby="procurar-tarefa">
+                </div>
+            </form>
+
+            <div class="content-list-body">
+                <div class="card-list">
+                    <div class="card-list-body">
+
+                        @forelse($project->tasks as $task)
+                        <div class="card card-task">
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <a href="{{ route('projects.tasks.show', [$project->code, $task->code]) }}">
+                                        <h5 data-filter-by="text" class="mb-0">{{ $task->name }}</h5>
+                                        <p class="small text-muted">{{ $task->description }}</p>
+                                    </a>
+                                    <div class="card-meta ">
+                                    <ul class="avatars">
+                                        
+                                        @foreach($task->members as $member)
+                                        <li>
+                                            <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
+                                                <img alt="{{ $member->name }}" class="avatar avatar-sm" src="{{ asset($member->image) }}">
+                                            </a>
+                                        </li>
+                                        @endforeach
+
+                                    </ul>
+                                    
+                                    <span><i class="fas fa-tasks"></i> 3/4</span>
+                                        
+                                    <div class="dropdown card-options">
+                                        <button class="btn-options" type="button" id="task-dropdown-button-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <form action="{{ route('projects.tasks.delete', [$project->code, $task->code]) }}" method="POST">
+                                                @csrf
+                                                @method("PATCH")
+                                                <button class="dropdown-item confirmation" type="submit">Arquivar</button>    
+                                            </form>
+
+                                            <div class="dropdown-divider"></div>
+                                            
+                                            <form action="{{ route('projects.tasks.destroy', [$project->code, $task->code]) }}" method="POST">
+                                                @csrf
+                                                @method("DELETE")
+                                                <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>    
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        @empty
+                        Não há tarefas
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+
+
+        </div>
+    </div>
+@endsection --}}
