@@ -5,85 +5,71 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTodoRequest;
 use App\Http\Requests\UpdateTodoRequest;
-use App\Todo;
-use App\Task;
-use App\Project;
+
+use App\Http\Services\TodoService;
+use App\Http\Services\TaskService;
 
 class TodoController extends Controller
 {
-    public function __construct(Todo $todo, Task $task, Project $project)
+    public function __construct(TodoService $todoService, TaskService $taskService)
     {
-    	$this->todo = $todo;
-    	$this->task = $task;
-    	$this->project = $project;
+        $this->todoService = $todoService;
+    	$this->taskService = $taskService;
     }
 
     public function store(StoreTodoRequest $request, $project, $task)
     {
-    	try {
+        $task = $this->taskService->get('slug', $task)['task'];
 
-    		$this->todo->create([
-    			'author_id' => auth()->user()->id,
-    			'task_id' => $this->task->whereCode($task)->first()->id,
-    			'description' => $request->description,
-    		]);
-    		
-			toast('Item criado com sucesso', 'success', 'top-right');
+    	$response = $this->todoService->store($request->all(), $task);
 
-    		return back();
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
+        }
 
-    	} catch (Exception $e) {
-    		
-    	}
+        return back();
     }
 
     public function update(UpdateTodoRequest $request, $project, $task, $todo)
     {
-    	try {
-			
-			$this->todo->find($todo)->update($request->all());
-			toast('Item atualizado com sucesso', 'success', 'top-right');
-			return back();
+        $response = $this->todoService->update($request->all(), $todo);
 
-    	} catch (Exception $e) {
-    		toast($e->getMessage(), 'error', 'top-right');
-			return back();
-    	}
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
+        }
+
+        return back();
     }
 
     public function destroy($project, $task, $todo)
     {
-    	try {
-			$this->todo->destroy($todo);
-			toast('Item removido com sucesso', 'success', 'top-right');
-			return back();
-    	} catch (Exception $e) {
-    		toast($e->getMessage(), 'error', 'top-right');
-			return back();
-    	}
+
+    	$response = $this->todoService->destroy($todo);
+
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
+        }
+
+        return back();
     }
 
     public function mark($project, $task, $todo)
     {
-    	try {
+    	$response = $this->todoService->mark($todo);
 
-			$todo = $this->todo->find($todo);
+        if($response['status']){
+            toast($response['message'], 'success', 'top-right');
+        }else{
+            toast($response['message'], 'error', 'top-right');
+        }
 
-			if($todo->finished){
-				$todo->finished = 0;
-				toast('Item reaberto com sucesso', 'success', 'top-right');
-			}else{
-				$todo->finished = 1;
-				toast('Item finalizado com sucesso', 'success', 'top-right');
-			}
-
-			$todo->save();
-			return back();
-
-    	} catch (Exception $e) {
-    		toast($e->getMessage(), 'error', 'top-right');
-			return back();
-    	}
+        return back();
     }
 
 }

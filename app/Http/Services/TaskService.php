@@ -21,7 +21,10 @@ class TaskService
         
         try {
             
-            $task = $this->task->where($columnTask, $task)->with($with)->firstOrFail();
+            $task = $this->task->where($columnTask, $task)
+                                ->with($with)
+                                ->withCount(['todos', 'todosFinished'])
+                                ->firstOrFail();
 
             return ['status' => true, 'message' => 'Tarefa encontrada', 'task' => $task];
 

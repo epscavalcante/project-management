@@ -36,7 +36,7 @@
     
     <div>
         <div class="progress">
-            <div class="progress-bar bg-success" style="width:{{-- $project->progress($project->tasks_finished_count, $project->tasks_count) --}}50%;"></div>
+            <div class="progress-bar bg-success" style="width:{{ $task->progress($task->todos_finished_count, $task->todos_count) }}%;"></div>
         </div>
         
         <div class="d-flex justify-content-between small mb-3">
@@ -46,7 +46,7 @@
 
             <div>
                 <i class="fas fa-tasks"></i> 
-                {{-- $project->tasks_finished_count }} / {{ $project->tasks_count --}}</span>
+                {{ $task->todos_finished_count }} / {{ $task->todos_count }}</span>
             </div>
                 
             <span data-toggle="tooltip" title="Término em @unless(empty($task->end)) {{ $task->end->format('d/m/Y') }} @endunless">
@@ -57,7 +57,7 @@
     
     <hr>
     
-    <div class="content-list" data-filter-list="content-list-body">
+    <div class="content-list">
         <div class="row content-list-head">
             <div class="col-auto">
                 <h3>Lista de afazeres</h3>
@@ -84,61 +84,44 @@
             </form>
 
             @foreach($task->todos as $todo)
-            <div class="card card-note">
-                <div class="card-header">
-                    <div class="media align-items-center">
-                        <img alt="{{ $todo->author->name }}" src="{{ asset($todo->author->image) }}" class="avatar filter-by-alt" data-toggle="tooltip" data-title="{{ $todo->author->name }}" data-filter-by="alt">
-                        <div class="media-body">
-                            <h6 class="mb-0 H6-filter-by-text" data-filter-by="text">{{ $todo->author->name }}</h6>
-                            <span class="text-muted small">
-                            {{ $todo->created_at->diffForHumans() }}
-                        </span>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        @if($todo->finished)
-                        <span class="text-success mr-2">
-                            <i class="fas fa-check-circle"></i> Feito
-                        </span>
-                        @endif
-                        
-                        <div class="ml-3 dropdown card-options">
-                            <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                @unless($todo->finished)
-                                <a class="dropdown-item" href="#todo-edit-modal-{{ $todo->id }}" data-toggle="modal">Editar</a>
-                                @endunless
-                                <form action="{{ route('projects.tasks.todo.mark',[$task->project->code, $task->code, $todo->id]) }}" method="POST">
-                                    @csrf
-                                    @method("PATCH")
-                                    <button class="dropdown-item confirmation" type="submit">
-                                        @if($todo->finished)
-                                        Reabrir
-                                        @else
-                                        Finalizar
-                                        @endif
-                                    </button>
-                                </form>
+            <div class="card card-note ">
+                <div class="card-body d-flex align-items-center p-2">
+                    <div class="d-flex justify-content-center">
+                        <form action="{{ route('projects.tasks.todo.mark',[$task->project, $task, $todo]) }}" method="POST" class="mr-2">
+                            @csrf
+                            @method("PATCH")
+                            @if($todo->finished)
+                            <button class="btn btn-sm btn-outline-warning confirmation" type="submit" data-toggle="tooltip" title="Reabrir item"><i class="fas fa-thumbs-down"></i></button>
+                            @else
+                            <button class="btn btn-sm btn-outline-success confirmation" type="submit" data-toggle="tooltip" title="Finalizar item"><i class="fas fa-thumbs-up"></i></button>
+                            @endif
+                        </form>
 
-                                <form action="{{ route('projects.tasks.todo.destroy',[$task->project->code, $task->code, $todo->id]) }}" method="POST">
-                                    @csrf
-                                    @method("DELETE")
-                                    <button class="dropdown-item text-danger confirmation" type="submit">
-                                        Excluir
-                                    </button>
-                                </form>
-                            </div>
+                        <p>{{ $todo->description }}</p>
+                    </div>
+                    <div class="pl-5 ml-3 dropdown card-options">
+                        <button class="btn-options" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            @unless($todo->finished)
+                            <a class="dropdown-item" href="#todo-edit-modal-{{ $todo->id }}" data-toggle="modal">Editar</a>
+                            @endunless
+                            
+
+                            <form action="{{ route('projects.tasks.todo.destroy',[$task->project, $task, $todo]) }}" method="POST">
+                                @csrf
+                                @method("DELETE")
+                                <button class="dropdown-item text-danger confirmation" type="submit">
+                                    Excluir
+                                </button>
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    {{ $todo->description }}
                 </div>
             </div>
             @unless($todo->finished)
-            <form class="modal fade" id="todo-edit-modal-{{ $todo->id }}" tabindex="-1" role="dialog" aria-labelledby="todo-add-modal" action="{{ route('projects.tasks.todos.update', [$task->project->code, $task->code, $todo->id]) }}" method="POST">
+            <form class="modal fade" id="todo-edit-modal-{{ $todo->id }}" tabindex="-1" role="dialog" aria-labelledby="todo-add-modal" action="{{ route('projects.tasks.todos.update', [$task->project, $task, $todo]) }}" method="POST">
                 @csrf
                 @method("PUT")
                 <div class="modal-dialog" role="document">

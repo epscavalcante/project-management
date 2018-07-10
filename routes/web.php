@@ -51,8 +51,7 @@ Route::group(['middleware' => 'auth'], function(){
 				Route::group(['prefix' => 'todos'], function(){
 					Route::post('/', 'TodoController@store')->name('projects.tasks.todos.store');
 					Route::group(['prefix' => '{todo}'], function(){
-
-						Route::put('update', 'TodoController@update')->name('projects.tasks.todos.update');
+						Route::put('/', 'TodoController@update')->name('projects.tasks.todos.update');
 						Route::patch('mark', 'TodoController@mark')->name('projects.tasks.todo.mark');
 						Route::delete('/', 'TodoController@destroy')->name('projects.tasks.todo.destroy');
 					});

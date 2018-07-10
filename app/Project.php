@@ -82,30 +82,6 @@ class Project extends Model
     |
     */
 
-    // public function getCreatedatAttribute($value)
-    // {
-    //     return date('d/m/Y H:i', strtotime($value));
-    // }
-
-    // public function getUpdatedatAttribute($value)
-    // {
-    //     return date('d/m/Y H:i', strtotime($value));
-    // }
-
-    // public function getStartAttribute($value)
-    // {
-    //     if(!empty($value)){
-    //         return $value->format('Y-m-d');
-    //     }
-    // }
-
-    // public function getEndAttribute($value)
-    // {
-    //     if(!empty($value)){
-    //          return $value->format('Y-m-d');
-    //     }
-    // }
-
     public function progress($completed, $total)
     {
 
