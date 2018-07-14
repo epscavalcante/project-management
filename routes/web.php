@@ -18,14 +18,14 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('novo', 'ProjectController@create')->name('projects.create');
 	Route::post('/', 'ProjectController@store')->name('projects.store');
 
-	Route::group(['prefix' => '{project}', 'middleware' => 'checkAccessUserForProject'], function(){
+	Route::group(['prefix' => '{project}', 'middleware' => 'CheckAccessUserForProject'], function(){
 		
 		#Funcionando
 		Route::get('/', 'ProjectController@show')->name('projects.show');
-		Route::delete('/', 'ProjectController@destroy')->name('project.destroy');
+		Route::delete('/', 'ProjectController@destroy')->name('project.destroy')->middleware('CheckManageProject');
 		
 		#Funcionando
-		Route::group(['prefix' => 'editar'], function(){
+		Route::group(['prefix' => 'editar', 'middleware' => 'CheckManageProject'], function(){
 			Route::get('/', 'ProjectController@edit')->name('projects.edit');
 			Route::put('/', 'ProjectController@update')->name('projects.update');
 		});

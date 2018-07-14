@@ -3,9 +3,16 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Http\Services\ProjectService;
 
 class CheckManageProject
 {
+
+    function __construct(ProjectService $projectService)
+    {
+        $this->projectService = $projectService;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -15,6 +22,17 @@ class CheckManageProject
      */
     public function handle($request, Closure $next)
     {
+        $project = $this->projectService->get('slug', $request->project);
+
+        #libera o acesso somente se for o dono do projeto ou se for membro
+        if(auth()->user()->id == $project->owner_id){
+
+            return $next($request);
+
+        }
+
+        #curioso é bloqueado
+        return abort(403);
         return $next($request);
     }
 }

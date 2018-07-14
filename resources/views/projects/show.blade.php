@@ -8,6 +8,7 @@
     <div class="d-flex justify-content-between flex-sm-row flex-column align-items-center">
         <div class="mb-2">
             <h2>{{ $project->name }}</h2>
+            @if(auth()->user()->id == $project->owner_id)
             <div class="btn-group btn-group-sm" role="group" aria-label="Controle do projeto">
                 <a class="btn btn-outline-primary" href="{{ route('projects.edit', $project) }}">Editar</a>
                 <form action="{{ route('project.destroy', $project) }}" method="POST" class="d-inline-block">
@@ -16,6 +17,7 @@
                     <button class="btn btn-sm btn-outline-danger confirmation" type="submit">Excluir</button>
                 </form>
             </div>
+            @endif
         </div>
         
         

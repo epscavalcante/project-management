@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
-        'checkAccessUserForProject' => \App\Http\Middleware\checkAccessUserForProject::class,
+        'CheckAccessUserForProject' => \App\Http\Middleware\CheckAccessUserForProject::class,
+        'CheckManageProject' => \App\Http\Middleware\CheckManageProject::class,
     ];
 }
