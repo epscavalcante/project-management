@@ -30,16 +30,11 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::put('/', 'ProjectController@update')->name('projects.update');
 		});
 
-		#Falta fazer a parte do convite do usuário
 		Route::group(['prefix' => 'membros'], function(){
 			Route::get('/', 'ProjectController@members')->name('projects.members');
 			
-			Route::group(['prefix' => '{user}'], function(){
-				Route::delete('/', 'MemberController@destroy')->name('projects.members.destroy');
-			});
-
-			
-			#invite user
+			Route::delete('{user}', 'MemberController@destroy')->name('projects.members.destroy')->middleware('CheckManageProject');
+			Route::post('convidar', 'MemberController@invite')->name('projects.members.invite')->middleware('CheckManageProject');
 		});
 
 		Route::group(['prefix' => 'tarefas'], function(){

@@ -6,9 +6,11 @@
 	<div class="d-flex justify-content-between align-items-center content-list-head">
 	    <div class="col">
 	        <h3 class="d-inline">Membros</h3>
+	        @if(auth()->user()->id == $project->owner_id)
 	        <button class="btn btn-round" data-toggle="modal" data-target="#invite-user-modal">
 	            <i class="fas fa-plus"></i>
 	        </button>
+	        @endif
 	    </div>
 	    <form class="">
 	        <div class="input-group input-group-round">
@@ -37,11 +39,13 @@
 	                        	<h6 class="mb-0">{{ $member->name }}</h6>
 	                        	<small>{{ $member->email }}</small>
 	                        </div>
+	                        @if(auth()->user()->id == $project->owner_id)
 	                        <form action="{{ route('projects.members.destroy', [$project, $member]) }}" method="POST">
 	                        	@csrf
 	                        	@method("DELETE")
 	                        	<button class="btn btn-sm btn-outline-danger confirmation">Remover</button>
 	                        </form>
+	                        @endif
 	                    </div>
 	                </div>
 	            </li>
@@ -52,6 +56,7 @@
     </div>
 </div>
 
+@if(auth()->user()->id == $project->owner_id)
 <form class="modal fade" id="invite-user-modal" tabindex="-1" role="dialog" aria-labelledby="user-invite-modal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -85,4 +90,5 @@
         </div>
     </div>
 </form>
+@endif
 @endsection
