@@ -10,6 +10,7 @@
     	<div class="mb-2">
             
             <h2> {{ $task->name }}</h2>
+            @if($task->user_id == auth()->user()->id)
             <div class="btn-group btn-group-sm" role="group" aria-label="Controle do projeto">
                 <a class="btn btn-sm btn-outline-primary" href="#task-edit-modal" data-toggle="modal">Editar</a>
                 <form action="{{ route('projects.tasks.destroy', [$task->project, $task]) }}" method="POST">
@@ -18,6 +19,7 @@
                     <button class="btn btn-sm btn-outline-danger confirmation" type="submit">Excluir</button>    
                 </form>
             </div>
+            @endif
                
         </div>
 

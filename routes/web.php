@@ -42,11 +42,11 @@ Route::group(['middleware' => 'auth'], function(){
 			Route::get('/', 'ProjectController@tasks')->name('projects.tasks');
 			Route::post('/', 'TaskController@store')->name('projects.tasks.store');
 
-			Route::group(['prefix' => '{task}'], function(){
+			Route::group(['prefix' => '{task}', 'middleware' => 'CheckUserAccessForTask'], function(){
 				#Funcionando
 				Route::get('/', 'TaskController@show')->name('projects.tasks.show');
-				Route::put('editar', 'TaskController@update')->name('projects.tasks.update');
-				Route::delete('excluir', 'TaskController@destroy')->name('projects.tasks.destroy');
+				Route::put('editar', 'TaskController@update')->name('projects.tasks.update')->middleware('CheckManageTask');
+				Route::delete('excluir', 'TaskController@destroy')->name('projects.tasks.destroy')->middleware('CheckManageTask');
 
 				#Não ta pronto
 				Route::group(['prefix' => 'todos'], function(){

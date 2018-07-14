@@ -36,16 +36,18 @@
 			                        	<h6 class="mb-0">{{ $member->name }}</h6>
 			                        	<small>{{ $member->email }}</small>
 			                        </div>
-			                        @if($task->members->contains($member->id))
-                                    <form action="{{ route('projects.tasks.members.dettach', [$task->project, $task, $member->id]) }}" method="POST">
-                                        @csrf
-                                        <button class="btn btn-sm btn-outline-danger confirmation">Remover</button>
-                                    </form>
-                                    @else
-                                    <form action="{{ route('projects.tasks.members.attach', [$task->project, $task, $member->id]) }}" method="POST">
-                                        @csrf
-                                        <button class="btn btn-sm btn-outline-success confirmation">Adicionar</button>
-                                    </form>
+                                    @if($task->user_id == auth()->user()->id)
+    			                        @if($task->members->contains($member->id))
+                                        <form action="{{ route('projects.tasks.members.dettach', [$task->project, $task, $member->id]) }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-sm btn-outline-danger confirmation">Remover</button>
+                                        </form>
+                                        @else
+                                        <form action="{{ route('projects.tasks.members.attach', [$task->project, $task, $member->id]) }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-sm btn-outline-success confirmation">Adicionar</button>
+                                        </form>
+                                        @endif
                                     @endif
 			                    </div>
 			                </div>

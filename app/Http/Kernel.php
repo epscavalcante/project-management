@@ -62,5 +62,7 @@ class Kernel extends HttpKernel
 
         'CheckAccessUserForProject' => \App\Http\Middleware\CheckAccessUserForProject::class,
         'CheckManageProject' => \App\Http\Middleware\CheckManageProject::class,
+        'CheckUserAccessForTask' => \App\Http\Middleware\CheckUserAccessForTask::class,
+        'CheckManageTask' => \App\Http\Middleware\CheckManageTask::class,
     ];
 }
