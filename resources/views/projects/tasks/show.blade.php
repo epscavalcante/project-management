@@ -91,9 +91,9 @@
                             @csrf
                             @method("PATCH")
                             @if($todo->finished)
-                            <button class="btn btn-sm btn-outline-warning confirmation" type="submit" data-toggle="tooltip" title="Reabrir item"><i class="fas fa-thumbs-down"></i></button>
+                            <button class="btn btn-sm btn-outline-success confirmation" type="submit" data-toggle="tooltip" title="Reabrir item"><i class="fas fa-check"></i> feito</button>
                             @else
-                            <button class="btn btn-sm btn-outline-success confirmation" type="submit" data-toggle="tooltip" title="Finalizar item"><i class="fas fa-thumbs-up"></i></button>
+                            <button class="btn btn-sm btn-outline-danger confirmation" type="submit" data-toggle="tooltip" title="Finalizar item"><i class="fas fa-times"></i> a fazer</button>
                             @endif
                         </form>
 

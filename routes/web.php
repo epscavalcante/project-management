@@ -33,6 +33,12 @@ Route::group(['middleware' => 'auth'], function(){
 		#Falta fazer a parte do convite do usuário
 		Route::group(['prefix' => 'membros'], function(){
 			Route::get('/', 'ProjectController@members')->name('projects.members');
+			
+			Route::group(['prefix' => '{user}'], function(){
+				Route::delete('/', 'MemberController@destroy')->name('projects.members.destroy');
+			});
+
+			
 			#invite user
 		});
 
@@ -55,7 +61,6 @@ Route::group(['middleware' => 'auth'], function(){
 						Route::patch('mark', 'TodoController@mark')->name('projects.tasks.todo.mark');
 						Route::delete('/', 'TodoController@destroy')->name('projects.tasks.todo.destroy');
 					});
-
 				});			
 
 				#Funcionando
@@ -68,7 +73,6 @@ Route::group(['middleware' => 'auth'], function(){
 
 				});
 			});
-			
 		});
 		
 	});

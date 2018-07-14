@@ -105,4 +105,19 @@ class ProjectService
 
         }
 	}
+
+	public function detach($project, $user)
+	{
+		try {
+			
+			$project = $this->get('slug', $project);
+
+			$project->members()->detach($user);
+
+			return ['status' => true, 'message' => 'Membro removido deste projeto'];
+
+		} catch (Exception $e) {
+			return ['status' => false, 'message' => $e->getMessage()];
+		}
+	}
 }

@@ -18,8 +18,6 @@
 	                </span>
 	            </div>
 	            <input type="search" class="form-control filter-list-input" placeholder="Procurar membro" aria-label="Procurar membro" aria-describedby="procurar-membro">
-
-	            
 	        </div>
 	    </form>
 	</div>
@@ -39,7 +37,9 @@
 	                        	<h6 class="mb-0">{{ $member->name }}</h6>
 	                        	<small>{{ $member->email }}</small>
 	                        </div>
-	                        <form action="">
+	                        <form action="{{ route('projects.members.destroy', [$project, $member]) }}" method="POST">
+	                        	@csrf
+	                        	@method("DELETE")
 	                        	<button class="btn btn-sm btn-outline-danger confirmation">Remover</button>
 	                        </form>
 	                    </div>

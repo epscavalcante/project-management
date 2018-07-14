@@ -130,24 +130,24 @@ class ProjectController extends Controller
         toast($response['message'], 'error', 'top-right');
         return back();
 
-        try {
+        // try {
             
-            $project = $this->project->whereCode($project)->firstOrFail();
+        //     $project = $this->project->whereCode($project)->firstOrFail();
 
-            $project->members()->sync($request->members);
+        //     $project->members()->sync($request->members);
 
-            toast('Alterações nos membros realizadas com sucesso', 'success', 'top-right');
+        //     toast('Alterações nos membros realizadas com sucesso', 'success', 'top-right');
 
-            return back();
+        //     return back();
 
 
-        } catch (Exception $e) {
+        // } catch (Exception $e) {
             
-            toast($e->getMessage(), 'error', 'top-right');
+        //     toast($e->getMessage(), 'error', 'top-right');
 
-            return back();
+        //     return back();
             
-        }
+        // }
     }
 
     public function tasks($project)
