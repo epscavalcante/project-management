@@ -16,6 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('project_id');
+            $table->unsignedInteger('user_id');
             $table->string('slug');
             $table->string('name');
             $table->boolean('finished')->default('0');
@@ -26,6 +27,7 @@ class CreateTasksTable extends Migration
             $table->softDeletes();
 
             $table->foreign('project_id')->on('projects')->references('id')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->on('users')->references('id')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

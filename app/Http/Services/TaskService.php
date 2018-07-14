@@ -38,6 +38,7 @@ class TaskService
 
 	public function store($data = array(), $project)
 	{
+
 		try {
 
             $task = $this->task->create([
@@ -46,7 +47,8 @@ class TaskService
                 'description' => $data['description'],
                 'start' => $data['start'],
                 'end' => $data['end'],
-                'project_id' => $project->id
+                'project_id' => $project->id,
+                'user_id' => auth()->user()->id
             ]);
 
             if(array_has($data, 'members')){

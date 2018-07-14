@@ -14,7 +14,8 @@ class TaskTableSeeder extends Seeder
     {
         $task = Task::create([
         	'slug' => str_slug('Tarefa numer One'),
-        	'project_id' => '1',
+            'project_id' => '1',
+        	'user_id' => '1',
     		'name' => 'Tarefa numer One',
     		'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                             tempor incididunt ut labore et dolore magna aliqua.'
