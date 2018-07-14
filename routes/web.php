@@ -63,8 +63,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 					Route::get('/', 'TaskController@members')->name('projects.tasks.members');
 
-					Route::post('{user}/attach', 'TaskController@attach')->name('projects.tasks.members.attach');
-					Route::post('{user}/dettach', 'TaskController@dettach')->name('projects.tasks.members.dettach');
+					Route::post('{user}/attach', 'TaskController@attach')->name('projects.tasks.members.attach')->middleware('CheckManageTask');
+					Route::post('{user}/dettach', 'TaskController@dettach')->name('projects.tasks.members.dettach')->middleware('CheckManageTask');
 
 				});
 			});

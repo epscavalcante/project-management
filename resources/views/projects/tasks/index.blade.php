@@ -28,36 +28,38 @@
         <div class="card-list-body">
 
             @forelse($project->tasks as $task)
-
-            <div class="card card-task">
-                <div class="progress">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $task->progress(count($task->todosFinished), count($task->todos)) }}%" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="card-body">
-                    <div class="card-title">
-                        <a href="{{ route('projects.tasks.show', [$project, $task]) }}">
-                            <h5 data-filter-by="text" class="mb-0">{{ $task->name }}</h5>
-                            <p class="small text-muted">{{ $task->description }}</p>
-                        </a>
+                
+                @if(auth()->user()->id == $task->user_id || $task->members->contains(auth()->user()->id))
+                <div class="card card-task">
+                    <div class="progress">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $task->progress(count($task->todosFinished), count($task->todos)) }}%" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="card-meta d-flex justify-content-between">
-                        <ul class="avatars">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <a href="{{ route('projects.tasks.show', [$project, $task]) }}">
+                                <h5 data-filter-by="text" class="mb-0">{{ $task->name }}</h5>
+                                <p class="small text-muted">{{ $task->description }}</p>
+                            </a>
+                        </div>
+                        <div class="card-meta d-flex justify-content-between">
+                            <ul class="avatars">
+                                
+                                @foreach($task->members as $member)
+                                <li>
+                                    <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
+                                        <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
+                                    </a>
+                                </li>
+                                @endforeach
+
+                            </ul>
                             
-                            @foreach($task->members as $member)
-                            <li>
-                                <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
-                                    <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
-                                </a>
-                            </li>
-                            @endforeach
+                            <div class="mr-2"><i class="fas fa-tasks"></i> {{ count($task->todosFinished) }} / {{ count($task->todos) }}</div>
 
-                        </ul>
-                        
-                        <div class="mr-2"><i class="fas fa-tasks"></i> {{ count($task->todosFinished) }} / {{ count($task->todos) }}</div>
-
+                        </div>
                     </div>
                 </div>
-            </div>
+                @endif
             @empty
             Não há tarefas
             @endforelse
