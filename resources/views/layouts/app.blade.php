@@ -26,20 +26,17 @@
                 </a>
                 <div class="d-flex align-items-center">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                        <i class="fas fa-bars"></i>
                     </button>
-                    <div class="d-block d-lg-none ml-2">
-                        <div class="dropdown">
-                            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img alt="Imagem de perfil" src="{{ asset(auth()->user()->image) }}" class="avatar" />
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a href="#" class="dropdown-item">Profile</a>
-                                <a href="#" class="dropdown-item">Account Settings</a>
-                                <a href="#" class="dropdown-item">Log Out</a>
-                            </div>
-                        </div>
+                    <div class="d-block d-lg-none mx-2">
+                        <a href="{{ route('profile') }}">
+                            <img alt="Imagem de perfil" src="{{ asset(auth()->user()->image) }}" class="avatar" />
+                        </a>
                     </div>
+                    <form action="{{ route('logout') }}" method="POST" class="d-block d-lg-none">
+                        @csrf
+                        <button class="btn btn-round" type="submit"><i class="fas fa-sign-out-alt"></i></button>
+                    </form>
                 </div>
                 <div class="collapse navbar-collapse justify-content-between" id="navbar-collapse">
                     <ul class="navbar-nav">
@@ -61,28 +58,18 @@
                                 <input type="search" class="form-control form-control-dark" placeholder="Fazer uma busca" aria-label="Search app" aria-describedby="search-app">
                             </div>
                         </form>
-                        {{-- <div class="dropdown mx-lg-2">
-                            <button class="btn btn-success btn-block dropdown-toggle" type="button" id="newContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Novo
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="newContentButton">
-                                <a class="dropdown-item" href="#">Team</a>
-                                <a class="dropdown-item" href="#">Project</a>
-                                <a class="dropdown-item" href="#">Task</a>
-                            </div>
-                        </div> --}}
-                        <div class="d-none d-lg-block">
-                            <div class="dropdown">
-                                <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img alt="Image" src="{{ asset(auth()->user()->image) }}" class="avatar" />
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="nav-side-user.html" class="dropdown-item">Profile</a>
-                                    <a href="utility-account-settings.html" class="dropdown-item">Account Settings</a>
-                                    <a href="#" class="dropdown-item">Log Out</a>
-                                </div>
-                            </div>
+                        
+                        <div class="d-none d-lg-block  mr-2">
+                            <a href="{{ route('profile') }}" class="text-light">
+                                <img alt="Image" src="{{ asset(auth()->user()->image) }}" class="avatar" />
+                                {{ auth()->user()->name }}
+                            </a>
                         </div>
+
+                        <form action="{{ route('logout') }}" method="POST" class="d-none d-lg-block">
+                            @csrf
+                            <button class="btn btn-round" type="submit"><i class="fas fa-sign-out-alt"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,14 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function(){
 
+	Route::group(['prefix'=>'perfil'], function(){
+
+		Route::get('/','ProfileController@index')->name('profile');
+		
+	});
+
+
+
 	Route::get('/', 'HomeController@index')->name('home');
 	Route::get('novo', 'ProjectController@create')->name('projects.create');
 	Route::post('/', 'ProjectController@store')->name('projects.store');
