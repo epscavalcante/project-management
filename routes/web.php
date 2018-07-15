@@ -17,6 +17,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::group(['prefix'=>'perfil'], function(){
 
 		Route::get('/','ProfileController@index')->name('profile');
+		Route::get('senha','ProfileController@password')->name('profile.password');
+		Route::get('notificacoes','ProfileController@notification')->name('profile.notification');
 		
 	});
 

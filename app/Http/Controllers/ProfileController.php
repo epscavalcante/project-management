@@ -10,4 +10,14 @@ class ProfileController extends Controller
     {
     	return view('profile.index');
     }
+
+    public function password()
+    {
+    	return view('profile.password');
+    }
+
+    public function notification()
+    {
+    	return view('profile.notification');
+    }
 }
