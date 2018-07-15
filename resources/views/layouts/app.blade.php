@@ -43,9 +43,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">Home</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('trash') }}">LIXEIRA</a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="d-lg-flex align-items-center">
                         <form class="form-inline my-lg-0 my-2 mr-2">
