@@ -1,14 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="page-header pt-3">
-	<h2>Novo projeto ☕</h2>
-</div>
-<hr>
-<form action="{{ route('projects.store') }}" method="POST">
-	@csrf
-	
-	@include('projects.partials.form')
+<section class="card">
+	<div class="card-header">
+		<h2 class="font-weight-bold">Novo projeto ☕</h2>
+	</div>
 
-</form>
+	<div class="card-body">
+		<form action="{{ route('projects.store') }}" method="POST">
+			@csrf
+			
+			@include('projects.partials.form')
+
+		</form>
+	</div>
+</section>
 @endsection

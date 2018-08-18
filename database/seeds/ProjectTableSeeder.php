@@ -12,13 +12,13 @@ class ProjectTableSeeder extends Seeder
     public function run()
     {
         $project = App\Project::create([
-        	'slug' => str_slug('App Gestão de projetos'),
         	'name' => 'App Gestão de projetos',
         	'description' => 'Sistema para gestão de projetos, criado para facilitar o compartilhamento de tarefas e acompanhamento do desenvolvmento dos projetos.',
-        	'owner_id' => '1',
-        	'visibility' => 'public'
+        	'visibility' => 'public',
+            'start' => \Carbon\Carbon::now(),
+            'end' => \Carbon\Carbon::now()->addYear(),
         ]);
 
-        $project->members()->attach([2,3]);
+        $project->members()->attach(1, ['role' => 'OWNER', 'created_at' => \Carbon\Carbon::now()] );
     }
 }

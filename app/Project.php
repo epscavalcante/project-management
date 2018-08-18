@@ -11,7 +11,7 @@ class Project extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'slug', 'name', 'description', 'start', 'end', 'owner_id', 'visivility',
+        'name', 'description', 'start', 'end', 'visivility',
     ];
 
     protected $dates = [
@@ -20,11 +20,11 @@ class Project extends Model
 
     public $timestamp = true;
 
-    public function getRouteKey() {
+    // public function getRouteKey() {
        
-       return $this->slug;
+    //    return $this->slug;
     
-    }
+    // }
 
     // const CREATED_AT = 'date_insert';
     // const UPDATED_AT = 'date_updated';
@@ -40,14 +40,9 @@ class Project extends Model
     | Aqui está mapeado os relacionamentos com outros models
     |
     */
-    public function owner()
-    {
-    	return $this->belongsTo(User::class, 'owner_id');
-    }
-
     public function members()
     {
-    	return $this->belongsToMany(User::class);
+    	return $this->belongsToMany(User::class)->withTimestamps();
     }
 
     public function notes()

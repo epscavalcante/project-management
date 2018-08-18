@@ -26,7 +26,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        #dd(auth()->user()->myProjects);
-        return view('home');
+        return view('home')->with(['projects' => $this->project->all()]);
     }
 }

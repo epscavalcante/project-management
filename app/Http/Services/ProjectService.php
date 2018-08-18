@@ -45,13 +45,14 @@ class ProjectService
 		}
 	}
 
-	public function store($data = array())
+	public function store($data)
 	{
+
+		
 
 		try {
 
             $project = $this->project->create([
-				'owner_id' => auth()->user()->id,
     			'slug' => str_slug($data['name']),
 				'name' => $data['name'],
 				'description' => $data['description'],
@@ -59,6 +60,9 @@ class ProjectService
 				'end' => $data['end'],
     		]);
 
+    		$project->members->attach($data->user, ['role_id' => '1']);
+
+    		dd($project);
             return ['status' => true, 'message' => 'Projeto criado com sucesso', 'project' => $project->slug];        
 
 

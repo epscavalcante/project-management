@@ -23,9 +23,14 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+        
+        // Route::bind('project', function ($value) {
+
+        //     return \App\Project::whereSlug($value)->with(['members', 'tasks'])->firstOrFail();
+
+        // });
+
     }
 
     /**

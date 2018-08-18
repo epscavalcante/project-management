@@ -1,7 +1,44 @@
 @extends('layouts.app')
 
+@section('title')
+{{ $project->name }}
+@endsection
+
 @section('content')
-<div class="page-header">
+<section class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        
+        <h3>Membros</h3>
+
+        <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Novo item</a>
+                
+    </div>
+    <div class="card-body">
+        @forelse($members as $member)
+        <div class="media align-items-center border p-2">
+            <img alt="{{ $member->name }}" src="{{ asset($member->image) }}" class="avatar">
+            <div class="media-body d-flex justify-content-between align-items-center">
+                
+                <div>
+                    <h6 class="mb-0">{{ $member->name }}</h6>
+                    <small>{{ $member->email }}</small>
+                </div>
+
+                <span>Participando desde <strong>{{ $member->pivot->created_at }}</strong></span>
+
+
+                <form action="{{ route('projects.members.destroy', [$project, $member]) }}" method="POST">
+                    @csrf
+                    @method("DELETE")
+                    <button class="btn btn-sm btn-outline-danger confirmation">Remover</button>
+                </form>
+            </div>
+        </div>
+        @empty
+        @endforelse
+    </div>
+</section>
+{{-- <div class="page-header">
 	@include('projects.partials.menu')	
 	<div class="d-flex justify-content-between align-items-center content-list-head">
 	    <div class="col">
@@ -90,5 +127,6 @@
         </div>
     </div>
 </form>
-@endif
+@endif --}}
 @endsection
+

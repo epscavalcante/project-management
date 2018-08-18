@@ -18,8 +18,7 @@
         </span>
     @endif
 </div>
-<hr>
-<h6>Prazo</h6>
+
 <div class="form-group row align-items-center">
     <label class="col-3">Início</label>
     <input class="form-control col" type="date" placeholder="Início do projeto" name="start" value="{{ $project->start ?? old("start") }}" />
@@ -41,7 +40,5 @@
 <div class="alert alert-warning text-small" role="alert">
     <span> <i class="fas fa-exclamation-triangle"></i> Não se preocupe, isso pode ser alterado em qualquer momento.</span>
 </div>
-
-<hr>
 
 <button role="button" class="btn btn-primary" type="submit">Salvar</button>

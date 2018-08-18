@@ -9,115 +9,126 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Services\ProjectService;
 use App\Http\Services\TaskService;
 
+use App\Task;
+// use App\Task;
+
 class TaskController extends Controller
 {
-    public function __construct(ProjectService $projectService, TaskService $taskService)
+    private $task;
+
+    public function __construct(ProjectService $projectService, TaskService $taskService, Task $task)
     {
         $this->projectService = $projectService;
         $this->taskService = $taskService;
+        $this->task = $task;
     }
 
-    public function show($project, $task)
+    public function index($project)
     {
+        dd($this->task->whereProject_id($project->))
+    }
 
-        $response = $this->taskService->get('slug', $task, ['project.tasks','project.tasksFinished']);
+    // public function show($project, $task)
+    // {
 
-        if($response['status']){
+    //     $response = $this->taskService->get('slug', $task, ['project.tasks','project.tasksFinished']);
 
-            return view('projects.tasks.show')->with([
-                'task' => $response['task']
-            ]);
+    //     if($response['status']){
 
-        }
+    //         return view('projects.tasks.show')->with([
+    //             'task' => $response['task']
+    //         ]);
 
-        toast($response['message'], 'error', 'top-right');
-        return back();
+    //     }
+
+    //     toast($response['message'], 'error', 'top-right');
+    //     return back();
         
-    }
+    // }
 
-    public function members($project, $task)
-    {
-        $response = $this->taskService->get('slug', $task);
+    // public function members($project, $task)
+    // {
+    //     $response = $this->taskService->get('slug', $task);
 
-        if($response['status']){
+    //     if($response['status']){
 
-            return view('projects.tasks.members.index')->with([
-                'task' => $response['task']
-            ]);
+    //         return view('projects.tasks.members.index')->with([
+    //             'task' => $response['task']
+    //         ]);
 
-        }
+    //     }
 
-        toast($response['message'], 'error', 'top-right');
-        return back();
-    }
+    //     toast($response['message'], 'error', 'top-right');
+    //     return back();
+    // }
 
-    public function attach($project, $task, $user)
-    {
+    // public function attach($project, $task, $user)
+    // {
         
-        $response = $this->taskService->attach($task, $user);
+    //     $response = $this->taskService->attach($task, $user);
 
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
-        }else{
-            toast($response['message'], 'error', 'top-right');
-        }
+    //     if($response['status']){
+    //         toast($response['message'], 'success', 'top-right');
+    //     }else{
+    //         toast($response['message'], 'error', 'top-right');
+    //     }
 
-        return back();
-    }
+    //     return back();
+    // }
 
-    public function dettach($project, $task, $user)
-    {
-        $response = $this->taskService->dettach($task, $user);
+    // public function dettach($project, $task, $user)
+    // {
+    //     $response = $this->taskService->dettach($task, $user);
 
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
-        }else{
-            toast($response['message'], 'error', 'top-right');
-        }
+    //     if($response['status']){
+    //         toast($response['message'], 'success', 'top-right');
+    //     }else{
+    //         toast($response['message'], 'error', 'top-right');
+    //     }
 
-        return back();
-    }
+    //     return back();
+    // }
 
-    public function store(StoreTaskRequest $request, $project)
-    {
-        $project = $this->projectService->get('slug', $project);
+    // public function store(StoreTaskRequest $request, $project)
+    // {
+    //     $project = $this->projectService->get('slug', $project);
 
-        $response = $this->taskService->store($request->all(), $project);
+    //     $response = $this->taskService->store($request->all(), $project);
 
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
-        }else{
-            toast($response['message'], 'error', 'top-right');
-        }
+    //     if($response['status']){
+    //         toast($response['message'], 'success', 'top-right');
+    //     }else{
+    //         toast($response['message'], 'error', 'top-right');
+    //     }
 
-        return back();
-    }
+    //     return back();
+    // }
 
-    public function update(UpdateTaskRequest $request, $project, $task)
-    {
+    // public function update(UpdateTaskRequest $request, $project, $task)
+    // {
 
-        $response = $this->taskService->update($request->all(), $task);
+    //     $response = $this->taskService->update($request->all(), $task);
 
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
-        }else{
-            toast($response['message'], 'error', 'top-right');
-        }
+    //     if($response['status']){
+    //         toast($response['message'], 'success', 'top-right');
+    //     }else{
+    //         toast($response['message'], 'error', 'top-right');
+    //     }
 
-        return back();
-    }
+    //     return back();
+    // }
     
-    public function destroy($project, $task)
-    {
+    // public function destroy($project, $task)
+    // {
 
-        $response = $this->taskService->destroy($task);
+    //     $response = $this->taskService->destroy($task);
 
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
-        }else{
-            toast($response['message'], 'error', 'top-right');
-        }
+    //     if($response['status']){
+    //         toast($response['message'], 'success', 'top-right');
+    //     }else{
+    //         toast($response['message'], 'error', 'top-right');
+    //     }
 
-        return redirect()->route('projects.tasks', $project);
-    }
+    //     return redirect()->route('projects.tasks', $project);
+    // }
 }

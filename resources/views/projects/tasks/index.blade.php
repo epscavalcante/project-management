@@ -1,6 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
+<section class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        
+        <h3>Tarefas</h3>
+
+        <a href="#" class="btn btn-primary"><i class="fas fa-plus"></i> Novo item</a>
+                
+    </div>
+    <div class="card-body">
+        @forelse($tasks as $task)
+                
+            <div class="card">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <a href="{{ route('projects.tasks.show', [$project, $task]) }}">
+                        <h5 data-filter-by="text" class="mb-0">[ TIPO ] - {{ $task->name }}</h5>
+                        <span class="badge badge-light">[ STATUS ]</span>      
+                    </a>
+
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        @empty
+        Não há tarefas
+        @endforelse
+    </div>
+</section>
+{{-- 
 <div class="page-header">
 	@include('projects.partials.menu')	
 	<div class="d-flex justify-content-between align-items-center content-list-head">
@@ -226,5 +253,5 @@
 		    </div>
 		</div>
     </div>
-</div>
+</div> --}}
 @endsection

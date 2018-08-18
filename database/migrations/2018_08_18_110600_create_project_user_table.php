@@ -17,6 +17,7 @@ class CreateProjectUserTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('user_id');
+            $table->string('role');
             $table->timestamps();
 
             $table->foreign('project_id')->on('projects')->references('id')->onUpdate('cascade')->onDelete('cascade');

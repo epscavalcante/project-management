@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Project;
 
 use App\Http\Services\ProjectService;
 
@@ -26,22 +27,13 @@ class ProjectController extends Controller
         return view('home');
     }
 
-    public function show($project)
+    public function show(Project $project)
     {
-        $response = $this->projectService->getWith('slug', $project);
 
-        if($response['status']){
-            
-            return view('projects.show')->with([
-                'project' => $response['project']
-            ]);
+        return view('projects.show')->with([
+            'project' => $project,
+        ]);
 
-        }else{
-
-            toast($response['message'], 'error', 'top-right');
-            return back();
-
-        }  	
     }
 
     public function create()
@@ -51,46 +43,38 @@ class ProjectController extends Controller
 
     public function store(StoreProjectRequest $request)
     {
-        $response = $this->projectService->store($request->all());
-
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
-        }else{
-            toast($response['message'], 'error', 'top-right');
-        }
-
-        return redirect()->route('projects.show', $response['project']);
+        $project = Project::create($request->all());
+        $project->members()->attach(auth()->user(), ['role' => 'OWNER', 'created_at' => \Carbon\Carbon::now()]);
+        toast('Projeto criado com sucesso', 'success', 'top-right');
+        return redirect()->route('projects.show', $project);
     }
 
-    public function edit($project)
+    public function edit(Project $project)
     {
-        $project = $this->projectService->get('slug', $project);
-
         return view('projects.edit')->with(['project' => $project]);
     } 
 
-    public function update(UpdateProjectRequest $request, $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {   
+        $status = $project->update($request->all());
 
-        $response = $this->projectService->update($request->all(), $project);
-
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
-        }else{
-            toast($response['message'], 'error', 'top-right');
+        if($status){
+            toast('Projeto editado com sucesso', 'success', 'top-right');
+        } else{
+            toast('Erro ao tentar alterar projeto', 'error', 'top-right');
+            return back();
         }
 
-        return redirect()->route('projects.show', $response['project']);
+        return redirect()->route('projects.show', $project);
     }
 
-    public function destroy($project)
+    public function destroy(Project $project)
     {
-        $response = $this->projectService->delete($project);
 
-        if($response['status']){
-            toast($response['message'], 'success', 'top-right');
+        if($project->delete()){
+            toast('Projeto movido para lixeira', 'success', 'top-right');
         }else{
-            toast($response['message'], 'error', 'top-right');
+            toast('Erro ao tentar mover projeto para lixeira', 'error', 'top-right');
         }
 
         return redirect()->route('home');
@@ -116,19 +100,13 @@ class ProjectController extends Controller
         // }
     }
 
-    public function members($project)
+    public function members(Project $project)
     {
 
-        $response = $this->projectService->getWith('slug', $project, ['members']);
-
-        if($response['status']){
-            return view('projects.members.index')->with([
-                'project' => $response['project']
-            ]);
-        }
-
-        toast($response['message'], 'error', 'top-right');
-        return back();
+        return view('projects.members.index')->with([
+            'project' => $project,
+            'members' => $project->members
+        ]);
 
         // try {
             
@@ -150,8 +128,14 @@ class ProjectController extends Controller
         // }
     }
 
-    public function tasks($project)
+    public function tasks(Project $project)
     {
+
+
+        return view('projects.tasks.index')->with([
+            'project' => $project,
+            'tasks' => $project->tasks
+        ]);
 
         /**
         *
@@ -168,16 +152,16 @@ class ProjectController extends Controller
         *
         */
 
-        $response = $this->projectService->getWith('slug', $project, ['tasks','tasks.members', 'tasks.todos', 'tasks.todosFinished']);
+        // $response = $this->projectService->getWith('slug', $project, ['tasks','tasks.members', 'tasks.todos', 'tasks.todosFinished']);
 
-        if($response['status']){
-            return view('projects.tasks.index')->with([
-                'project' => $response['project']
-            ]);
-        }
+        // if($response['status']){
+        //     return view('projects.tasks.index')->with([
+        //         'project' => $response['project']
+        //     ]);
+        // }
 
-        toast($response['message'], 'error', 'top-right');
-        return back();
+        // toast($response['message'], 'error', 'top-right');
+        // return back();
         
     }
 
