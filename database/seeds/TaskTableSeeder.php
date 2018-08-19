@@ -12,15 +12,21 @@ class TaskTableSeeder extends Seeder
      */
     public function run()
     {
-        $task = Task::create([
-        	'slug' => str_slug('Tarefa numer One'),
+        Task::create([
             'project_id' => '1',
-        	'user_id' => '1',
-    		'name' => 'Tarefa numer One',
-    		'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua.'
+            'user_id' => '1',
+            'task_type_id' => '1', #Tipo da tarefa
+        	'task_status_id' => '1', #Status dessa tarefa
+    		'description' => 'Aqui já começa com a descrição do tarefa a ser feita ou que ja foi feita, enfim é alguma coisa para fazer um pequeno teste.'
         ]);
 
-        $task->members()->attach(['2', '3']);
+        Task::create([
+            'project_id' => '1',
+            'user_id' => '1',
+            'task_type_id' => '2', #Funcionalidade
+            'task_status_id' => '2', #Status dess tarefa
+            'description' => 'Outra outro texto para identificar alguma coisa la na view.'
+        ]);
+
     }   
 }

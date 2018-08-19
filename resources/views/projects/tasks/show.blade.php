@@ -1,8 +1,32 @@
 @extends("layouts.app")
 
 @section('content')
+<div class="container">
+    <div class="mt-3 p-3 bg-light rounded shadow-sm border">
+        
+        <div class="d-flex justify-content-between">
+            <h5 class="font-weight-bold">Projeto:: {{ $task->project->name }}</h5>
 
-<div class="page-header">
+            <div class="float-right">
+                Tipo: {{ $task->type->name }} | Status: {{ $task->status->name }}
+            </div>
+        </div>
+
+        Por: {{ $task->user->name }} em {{ $task->updated_at }}
+        <hr>
+        {!! $task->description !!}
+    </div>
+    <div class="mt-3 p-3 bg-light rounded shadow-sm border">
+        
+        <div class="d-flex justify-content-between">
+            <h5 class="font-weight-bold">Comentários</h5>
+        </div>
+    </div>
+</div>
+
+
+
+{{-- <div class="page-header">
     
     @include('projects.tasks.partials.menu')
 
@@ -265,5 +289,5 @@
             </div>
         </div>
     </div>
-</form>
+</form> --}}
 @endsection

@@ -10,17 +10,11 @@ class Task extends Model
 	use SoftDeletes;
 
     protected $fillable = [
-        'slug', 'name', 'finished', 'description', 'start', 'end', 'project_id', 'user_id',
+        'description', 'project_id', 'user_id', 'task_type_id', 'task_status_id',
     ];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at', 'start', 'end'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
-    public function getRouteKey() {
-       
-       return $this->slug;
-    
-    }
-    
     /*
     |--------------------------------------------------------------------------
     | Relacionamentos
@@ -34,19 +28,19 @@ class Task extends Model
     	return $this->belongsTo(Project::class);
     }
 
-    public function members()
+    public function status()
     {
-    	return $this->belongsToMany(User::class);
+        return $this->belongsTo(TaskStatus::class, 'task_status_id');
     }
 
-    public function todos()
+    public function type()
     {
-        return $this->hasMany(Todo::class);
+        return $this->belongsTo(TaskType::class, 'task_type_id');
     }
 
-    public function todosFinished()
+    public function user()
     {
-        return $this->hasMany(Todo::class)->whereFinished(true);
+    	return $this->belongsTo(User::class);
     }
 
     /*

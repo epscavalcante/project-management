@@ -17,11 +17,13 @@ class CreateProjectUserTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('user_id');
-            $table->string('role');
+            $table->unsignedInteger('role_id');
+            
             $table->timestamps();
 
             $table->foreign('project_id')->on('projects')->references('id')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('user_id')->on('users')->references('id')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('role_id')->on('roles')->references('id')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

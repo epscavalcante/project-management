@@ -66,9 +66,7 @@
         </header>
             
         <main class="container-fluid">
-            <div class="container">               
-                @yield('content')   
-            </div>
+            @yield('content')   
         </main>
         
         <script src="{{ asset('js/app.js') }}"> </script>

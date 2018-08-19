@@ -6,30 +6,25 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 
-use App\Http\Services\ProjectService;
-use App\Http\Services\TaskService;
-
 use App\Task;
-// use App\Task;
 
 class TaskController extends Controller
 {
     private $task;
 
-    public function __construct(ProjectService $projectService, TaskService $taskService, Task $task)
+    public function __construct(Task $task)
     {
-        $this->projectService = $projectService;
-        $this->taskService = $taskService;
         $this->task = $task;
     }
 
     public function index($project)
     {
-        dd($this->task->whereProject_id($project->))
     }
 
-    // public function show($project, $task)
-    // {
+    public function show($project, Task $task)
+    {
+        return view('projects.tasks.show', compact('task'));
+    }
 
     //     $response = $this->taskService->get('slug', $task, ['project.tasks','project.tasksFinished']);
 

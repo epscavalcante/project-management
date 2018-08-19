@@ -19,6 +19,11 @@ class ProjectTableSeeder extends Seeder
             'end' => \Carbon\Carbon::now()->addYear(),
         ]);
 
-        $project->members()->attach(1, ['role' => 'OWNER', 'created_at' => \Carbon\Carbon::now()] );
+        $project->members()->attach(1, 
+            [
+                'role_id' => '1', 
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
+            ] );
     }
 }

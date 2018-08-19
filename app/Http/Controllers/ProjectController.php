@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
-use App\Project;
 
-use App\Http\Services\ProjectService;
+use App\Project;
+use App\TaskType;
 
 class ProjectController extends Controller
 {
@@ -16,9 +16,8 @@ class ProjectController extends Controller
      *
      * @return void
      */
-    public function __construct( ProjectService $projectService)
+    public function __construct()
     {
-        $this->projectService = $projectService;
     }
 
     
@@ -29,10 +28,7 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-
-        return view('projects.show')->with([
-            'project' => $project,
-        ]);
+        return view('projects.show', compact('project'))->with(['task_types' => TaskType::all()]);
 
     }
 

@@ -5,151 +5,198 @@
 @endsection
 
 @section('content')
-
-<section class="card mb-4">
-    <div class="card-header d-flex justify-content-between flex-sm-row flex-column align-items-center">
-        <h3>{{ $project->name }}</h3>
-        
-        <div class="dropdown">
-            <button class="btn btn-secondary px-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="{{ route('projects.edit', $project) }}">Editar</a>
-                <form action="{{ route('projects.destroy', $project) }}" method="POST" class="">
-                    @csrf
-                    @method("DELETE")
-                    <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>
-                </form>
-            </div>
-        </div>
+<div class="d-flex justify-content-between align-items-center">
+    <h2 class="mb-0">{{ $project->name }}</h2>    
+    <div class="">
+        <a class="btn btn-outline-primary" href="{{ route('projects.edit', $project) }}">Editar</a>
+        <form action="{{ route('projects.destroy', $project) }}" method="POST" class="d-inline">
+            @csrf
+            @method("DELETE")
+            <button class="btn btn-outline-danger confirmation" type="submit">Excluir</button>
+        </form>
     </div>
-    <div class="card-body">
-        
-        <h6 class="font-weight-bold">Progresso: </h6>
-        
-        <div class="progress mb-3">
-            <div class="progress-bar bg-success" style="height:2px; width:{{ $project->progress($project->tasks_finished_count, $project->tasks_count) }}%;"></div>
-        </div>
+</div>
 
-        <h6 class="font-weight-bold">Descrição:</h6>
-        
-        {!! $project->description !!}
+<div class="row">
+    <div class="col-12 col-lg-8"> 
 
-        <hr>
+        <div class="mt-3 p-3 bg-light rounded shadow-sm border">
 
-        <ul class="nav nav-pills nav-fill">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Descrição</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('projects.tasks', $project) }}">Tarefas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('projects.members', $project) }}">Membros</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Atividades</a>
-          </li>
-        </ul>
-        
-    </div>
-</section>
+            <h5 class="font-weight-bold">
+                Tarefas 
+                <a href="#tasks-new-modal" data-toggle="modal" class="btn btn-outline-primary btn-sm rounded-circle ml-2"><i class="fas fa-plus"></i></a>
+            </h5>
+            
+            
+            <ul class="list-group">
+                @foreach($project->tasks as $task)
+                <a href="{{ route('projects.tasks.show', [$project, $task]) }}" class="">
+                <li class="list-group-item">
+                    <h5 class="text-truncate">
+                         {{ $task->description }}
+                    </h5>
+                    
+                    <span class="badge badge-success">
+                        {{ $task->status->name }}
+                    </span> 
+                    |
+                    {{ $task->type->name }}
+                    |
+                    Feita por: {{ $task->user->name }}
+                    
+                    <div class="float-right small text-muted">{{ $task->updated_at }}</div>
+                </li>
+                </a>
+                @endforeach
+            </ul>
+         </div>
 
-{{-- 
-
-@if(auth()->user()->id == $project->owner_id)
-<form class="modal fade" id="invite-user-modal" tabindex="-1" role="dialog" aria-labelledby="user-invite-modal" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Convite</h5>
-                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <!--end of modal head-->
-            <div class="modal-body">
-                <p>Envie um convite para algum colega colaborar neste projeto</p>
-                <div>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">
-                                <i class="fas fa-envelope"></i>
-                            </span>
-                        </div>
-                        <input type="email" class="form-control" placeholder="Recipient email address" aria-label="Recipient email address" aria-describedby="recipient-email-address">
+        <form class="modal fade" id="tasks-new-modal" tabindex="-1" role="dialog" aria-labelledby="user-invite-modal" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nova tarefa</h5>
+                        <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <small class="form-text text-muted text-right">Separe por <strong>;</strong> cada e-mail</small>
+                    <!--end of modal head-->
+                    <div class="modal-body">
+                        <p>Descreva a tarefa abaixo</p>
+                        <div class="form-group">
+                            <select name="task_type" id="" class="custom-select">
+                            @foreach($task_types as $type)
+                            <option value="{{ $type->id }}"> {{ $type->name }}</option>
+                            @endforeach
+                        </select>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea name="description" placeholder="Descreva o conteúdo" class="form-control" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <!--end of modal body-->
+                    <div class="modal-footer">
+                        <button role="button" class="btn btn-primary" type="submit">
+                            Salvar
+                        </button>
+                    </div>
                 </div>
             </div>
-            <!--end of modal body-->
-            <div class="modal-footer">
-                <button role="button" class="btn btn-primary" type="submit">
-                    Enviar convite
-                </button>
-            </div>
-        </div>
-    </div>
-</form>
-@endif --}}
+        </form>
 
-{{-- <div class="page-header">
-    
-    @include('projects.partials.menu')
-    
-    <div class="d-flex justify-content-between flex-sm-row flex-column align-items-center">
-        <div class="mb-2">
-            <h2>{{ $project->name }}</h2>
-            @if(auth()->user()->id == $project->owner_id)
-            <div class="btn-group btn-group-sm" role="group" aria-label="Controle do projeto">
-                <a class="btn btn-outline-primary" href="{{ route('projects.edit', $project) }}">Editar</a>
-                <form action="{{ route('project.destroy', $project) }}" method="POST" class="d-inline-block">
-                    @csrf
-                    @method("DELETE")
-                    <button class="btn btn-sm btn-outline-danger confirmation" type="submit">Excluir</button>
-                </form>
+        <form class="modal fade" id="invite-user-modal" tabindex="-1" role="dialog" aria-labelledby="user-invite-modal" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Convite</h5>
+                        <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <!--end of modal head-->
+                    <div class="modal-body">
+                        <p>Envie um convite para algum colega colaborar neste projeto</p>
+                        <div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </span>
+                                </div>
+                                <input type="email" class="form-control" placeholder="Recipient email address" aria-label="Recipient email address" aria-describedby="recipient-email-address">
+                            </div>
+                            <small class="form-text text-muted text-right">Separe por <strong>;</strong> cada e-mail</small>
+                        </div>
+                    </div>
+                    <!--end of modal body-->
+                    <div class="modal-footer">
+                        <button role="button" class="btn btn-primary" type="submit">
+                            Enviar convite
+                        </button>
+                    </div>
+                </div>
             </div>
-            @endif
+        </form>
+    </div>
+
+    <div class="col-12 col-lg-4">
+        <div class="mt-3 p-3 bg-light rounded shadow-sm border">
+            {!! $project->description !!}
+        </div> 
+
+        <div class="mt-3 p-3 bg-light rounded shadow-sm border">
+            <h5 class="font-weight-bold">Progresso</h5>
+        
+            <div class="progress">
+                <div class="progress-bar bg-success" style="height:2px; width:{{ $project->progress($project->tasks_finished_count, $project->tasks_count) }}%;"></div>
+            </div>
         </div>
-        
-        
-        <ul class="avatars">
-            <li>
-                <a href="#" data-toggle="tooltip" title="{{ $project->owner->name }}">
-                    <img alt="{{ $project->owner->name }}" class="avatar" src="{{ asset($project->owner->image) }}">
-                </a>
-            </li>                      
-            @foreach($project->members as $member)
-            <li>
-                <a href="#" data-toggle="tooltip" title="{{ $member->name }}">
-                    <img alt="{{ $member->name }}" class="avatar" src="{{ asset($member->image) }}">
-                </a>
-            </li>
-            @endforeach
+
+        <div class="mt-3 p-3 bg-light rounded shadow-sm border">
+            <h5 class="font-weight-bold">Membros</h5>
             
-        </ul>
-    </div>
-
-    <p class="lead"></p>
-    
-    <div>
-        <div class="progress">
-            <div class="progress-bar bg-success" style="width:{{ $project->progress($project->tasks_finished_count, $project->tasks_count) }}%;"></div>
-        </div>
-        <div class="d-flex justify-content-between small">
-            <span data-toggle="tooltip" title="Início em @unless(empty($project->start)){{ $project->start->format('d/m/Y') }} @endunless">
-                <i class="fas fa-flag"></i>
-            </span>
-
-            <div>
-                <i class="fas fa-tasks"></i> 
-                {{ $project->tasks_finished_count }} / {{ $project->tasks_count }}</span>
-            </div>
+            <ul class="list-group">
                 
-            <span data-toggle="tooltip" title="Término em @unless(empty($project->end)){{ $project->end->format('d/m/Y') }} @endunless">
-                <i class="fas fa-trophy"></i>
-            </span>
+            @forelse($project->members as $member)
+            <li class="list-group-item p-1">
+                <div class="media-body d-flex justify-content-between align-items-center">
+                    
+                    <h6 class="mb-0">{{ $member->name }}</h6>
+                    
+                    <div>
+                        @foreach($member->role as $role)
+                        <strong>{{ $role->name }}</strong>
+                        @endforeach
+                    </div>
+
+                    <div class="dropleft">
+                        
+                        <button class="btn btn-sm btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
+                        
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="">Editar</a>
+                            <form action="" method="POST" class="">
+                                @csrf
+                                @method("DELETE")
+                                <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            
+            {{-- <div class="media align-items-center border-bottom">
+                <div class="media-body d-flex justify-content-between align-items-center">
+                    
+                    <h6 class="mb-0">{{ $member->name }}</h6>
+                    
+                    <div>
+                        @foreach($member->role as $role)
+                        <strong>{{ $role->name }}</strong>
+                        @endforeach
+                    </div>
+
+                    <div class="dropdown">
+                        
+                        <button class="btn btn-sm btn-secondary px-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i> </button>
+                        
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="">Editar</a>
+                            <form action="" method="POST" class="">
+                                @csrf
+                                @method("DELETE")
+                                <button class="dropdown-item text-danger confirmation" type="submit">Excluir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> --}}
+            @empty
+            @endforelse
+            </ul>
         </div>
     </div>
-</div> --}}
+</div>
 @endsection
 
