@@ -35,6 +35,7 @@
                     <div class="d-flex align-items-center">
                         <a href="{{ route('projects.create') }}" class="btn btn-sm btn-success mr-2">Novo projeto</a>
 
+
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button class="btn btn-sm btn-danger"><i class="fas fa-sign-out-alt"></i></button>

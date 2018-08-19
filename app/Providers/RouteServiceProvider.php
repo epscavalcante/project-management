@@ -27,13 +27,31 @@ class RouteServiceProvider extends ServiceProvider
         
         Route::bind('project', function ($value) {
 
-            return \App\Project::find($value)->with(['members', 'members.role', 'tasks', 'tasks.type', 'tasks.status', 'tasks.user'])->firstOrFail();
+            $project = \App\Project::with([
+                'members',
+                'tasks', 
+                'members.role', 
+                'tasks.type', 
+                'tasks.status', 
+                'tasks.user'
+            ])->find($value);
 
-        });
+            #Se o id da tarefa estver setada na url retorna a task
+            Route::bind('task', function ($task) use ($project) {
 
-        Route::bind('task', function ($value) {
+                $task = \App\Task::with([
+                    'user',
+                    'project',
+                    'status', 
+                    'type'
+                ])->where('project_id', $project->id)
+                ->where('id', $task)
+                ->firstOrFail();
 
-            return \App\Task::find($value)->with(['user', 'project', 'type', 'status'])->firstOrFail();
+                return $task;
+            });
+
+            return $project;
 
         });
 

@@ -24,8 +24,11 @@ class StoreTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required',
-            'task_type_id' => 'required|numeric',
+            'description' => 'required|string',
+            'task_type_id' => 'required|exists:task_type,id',
+            'task_status_id' => 'required|exists:task_status,id',
+            'project_id' => 'required|exists:projects,id',
+            'user_id' => 'required|exists:users,id',
         ];
     }
 }

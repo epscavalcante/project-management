@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class UpdateProjectRequest extends FormRequest
 {
@@ -21,10 +22,10 @@ class UpdateProjectRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:projects,name,'.$request->id,'id',
             'description' => 'present|nullable',
             'start' => 'nullable|date',
             'end' => 'nullable|date',
