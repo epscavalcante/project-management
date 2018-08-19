@@ -7,14 +7,18 @@
         <div class="d-flex justify-content-between">
             <h5 class="font-weight-bold">Projeto:: {{ $task->project->name }}</h5>
 
-            <div class="float-right">
-                
+            <div class="t">
+                @if($task->status->id == 1)
+                <a href="#" class="btn btn-primary">Iniciar</a>
+                @else
+                @endif
+                @if($task->user->id == auth()->user()->id)
+                <a href="#" class="btn btn-outline-dark">Editar</a>
+                <a href="#" class="btn btn-outline-danger">Excluir</a>
+                @endif
             </div>
             
-            @if($task->status->id == 1)
-            <a href="#" class="btn btn-primary">Iniciar</a>
-            @else
-            @endif
+            
 
         </div>
 
