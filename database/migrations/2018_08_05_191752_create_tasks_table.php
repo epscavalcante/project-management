@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('task_type_id');
-            $table->unsignedInteger('task_status_id');
+            $table->unsignedInteger('task_status_id')->default('1');
 
             $table->longText('description');
             

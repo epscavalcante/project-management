@@ -26,104 +26,16 @@ class TaskController extends Controller
         return view('projects.tasks.show', compact('task'));
     }
 
-    //     $response = $this->taskService->get('slug', $task, ['project.tasks','project.tasksFinished']);
+    public function store(StoreTaskRequest $request)
+    {
+        try {
+            $task = $this->task->create($request->all());
+            toast('Tarefa criada com sucesso', 'success', 'top-right');
 
-    //     if($response['status']){
+            return redirect()->route('projects.tasks.show', [$request->project_id, $task->id]);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
 
-    //         return view('projects.tasks.show')->with([
-    //             'task' => $response['task']
-    //         ]);
-
-    //     }
-
-    //     toast($response['message'], 'error', 'top-right');
-    //     return back();
-        
-    // }
-
-    // public function members($project, $task)
-    // {
-    //     $response = $this->taskService->get('slug', $task);
-
-    //     if($response['status']){
-
-    //         return view('projects.tasks.members.index')->with([
-    //             'task' => $response['task']
-    //         ]);
-
-    //     }
-
-    //     toast($response['message'], 'error', 'top-right');
-    //     return back();
-    // }
-
-    // public function attach($project, $task, $user)
-    // {
-        
-    //     $response = $this->taskService->attach($task, $user);
-
-    //     if($response['status']){
-    //         toast($response['message'], 'success', 'top-right');
-    //     }else{
-    //         toast($response['message'], 'error', 'top-right');
-    //     }
-
-    //     return back();
-    // }
-
-    // public function dettach($project, $task, $user)
-    // {
-    //     $response = $this->taskService->dettach($task, $user);
-
-    //     if($response['status']){
-    //         toast($response['message'], 'success', 'top-right');
-    //     }else{
-    //         toast($response['message'], 'error', 'top-right');
-    //     }
-
-    //     return back();
-    // }
-
-    // public function store(StoreTaskRequest $request, $project)
-    // {
-    //     $project = $this->projectService->get('slug', $project);
-
-    //     $response = $this->taskService->store($request->all(), $project);
-
-    //     if($response['status']){
-    //         toast($response['message'], 'success', 'top-right');
-    //     }else{
-    //         toast($response['message'], 'error', 'top-right');
-    //     }
-
-    //     return back();
-    // }
-
-    // public function update(UpdateTaskRequest $request, $project, $task)
-    // {
-
-    //     $response = $this->taskService->update($request->all(), $task);
-
-    //     if($response['status']){
-    //         toast($response['message'], 'success', 'top-right');
-    //     }else{
-    //         toast($response['message'], 'error', 'top-right');
-    //     }
-
-    //     return back();
-    // }
-    
-    // public function destroy($project, $task)
-    // {
-
-    //     $response = $this->taskService->destroy($task);
-
-    //     if($response['status']){
-    //         toast($response['message'], 'success', 'top-right');
-    //     }else{
-    //         toast($response['message'], 'error', 'top-right');
-    //     }
-
-    //     return redirect()->route('projects.tasks', $project);
-    // }
+    }
 }

@@ -24,10 +24,8 @@ class StoreTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'present|nullable',
-            'start' => 'nullable|date',
-            'end' => 'nullable|date',
+            'description' => 'required',
+            'task_type_id' => 'required|numeric',
         ];
     }
 }

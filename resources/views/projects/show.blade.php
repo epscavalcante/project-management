@@ -17,6 +17,17 @@
     </div>
 </div>
 
+@if($errors->any())
+<div class="alert alert-danger mt-2">
+    <p>Você possui erros a serem corrigidos:</p>
+    <ul>
+        @foreach($errors as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <div class="row">
     <div class="col-12 col-lg-8"> 
 
@@ -50,74 +61,6 @@
                 @endforeach
             </ul>
          </div>
-
-        <form class="modal fade" id="tasks-new-modal" tabindex="-1" role="dialog" aria-labelledby="user-invite-modal" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Nova tarefa</h5>
-                        <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <!--end of modal head-->
-                    <div class="modal-body">
-                        <p>Descreva a tarefa abaixo</p>
-                        <div class="form-group">
-                            <select name="task_type" id="" class="custom-select">
-                            @foreach($task_types as $type)
-                            <option value="{{ $type->id }}"> {{ $type->name }}</option>
-                            @endforeach
-                        </select>
-                        </div>
-
-                        <div class="form-group">
-                            <textarea name="description" placeholder="Descreva o conteúdo" class="form-control" rows="10"></textarea>
-                        </div>
-                    </div>
-                    <!--end of modal body-->
-                    <div class="modal-footer">
-                        <button role="button" class="btn btn-primary" type="submit">
-                            Salvar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        <form class="modal fade" id="invite-user-modal" tabindex="-1" role="dialog" aria-labelledby="user-invite-modal" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Convite</h5>
-                        <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    <!--end of modal head-->
-                    <div class="modal-body">
-                        <p>Envie um convite para algum colega colaborar neste projeto</p>
-                        <div>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-envelope"></i>
-                                    </span>
-                                </div>
-                                <input type="email" class="form-control" placeholder="Recipient email address" aria-label="Recipient email address" aria-describedby="recipient-email-address">
-                            </div>
-                            <small class="form-text text-muted text-right">Separe por <strong>;</strong> cada e-mail</small>
-                        </div>
-                    </div>
-                    <!--end of modal body-->
-                    <div class="modal-footer">
-                        <button role="button" class="btn btn-primary" type="submit">
-                            Enviar convite
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
     </div>
 
     <div class="col-12 col-lg-4">
@@ -198,5 +141,76 @@
         </div>
     </div>
 </div>
+
+<form class="modal fade" id="tasks-new-modal" tabindex="-1" role="dialog" aria-labelledby="user-invite-modal" method="POST" action="{{ route('projects.tasks.store', $project) }}">
+    @csrf
+    <input type="hidden" value="{{ $project->id }}" name="project_id">
+    <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nova tarefa</h5>
+                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!--end of modal head-->
+            <div class="modal-body">
+                <p>Descreva a tarefa abaixo</p>
+                <div class="form-group">
+                    <select name="task_type_id" id="" class="custom-select" required>
+                        @foreach($task_types as $type)
+                        <option value="{{ $type->id }}" {{ old('task_typ_id') }}> {{ $type->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="description" placeholder="Descreva o conteúdo" class="form-control" rows="10" required>{{ old('description') }}</textarea>
+                </div>
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+                <button role="button" class="btn btn-primary" type="submit">
+                    Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<form class="modal fade" id="invite-user-modal" tabindex="-1" role="dialog" aria-labelledby="user-invite-modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Convite</h5>
+                <button type="button" class="close btn btn-round" data-dismiss="modal" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!--end of modal head-->
+            <div class="modal-body">
+                <p>Envie um convite para algum colega colaborar neste projeto</p>
+                <div>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                        <input type="email" class="form-control" placeholder="Recipient email address" aria-label="Recipient email address" aria-describedby="recipient-email-address">
+                    </div>
+                    <small class="form-text text-muted text-right">Separe por <strong>;</strong> cada e-mail</small>
+                </div>
+            </div>
+            <!--end of modal body-->
+            <div class="modal-footer">
+                <button role="button" class="btn btn-primary" type="submit">
+                    Enviar convite
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
 @endsection
 

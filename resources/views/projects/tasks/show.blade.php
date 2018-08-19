@@ -8,11 +8,17 @@
             <h5 class="font-weight-bold">Projeto:: {{ $task->project->name }}</h5>
 
             <div class="float-right">
-                Tipo: {{ $task->type->name }} | Status: {{ $task->status->name }}
+                
             </div>
+            
+            @if($task->status->id == 1)
+            <a href="#" class="btn btn-primary">Iniciar</a>
+            @else
+            @endif
+
         </div>
 
-        Por: {{ $task->user->name }} em {{ $task->updated_at }}
+        Por: {{ $task->user->name }} em {{ $task->updated_at }} Tipo: {{ $task->type->name }} | Status: {{ $task->status->name }}
         <hr>
         {!! $task->description !!}
     </div>
