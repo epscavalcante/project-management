@@ -34,7 +34,7 @@ class RouteServiceProvider extends ServiceProvider
                 'tasks.type', 
                 'tasks.status', 
                 'tasks.user'
-            ])->find($value);
+            ])->findOrFail($value);
 
             #Se o id da tarefa estver setada na url retorna a task
             Route::bind('task', function ($task) use ($project) {
