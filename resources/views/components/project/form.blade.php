@@ -1,16 +1,20 @@
-<div class="form-group row align-items-center">
-    <label class="col-3">Nome</label>
-    <input class="form-control col" type="text" placeholder="Nome do projeto" name="name" value="{{ $project->name ?? old("name") }}" />
+
+@if(isset($project) and !empty($project))
+<input type="hidden" value="{{ $project->id }}" name="id">
+@endif
+<div class="form-group">
+    <label class="">Nome</label>
+    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" placeholder="Nome do projeto" name="name" value="{{ old("name") ?? $project->name }}" />
     @if ($errors->has('name'))
         <span class="invalid-feedback" role="alert">
             <strong>{{ $errors->first('name') }}</strong>
         </span>
     @endif
 </div>
-<div class="form-group row">
-    <label class="col-3">Descrição</label>
-    <textarea class="form-control col" rows="3" placeholder="Descrição do projeto" name="description">
-    	{{ $project->description ?? old("description") }}
+<div class="form-group">
+    <label class="">Descrição</label>
+    <textarea class="form-control  {{ $errors->has('description ') ? 'is-invalid' : '' }}" rows="3" placeholder="Descrição do projeto" name="description">
+    	{{ old("description") ?? $project->description }}
     </textarea>
     @if ($errors->has('description'))
         <span class="invalid-feedback" role="alert">
@@ -19,7 +23,7 @@
     @endif
 </div>
 
-<div class="form-group row align-items-center">
+{{-- <div class="form-group row align-items-center">
     <label class="col-3">Início</label>
     <input class="form-control col" type="date" placeholder="Início do projeto" name="start" value="{{ $project->start ?? old("start") }}" />
     @if ($errors->has('start'))
@@ -36,7 +40,7 @@
             <strong>{{ $errors->first('end') }}</strong>
         </span>
     @endif
-</div>
+</div> --}}
 <div class="alert alert-warning text-small" role="alert">
     <span> <i class="fas fa-exclamation-triangle"></i> Não se preocupe, isso pode ser alterado em qualquer momento.</span>
 </div>

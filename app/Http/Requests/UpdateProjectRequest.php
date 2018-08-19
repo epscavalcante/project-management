@@ -24,11 +24,12 @@ class UpdateProjectRequest extends FormRequest
      */
     public function rules(Request $request)
     {
+
         return [
-            'name' => 'required|string|max:255|unique:projects,name,'.$request->id,'id',
-            'description' => 'present|nullable',
-            'start' => 'nullable|date',
-            'end' => 'nullable|date',
+            'name' => 'required|string|max:255|unique:projects,name,'.$request->id,
+            'description' => 'nullable',
+            #'start' => 'nullable|date',
+            #'end' => 'nullable|date',
         ];
     }
 }
